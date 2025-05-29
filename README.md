@@ -1,8 +1,0 @@
-# Sistema-de-Acompanhamento-Pedag-gico-Escolar
-SAPE
-A EEB Profª. Julieta Aguiar Bertoncini é um colégio da rede estadual de ensino localizado na cidade de Araranguá, Santa Catarina. Com uma média de 300 alunos matriculados e uma equipe restrita para atendimento pedagógico e administrativo, composta por três servidores. A escola utiliza o sistema do estado Sistema de Gestão Educacional de Santa Catarina (SISGESC), que administra matrículas, notas, histórico escolar, porém não permite o acompanhamento pedagógico do aluno relacionado ao ano letivo atual ou anterior, além de dados numéricos como notas e datas.
-	A proposta do sistema é atender as necessidades pedagógicas da escola, registrando os dados de forma rápida e individual, disponibilizando informações do perfil pedagógico do aluno em questão, para intervenções no processo de ensino e aprendizagem. Esta ferramenta facilita a organização das informações, contribuindo em reuniões com responsáveis e em conselhos de classe.
-	Utilizando o método de cascata, o processo é dividido em etapas sendo elas: 1° etapa levantamento dos requisitos e produção de modelos lógicos; 2° etapa  planejamento da arquitetura do sistema e prototipação; 3° etapa programação e verificação de requisitos; 4° etapa implantação e verificação de requisitos; 5° etapa correção de falhas no sistema e melhorias.
-
-
- Teste
