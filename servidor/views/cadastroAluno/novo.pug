@@ -1,0 +1,34 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+    body   
+        <h1>Cadastro de Aluno</h1>
+        <form action="/aluno/cadastrar" method="POST">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="truma">Truma:</label>
+            <input type="truma" id="truma" name="truma" required>
+
+            <label for="apoia">Possue pasagem no APOIA:</label>
+            <input type="apoia" id="apoia" name="apoia" plaintext="casos tenha informe a quantidade" required>
+
+            <label for="nepre">Possue pasagem no NEPRE:</label>
+            <input type="nepre" id="nepre" name="nepre" plaintext="casos tenha informe a quantidade" required>
+            <input type="nepre" id="nepre" name="nepre" plaintext="informe o atendente" required>
+
+            <label for="acompanhamento">O aluno possue acompanhamento pedagogico:</label>
+            <input type="acompanhamento" id="acompanhamento" name="acompanhamento" plaintext="caso tenha informe a quantidade" required> 
+            <input type="acompanhamento" id="acompanhamento" name="acompanhamento" plaintext="informe o atendente" required>
+
+            <label for="trasferencia">O aluno foi trasferido no tempo de 1 ano:</label>
+            <input type="trasferencia" id="trasferencia" name="trasferencia" plaintext="caso tenha informe de onde"  required>
+
+            <label for="segundo">O aluno tem segundo professor:</label>
+            <input type="segundo" id="segundo" name="segundo" plaintext="caso tenha informe o nome do profisional" required> 
+            <input type="segundo" id="segundo" name="segundo" plaintext="o p´rofisional é da turma ou do aluno" required>
+        
+            <button type="submit">Cadastrar</button>

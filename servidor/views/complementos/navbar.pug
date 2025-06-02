@@ -1,0 +1,64 @@
+doctype html
+html(lang="pt-br")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+        nav.navbar
+    ul.navbar-list
+        li
+            a(href="/") Início
+        li
+            a(href="/sobre") Sobre
+        li
+            a(href="/contato") Contato
+        li
+            a(href="/login") Login
+
+style.
+    .navbar {
+        width: 100%;
+        background: #333;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .navbar-list {
+        list-style: none;
+        margin: 0;
+        padding: 0 20px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        height: 50px;
+    }
+    .navbar-list li {
+        margin: 0 20px 0 0;
+    }
+    .navbar-list a {
+        color: #000;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 16px;
+        transition: color 0.2s;
+    }
+    .navbar-list a:hover {
+        color: #ffd700;
+    }
+    body 
+        av(style="width:100%;background:#333;padding:0;position:fixed;top:0;left:0;z-index:1000;")
+    ul(style="list-style:none;margin:0;padding:0;display:flex;justify-content:flex-start;align-items:center;height:50px;")
+        
+        li(style="margin:0 20px;")
+            a(href="/", style="color:#fff;text-decoration:none;font-weight:bold;") Início
+        
+        li(style="margin:0 20px;")
+            a(href="/sobre", style="color:#fff;text-decoration:none;") Sobre
+        
+        li(style="margin:0 20px;")
+            a(href="/contato", style="color:#fff;text-decoration:none;") Contato
+        
+        li(style="margin:0 20px;")
+            a(href="/login", style="color:#fff;text-decoration:none;") Login
