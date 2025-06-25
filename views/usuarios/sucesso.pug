@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title Cadastro efetuado
+  body
+    h1 Usuário cadastrado com sucesso!
+
+    p Nome: #{usuario.nome}
+    p Sobrenome: #{usuario.sobrenome}
+    p Email: #{usuario.email}
+    p Idade: #{usuario.idade}
+    p País: #{usuario.pais}
+
+    a(href="/usuarios/formulario") Cadastrar novo usuário
+    a(href="/usuarios/lista") Ver lista de usuários

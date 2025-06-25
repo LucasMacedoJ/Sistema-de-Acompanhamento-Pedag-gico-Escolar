@@ -1,0 +1,31 @@
+doctype html
+html(lang="pt-br")
+  head
+    meta(charset="UTF-8")
+    title Editar Usuário
+  body
+    h1 Editar Usuário
+
+    form(action=`/usuarios/editar/${usuario._id}` method="POST")
+      label Nome:
+      input(type="text" name="nome" value=usuario.nome required)
+      br
+
+      label Sobrenome:
+      input(type="text" name="sobrenome" value=usuario.sobrenome required)
+      br
+
+      label Email:
+      input(type="email" name="email" value=usuario.email required)
+      br
+
+      label Idade:
+      input(type="number" name="idade" value=usuario.idade required)
+      br
+
+      label País:
+      input(type="text" name="pais" value=usuario.pais)
+      br
+
+      button(type="submit") Salvar alterações
+      a(href="/usuarios/lista") Cancelar

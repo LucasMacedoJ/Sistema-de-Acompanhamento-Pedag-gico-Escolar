@@ -1,0 +1,42 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+    body 
+        h1 lista de usuarios
+        form(action="/usuarios/search", method="GET")
+            label Pesquisar:
+            input(type="text" name="q" placeholder="Digite o nome ou email")
+            button(type="submit") Pesquisar
+
+        table
+            thead
+                tr
+                    th Nome
+                    th Sobrenome
+                    th Email
+                    th Idade
+                    th País
+                    th Ações
+            tbody
+                each usuario in usuarios
+                    tr
+                        td= usuario.nome
+                        td= usuario.sobrenome
+                        td= usuario.email
+                        td= usuario.idade
+                        td= usuario.pais
+                        td
+                            a(href=`/usuarios/editar/${usuario._id}`) Editar
+                        td
+                            a(href=`/usuarios/toggle-ativo/${usuario._id}`) Alterar Status
+                        td
+                            a(href=`/usuarios/deletar/${usuario._id}`) Excluir
+
+                            
+        a(href='/usuarios/inativo') lista de usuários inativos
+        br
+        a(href="/usuarios/formulario") Cadastrar novo usuário
+
