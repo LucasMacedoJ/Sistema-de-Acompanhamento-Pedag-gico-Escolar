@@ -1,0 +1,16 @@
+extends ../tela.pug
+
+block content
+    h1 Cadastro de Ocorrência
+    form(action="ocorencias/nova" method="POST")
+        div
+            label(for="nome") Nome:
+            input(type="text" name="nome" id="nome" required)
+        div
+            label(font="data") Data:
+            input(type="date" name="data" id="data" required)
+        div
+            label(for="descricao") Descrição da ocorencia:
+            textarea(name="descricao" id="descricao" required)
+        button(type="submit") Cadastrar
+    a(href="/usuarios/lista") Ver lista de usuários

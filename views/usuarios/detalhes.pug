@@ -9,4 +9,6 @@ block content
     li strong Idade:     | #{usuario.idade}
     li strong País:      | #{usuario.pais}
     li strong Ativo:     | #{usuario.ativo ? 'Sim' : 'Não'}
+  a(href=`/ocorrencias/nova?usuario=${usuario._id}`)
+    button Nova Ocorrência
   a(href="/usuarios/lista") Voltar para lista

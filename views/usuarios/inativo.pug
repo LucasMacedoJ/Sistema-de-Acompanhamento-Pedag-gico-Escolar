@@ -1,9 +1,6 @@
 extends ../tela.pug
 
 block content
-html
-  head
-    title Usuários Inativos
   body
     h1 Lista de Usuários Inativos
     form(action="/usuarios/searchInativos", method="GET")
@@ -32,5 +29,5 @@ html
               a(href=`/usuarios/toggle-ativo/${usuario._id}`) Tornar Ativo
             td 
               a(href=`/usuarios/deletar/${usuario._id}`) Excluir
-              
-    a(href="/usuarios/lista") Voltar para lista de ativos
+        a(href="/usuarios/lista") Voltar para lista de ativos  
+    
