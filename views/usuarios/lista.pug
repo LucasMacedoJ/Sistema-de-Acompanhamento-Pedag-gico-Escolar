@@ -1,9 +1,6 @@
-doctype html
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
+extends ../tela.pug
+
+block content
     body 
         h1 lista de usuarios
         form(action="/usuarios/search", method="GET")
@@ -23,7 +20,8 @@ html(lang="en")
             tbody
                 each usuario in usuarios
                     tr
-                        td= usuario.nome
+                        td
+                            a(href=`/usuarios/detalhes/${usuario._id}`)= usuario.nome
                         td= usuario.sobrenome
                         td= usuario.email
                         td= usuario.idade

@@ -113,4 +113,13 @@ exports.deletar = async (req, res) => {
   } catch (err) {
     res.send("Erro ao deletar usuário: " + err);
   }
-}                   
+};
+exports.detalhes = async (req, res) => {
+  try{
+    const usuario = await Usuario.findById(req.params.id).lean();
+    if (!usuario) return res.status(404).send("Usuário não encontrado");
+    res.render('usuarios/detalhes', { usuario });
+  } catch (err) {
+    res.send("Erro ao buscar detalhes do usuário: " + err);
+  }
+};

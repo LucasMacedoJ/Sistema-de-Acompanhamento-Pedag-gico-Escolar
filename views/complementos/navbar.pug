@@ -1,0 +1,38 @@
+style.
+  .navbar-collapsed {
+    width: 60px !important;
+    transition: width 0.3s;
+  }
+  .navbar-collapsed h2,
+  .navbar-collapsed ul li a span {
+    display: none;
+  }
+  .navbar-toggle-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    outline: none;
+  }
+
+nav(id="navbar" style="height:100vh; width:220px; position:fixed; top:0; left:0; background:#343a40; color:#fff; display:flex; flex-direction:column; align-items:flex-start; padding:2rem 1rem; transition:width 0.3s;")
+  button.navbar-toggle-btn(type="button" onclick="toggleNavbar()") ☰
+  h2(style="color:#fff; margin-bottom:2rem;") SAPE
+  ul(style="list-style:none; padding:0; width:100%;")
+    li(style="margin-bottom:1rem; width:100%;")
+      a(href="/usuarios/lista" style="color:#fff; text-decoration:none; display:block; padding:0.5rem 0.75rem; border-radius:4px; transition:background 0.2s;")
+        span Lista de Usuários
+    li(style="margin-bottom:1rem; width:100%;")
+      a(href="/usuarios/formulario" style="color:#fff; text-decoration:none; display:block; padding:0.5rem 0.75rem; border-radius:4px; transition:background 0.2s;")
+        span Novo Usuário
+    li(style="margin-bottom:1rem; width:100%;")
+      a(href="/usuarios/inativo" style="color:#fff; text-decoration:none; display:block; padding:0.5rem 0.75rem; border-radius:4px; transition:background 0.2s;")
+        span Usuários Inativos
+
+script.
+  function toggleNavbar() {
+    var nav = document.getElementById('navbar');
+    nav.classList.toggle('navbar-collapsed');
+  }
