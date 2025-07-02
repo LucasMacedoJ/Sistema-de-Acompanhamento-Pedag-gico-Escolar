@@ -1,0 +1,14 @@
+extends ../tela.pug
+
+block content
+  h1 Detalhes do Aluno
+  ul
+    li strong Nome:      | #{aluno.nome}
+    li strong Sobrenome: | #{aluno.sobrenome}
+    li strong Email:     | #{aluno.email}
+    li strong Idade:     | #{aluno.idade}
+    li strong País:      | #{aluno.pais}
+    li strong Ativo:     | #{aluno.ativo ? 'Sim' : 'Não'}
+  a(href=`/ocorrencias/nova?aluno=${aluno._id}`)
+    button Nova Ocorrência
+  a(href="/alunos/lista") Voltar para lista

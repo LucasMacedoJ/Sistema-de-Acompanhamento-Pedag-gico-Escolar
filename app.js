@@ -27,14 +27,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // Importando as rotas 
-const usuariosRoutes = require('./routes/usuarios');
+const alunosRoutes = require('./routes/alunos');
 
 // Dizendo ao Express: qual rota usar
-app.use('/usuarios', usuariosRoutes);
+app.use('/alunos', alunosRoutes);
 
 // Rota inicial (opcional, apenas para redirecionar direto pro formulário)
 app.get('/', (req, res) => {
-  res.redirect('/usuarios/lista');
+  res.redirect('/alunos/lista');
 });
 
 // Iniciando o servidor na porta 3000

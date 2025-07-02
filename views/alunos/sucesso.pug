@@ -1,0 +1,14 @@
+extends ../tela.pug
+
+block content
+  body
+    h1 Aluno cadastrado com sucesso!
+
+    p Nome: #{aluno.nome}
+    p Sobrenome: #{aluno.sobrenome}
+    p Email: #{aluno.email}
+    p Idade: #{aluno.idade}
+    p País: #{aluno.pais}
+
+    a(href="/alunos/formulario") Cadastrar novo aluno
+    a(href="/alunos/lista") Ver lista de alunos

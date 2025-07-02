@@ -1,0 +1,33 @@
+extends ../tela.pug
+
+block content
+  body
+    h1 Lista de Aluno Inativos
+    form(action="/alunos/searchInativos", method="GET")
+      label Pesquisar:
+      input(type="text" name="q" placeholder="Digite o nome ou email")
+      button(type="submit") Pesquisar
+    table
+      thead
+        tr
+          th Nome
+          th Sobrenome
+          th Email
+          th Idade
+          th País
+          th Ativo
+      tbody
+        each aluno in alunos
+          tr
+            td= aluno.nome
+            td= aluno.sobrenome
+            td= aluno.email
+            td= aluno.idade
+            td= aluno.pais
+            td= aluno.ativo ? 'Ativo' : 'Inativo'
+            td
+              a(href=`/alunos/toggle-ativo/${aluno._id}`) Tornar Ativo
+            td 
+              a(href=`/alunos/deletar/${aluno._id}`) Excluir
+        a(href="/alunos/lista") Voltar para lista de ativos  
+    

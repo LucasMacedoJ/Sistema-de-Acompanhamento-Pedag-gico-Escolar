@@ -1,0 +1,29 @@
+extends ../tela.pug
+
+block content
+  body
+    h1 Editar Aluno
+
+    form(action=`/alunos/editar/${aluno._id}` method="POST")
+      label Nome:
+      input(type="text" name="nome" value=aluno.nome required)
+      br
+
+      label Sobrenome:
+      input(type="text" name="sobrenome" value=aluno.sobrenome required)
+      br
+
+      label Email:
+      input(type="email" name="email" value=aluno.email required)
+      br
+
+      label Idade:
+      input(type="number" name="idade" value=aluno.idade required)
+      br
+
+      label País:
+      input(type="text" name="pais" value=aluno.pais)
+      br
+
+      button(type="submit") Salvar alterações
+      a(href="/alunos/lista") Cancelar
