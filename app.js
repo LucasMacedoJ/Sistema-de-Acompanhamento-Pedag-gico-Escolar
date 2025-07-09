@@ -28,9 +28,11 @@ app.set('view engine', 'pug');
 
 // Importando as rotas 
 const alunosRoutes = require('./routes/alunos');
+const ocorrenciasRoutes = require('./routes/ocorrencias');
 
 // Dizendo ao Express: qual rota usar
 app.use('/alunos', alunosRoutes);
+app.use('/ocorrencias', ocorrenciasRoutes);
 
 // Rota inicial (opcional, apenas para redirecionar direto pro formulário)
 app.get('/', (req, res) => {

@@ -11,4 +11,9 @@ block content
     li strong Ativo:     | #{aluno.ativo ? 'Sim' : 'Não'}
   a(href=`/ocorrencias/nova?aluno=${aluno._id}`)
     button Nova Ocorrência
-  a(href="/alunos/lista") Voltar para lista
+  <br>
+  a(href=`/ocorrencias/listaOcorrencia?=${aluno._id}`)
+    button Lista de Ocorrencias
+  <br>
+  a(href="/alunos/lista") 
+    button Voltar para lista

@@ -1,0 +1,9 @@
+extends ../tela.pug
+
+block content
+  h1 Ocorrência cadastrada com sucesso!
+  p Descrição: #{Ocorrencia.descricao}
+  p Data: #{Ocorrencia.data.toLocaleDateString('pt-BR')}
+  a(href=`/alunos/detalhes/${Ocorrencia.aluno._id}`) Voltar para detalhes do aluno
+  br
+  a(href="/ocorrencias/listaOcorrencias") Ir para lista de ocorencias 

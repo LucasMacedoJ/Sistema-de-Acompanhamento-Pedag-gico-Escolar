@@ -1,0 +1,6 @@
+{"_id":{"$oid":"686e6f99000298a3fc155ac6"},"aluno":{"$oid":"686db7eca5cc12c91e9e1375"},"descricao":"bateu na professora","data":{"$date":"2016-12-12T00:00:00Z"},"__v":0}
+{"_id":{"$oid":"686e70ba000298a3fc155ac8"},"aluno":{"$oid":"686db7eca5cc12c91e9e1375"},"descricao":"bateu na professora","data":{"$date":"2016-12-12T00:00:00Z"},"__v":0}
+{"_id":{"$oid":"686e70c9000298a3fc155acb"},"aluno":{"$oid":"686db7eca5cc12c91e9e1375"},"descricao":"bateu na professora","data":{"$date":"2016-12-12T00:00:00Z"},"__v":0}
+{"_id":{"$oid":"686e7215000298a3fc155ad2"},"aluno":{"$oid":"686db7eca5cc12c91e9e1375"},"descricao":"bateu no professor","data":{"$date":"2020-12-12T00:00:00Z"},"__v":0}
+{"_id":{"$oid":"686eb5073be9d025be80d5d7"},"aluno":{"$oid":"686db7eca5cc12c91e9e1375"},"descricao":"adivinha\r\n","data":{"$date":"2023-12-12T00:00:00Z"},"__v":0}
+{"_id":{"$oid":"686eb5413be9d025be80d5d9"},"aluno":{"$oid":"686db7eca5cc12c91e9e1375"},"descricao":"adivinha\r\n","data":{"$date":"2023-12-12T00:00:00Z"},"__v":0}

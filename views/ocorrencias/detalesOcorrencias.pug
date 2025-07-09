@@ -1,0 +1,10 @@
+extends ../tela.pug
+
+block content
+  h1 Detalhes da ocorencia de #{aluno.nome}
+  ul
+    li  data: #{ocorrencia.data ? ocorrencia.data.toLocaleDateString('pt-BR') : 'Data não informada'}
+    li  descrição: #{ocorrencia.descricao}
+  a(href=`/ocorrencias/nova?aluno=${aluno._id}`)
+    button Nova Ocorrência
+  a(href="/alunos/lista") Voltar para lista

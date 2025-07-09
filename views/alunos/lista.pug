@@ -1,39 +1,43 @@
 extends ../tela.pug
 
-block content 
-        h1 lista de alunos
-        form(action="/alunos/search", method="GET")
-            label Pesquisar:
-            input(type="text" name="q" placeholder="Digite o nome ou email")
-            button(type="submit") Pesquisar
+block content
+  h1 Lista de Alunos
+  form(action="/alunos/search", method="GET")
+    label Pesquisar:
+    input(type="text" name="q" placeholder="Digite o nome, sobrenome ou turma")
+    button(type="submit") Pesquisar
 
-        table
-            thead
-                tr
-                    th Nome
-                    th Sobrenome
-                    th Email
-                    th Idade
-                    th País
-                    th Ações
-            tbody
-                each aluno in alunos
-                    tr
-                        td
-                            a(href=`/alunos/detalhes/${aluno._id}`)= aluno.nome
-                        td= aluno.sobrenome
-                        td= aluno.email
-                        td= aluno.idade
-                        td= aluno.pais
-                        td
-                            a(href=`/alunos/editar/${aluno._id}`) Editar
-                        td
-                            a(href=`/alunos/toggle-ativo/${aluno._id}`) Alterar Status
-                        td
-                            a(href=`/alunos/deletar/${aluno._id}`) Excluir
+  table
+    thead
+      tr
+        th Nome
+        th Sobrenome
+        th Turma
+        th Data de Nascimento
+        th Necessidade Especial
+        th Problema Saúde
+        th APOIA
+        th NEPRE
+        th Ações
+    tbody
+      each aluno in alunos
+        tr
+          td
+            a(href=`/alunos/detalhes/${aluno._id}`)= aluno.nome
+          td= aluno.sobrenome
+          td= aluno.turma
+          td= aluno.dataN ? aluno.dataN.toLocaleDateString('pt-BR') : ''
+          td= aluno.necesidadeE
+          td= aluno.problemaSaude
+          td= aluno.apoia ? 'Sim' : 'Não'
+          td= aluno.nepre ? 'Sim' : 'Não'
+          td
+            a(href=`/alunos/editar/${aluno._id}`) Editar
+            |  
+            a(href=`/alunos/toggle-ativo/${aluno._id}`) Alterar Status
+            |  
+            a(href=`/alunos/deletar/${aluno._id}`) Excluir
 
-                            
-        a(href='/alunos/inativo') lista de usuários inativos
-        br
-        a(href="/alunos/formulario") Cadastrar novo usuário
-
+  a(href='/alunos/inativo') Lista de alunos inativos
+  br
+  a(href="/alunos/formulario") Cadastrar novo aluno

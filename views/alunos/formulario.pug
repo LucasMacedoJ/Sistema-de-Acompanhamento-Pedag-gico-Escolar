@@ -1,45 +1,51 @@
 extends ../tela.pug
 
 block content
-  body
-    h1 Cadastro de Aluno
+  h1 Cadastro de Aluno
 
-    form(action="/alunos/cadastrar" method="POST")
-      div
-        label(for="nome") Nome:
-        input(type="text" name="nome" id="nome" required)
-      div
-        label(for="sobrenome") Sobrenome:
-        input(type="text" name="sobrenome" id="sobrenome" required)
-      div
-        label(for="turma") Turma:
-        input(type="text" name="turma" id="turma" required)
-      div
-        label(for="dataN") Data de Nascimento:
-        input(type="data" name="dataN" id="dataN" required)
-      div
-        lanbel(for="necessidade") nececidades especiais
-        input(type="text" name="necesidadeE" id="necesidadeE") <br>
-        input(type="text" name="problemaSaude" id="problemaSaude")
-
-      div
-        label(for="apoia") APOIA
-        label(for="nepre") NEPRE
-      div 
-        label(for="disiplinar") Problema disiplinar
-        imput(for="disiplinarD") fale qual é o problema
-      div 
-        label(for="trasferencia") trasferencia
-        imput(type="text" name="trasferenciaOnde" id="trasferenciaOnde") onde foi feita a trasferencia
-        imput(type="text" name="trasferenciaD" id="trasferenciaD") descrição da trasferencia
-      div 
-        label(for="segundoProfessor") Segundo Professor
-        imput(type="text" name="segundoProfessor" id="segundoProfessor") 
-        imput(type="text" name="segundoProfessorNome" id="segundoProfessorNome") nome do segundo professor
-      div 
-        label(for="observacao") Observação:
-        textarea(name="observacao" id="observacao" rows="4" cols="50")
-      div
-
-        button(type="submit") Cadastrar
-    a(href="/alunos/lista") Ver lista de usuários
+  form(action="/alunos/cadastrar" method="POST")
+    div
+      label(for="nome") Nome:
+      input(type="text" name="nome" id="nome" required)
+    div
+      label(for="sobrenome") Sobrenome:
+      input(type="text" name="sobrenome" id="sobrenome" required)
+    div
+      label(for="turma") Turma:
+      input(type="text" name="turma" id="turma" required)
+    div
+      label(for="dataN") Data de Nascimento:
+      input(type="date" name="dataN" id="dataN" required)
+    div
+      label(for="necessidade") nececidades especiais
+      input(type="text" name="necesidadeE" id="necesidadeE")
+    div
+      label(for="problemaSaude") Problema de saude 
+      input(type="text" name="problemaSaude" id="problemaSaude")
+    div
+      label(for="apoia") APOIA
+      input(type="checkbox" name="apoia" id="apoia")
+      br
+      label(for="nepre") NEPRE
+      input(type="checkbox" name="nepre" id="nepre")
+    div
+      label(for="disiplinarD") Problema disiplinar:
+      input(type="text" name="disiplinarD" id="disiplinarD")
+    div
+      label(for="trasfenciaOnde") Trasferenci de onde
+      input(type="text" name="trasfenciaOnde" id="trasfenciaOnde")
+    div
+      label(for="trasferenciaD") Descrição da trasferencia:
+      input(type="text" name="trasferenciaD" id="trasferenciaD")
+    div
+      label(for="segundoProfessor") Segundo Professor:
+      input(type="checkbox" name="segundoProfessor" id="segundoProfessor")
+    div
+      label(for="segundoProfessorNome") Nome de segundo professor:
+      input(type="text" name="segundoProfessorNome" id="segundoProfessorNome")
+    div
+      label(for="observacao") Observação:
+      textarea(name="observacao" id="observacao" rows="4" cols="50")
+    div
+      button(type="submit") Cadastrar
+  a(href="/alunos/lista") Ver lista de usuários

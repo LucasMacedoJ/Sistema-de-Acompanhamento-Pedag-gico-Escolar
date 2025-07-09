@@ -1,0 +1,14 @@
+extends ../tela.pug
+
+block content
+  h1 Cadastro de Ocorrência
+  form(action="/ocorrencias/cadastrar" method="POST")
+    input(type="hidden" name="aluno" value=alunoId)
+    div
+      label(for="data") Data:
+      input(type="date" name="data" id="data" required)
+    div
+      label(for="descricao") Descrição da ocorrência:
+      textarea(name="descricao" id="descricao" required)
+    button(type="submit") Cadastrar
+  a(href="/alunos/lista") Ver lista de alunos

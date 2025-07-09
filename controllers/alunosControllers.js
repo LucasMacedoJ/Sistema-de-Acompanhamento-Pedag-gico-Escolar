@@ -9,12 +9,24 @@ exports.cadastrar = async (req, res) => {
     const novoAluno = new Aluno({
       nome: req.body.nome,
       sobrenome: req.body.sobrenome,
-      email: req.body.email,
-      idade: req.body.idade,
-      pais: req.body.pais
+      turma: req.body.turma,
+      dataN: req.body.dataN,
+      necessidade: req.body.necessidade === "on",
+      necesidadeE: req.body.necesidadeE,
+      problemaSaude: req.body.problemaSaude,
+      apoia: req.body.apoia === "on",
+      nepre: req.body.nepre === "on",
+      disiplinar: req.body.disiplinar === "on",
+      disciplinaD: req.body.disiplinarD,
+      traferencia: req.body.traferencia === "on",
+      traferenciaD: req.body.trasferenciaD,
+      traferenciaOnde: req.body.trasfenciaOnde,
+      segundoProfessor: req.body.segundoProfessor === "on",
+      segundoProfessorNome: req.body.segundoProfessorNome,
+      observacao: req.body.observacao
     });
     await novoAluno.save();
-    res.render("alunos/SUCESSO", { alunos: novoAluno });
+    res.redirect('/alunos/lista');
   } catch (err) {
     res.send("erro ao salvar o aluno:" + err);
   }
