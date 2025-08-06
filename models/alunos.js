@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const AlunoSchema = new mongoose.Schema({
   nome: { type: String, required: true },
   sobrenome: { type: String, required: true },
-  turma: {type: String, required: true },
+  turma: { type: mongoose.Schema.Types.ObjectId, ref: 'Turma' },
   dataN: { type: Date, required: true },
   necessidade: { type: Boolean, default: false },
   necesidadeE: { type: String },

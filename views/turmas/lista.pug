@@ -1,0 +1,8 @@
+extends ../tela
+
+block content
+  h1 Lista de Turmas
+  ul
+    each turma in turmas
+      li #{turma.nome} - #{turma.periodo}
+  a(href="/turmas/formulario") Cadastrar nova turma 
