@@ -22,14 +22,17 @@ nav(id="navbar" style="height:100vh; width:220px; position:fixed; top:0; left:0;
   h2(style="color:#fff; margin-bottom:2rem;") SAPE
   ul(style="list-style:none; padding:0; width:100%;")
     li(style="margin-bottom:1rem; width:100%;")
+      a(href="/turmas/lista" style="color:#fff; text-decoration:none; display:block; padding:0.5rem 0.75rem; border-radius:4px; transition:background 0.2s;")
+        span Lista de Turmas
+    li(style="margin-bottom:1rem; width:100%;")
       a(href="/alunos/lista" style="color:#fff; text-decoration:none; display:block; padding:0.5rem 0.75rem; border-radius:4px; transition:background 0.2s;")
-        span Lista de Alunoss
+        span Lista de Alunos
     li(style="margin-bottom:1rem; width:100%;")
       a(href="/alunos/formulario" style="color:#fff; text-decoration:none; display:block; padding:0.5rem 0.75rem; border-radius:4px; transition:background 0.2s;")
         span Novo Alunos
     li(style="margin-bottom:1rem; width:100%;")
       a(href="/alunos/inativo" style="color:#fff; text-decoration:none; display:block; padding:0.5rem 0.75rem; border-radius:4px; transition:background 0.2s;")
-        span Alunoss Inativos
+        span Alunos Inativos
 
 script.
   function toggleNavbar() {

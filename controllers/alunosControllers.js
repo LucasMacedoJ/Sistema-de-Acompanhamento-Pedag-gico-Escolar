@@ -1,7 +1,14 @@
 const Aluno = require('../models/alunos');
+const Turma = require('../models/turma');
 
-exports.formulario = (req, res) => {
-  res.render('alunos/formulario');
+exports.formulario = async (req, res) => {
+  try {
+    const turmas = await Turma.find(); // <- busca todas as turmas no banco
+    res.render('alunos/formulario', { turmas }); // <- envia as turmas para a view
+  } catch (err) {
+    console.error('Erro ao carregar turmas:', err);
+    res.status(500).send('Erro ao carregar formulário.');
+  }
 };
 
 exports.cadastrar = async (req, res) => {
