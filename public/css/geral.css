@@ -37,7 +37,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
-    background: #eff4f8;
+    background: #f3f5f7;
     height: 100vh;
 }
 
@@ -48,4 +48,47 @@ body {
 .detalhes {
     display: inline-block;
     width: 30%;
+}
+
+
+a.btn {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #004aad;
+    color: #f3f5f7;
+    border-radius: 4px;
+    text-decoration: none;
+    margin: 10px 2px;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+a.btn:hover {
+    background: #003080;
+}
+
+.ctexto {
+    display: inline-block;
+    background: #f3f5f7;
+    margin: 2px 2px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.backgeral {
+    text-align: center;
+    width: 80%;
+    margin: 1px auto;
+    background: #7fb2e0;
+    padding: 2% 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    z-index: -1;
+}
+
+a.btn.btnLista{
+    margin: 20px 2px;
+    display: inline-block;
+
 }
