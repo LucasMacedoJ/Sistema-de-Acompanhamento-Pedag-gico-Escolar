@@ -13,9 +13,10 @@ block content
     div
       label(for="turma") Turma:
       select(name="turma" required)
-      option(value="" disabled selected) Selecione uma turma
-      each turma in turmas
-        option(value=turma._id)= turma.nome
+        option(value="" disabled selected) Selecione uma turma
+        each turma in turmas
+          option(value=turma._id)= turma.nome
+      
     div
       label(for="dataN") Data de Nascimento:
       input(type="date" name="dataN" id="dataN" required)

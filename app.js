@@ -20,25 +20,31 @@ mongoose.connect('mongodb://localhost/sapebd', {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 // Configurando o diretório onde estão os templates (views)
 app.set('views', path.join(__dirname, 'views'));
+
+// Servindo arquivos estáticos da pasta public
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Definindo o template engine como Pug
 app.set('view engine', 'pug');
 
 // Importando as rotas 
+const loginRoutes = require('./routes/login')
 const alunosRoutes = require('./routes/alunos');
 const ocorrenciasRoutes = require('./routes/ocorrencias');
 const turmasRoutes = require('./routes/turmas')
 
 // Dizendo ao Express: qual rota usar
+app.use('/login',loginRoutes)
 app.use('/alunos', alunosRoutes);
 app.use('/ocorrencias', ocorrenciasRoutes);
 app.use('/turmas',turmasRoutes)
 
 // Rota inicial (opcional, apenas para redirecionar direto pro formulário)
 app.get('/', (req, res) => {
-  res.redirect('/alunos/lista');
+  res.redirect('/login');
 });
 
 // Iniciando o servidor na porta 3000
