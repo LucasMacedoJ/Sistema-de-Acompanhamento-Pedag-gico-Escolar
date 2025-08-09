@@ -57,7 +57,10 @@ width: 120%;
   background: none;
   border: none;
   cursor: pointer;
-  text-align: right;
+  text-align: center;
   width: 100%;
   font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

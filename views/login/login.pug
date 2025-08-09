@@ -8,6 +8,6 @@ html
       h2 Login
       form(action="/login", method="post")
         input(type="text", name="username", placeholder="Usuário", required)
-        input(type="password", name="password", placeholder="Senha", required)
+        input(type="password", name="password", placeholder="Senha", required)      
+        button.forgot(type="button", onclick="window.location='/esqueceuSenha'") Esqueceu a senha?
         button(onclick="window.location='/alunos/lista'") Fazer Login
-      button.forgot(type="button", onclick="window.location='/forgot-password'") Esqueceu a senha?

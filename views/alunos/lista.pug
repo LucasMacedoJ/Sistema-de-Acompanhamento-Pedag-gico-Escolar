@@ -4,8 +4,8 @@ block content
   h1 Lista de Alunos
   form(action="/alunos/search", method="GET")
     label Pesquisar:
-    input(type="text" name="q" placeholder="Digite o nome, sobrenome ou turma")
-    button(type="submit") Pesquisar
+    input(class="pesquisa" type="text" name="q" placeholder="Digite o nome, sobrenome ou turma")
+    button(class="pesquisa" type="submit") Pesquisar
 
   table
     thead
@@ -24,7 +24,8 @@ block content
         tr
           td
             a(href=`/alunos/detalhes/${aluno._id}`)= aluno.nome
-          td= aluno.sobrenome
+          td
+            a(href=`/alunos/detalhes/${aluno._id}`)= aluno.sobrenome
           td= aluno.turma
           td= aluno.dataN ? aluno.dataN.toLocaleDateString('pt-BR') : ''
           td= aluno.necesidadeE

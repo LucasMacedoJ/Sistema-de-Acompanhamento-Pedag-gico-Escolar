@@ -3,17 +3,16 @@ extends ../tela.pug
 block content
   h1 Detalhes do Aluno
   ul
-    li strong Nome:      | #{aluno.nome}
-    li strong Sobrenome: | #{aluno.sobrenome}
-    li strong Email:     | #{aluno.email}
-    li strong Idade:     | #{aluno.idade}
-    li strong País:      | #{aluno.pais}
-    li strong Ativo:     | #{aluno.ativo ? 'Sim' : 'Não'}
+    <li strong> Nome:      | #{aluno.nome}
+    <li strong> Sobrenome: | #{aluno.sobrenome}
+    <li strong> Email:     | #{aluno.email}
+    <li strong> Idade:     | #{aluno.idade}
+    <li strong> País:      | #{aluno.pais}
+    <li strong> Ativo:     | #{aluno.ativo ? 'Sim' : 'Não'}
   a(href=`/ocorrencias/nova?aluno=${aluno._id}`)
-    button Nova Ocorrência
+    <button class="detalhes"> Nova Ocorrência</button>
   <br>
-  a(href=`/ocorrencias/listaOcorrencia?=${aluno._id}`)
-    button Lista de Ocorrencias
+  a(href=`/ocorrencias/listaOcorrencias?=${aluno._id}`)
+    <button class="detalhes"> Lista de Ocorrencias</button>
   <br>
-  a(href="/alunos/lista") 
-    button Voltar para lista
+    <button class="detalhes" onclick="window.location='/alunos/lista'"> Voltar para lista</button>
