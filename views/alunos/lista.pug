@@ -1,5 +1,8 @@
 extends ../tela.pug
 
+block head
+  link(rel="stylesheet", href="/css/listaAlunos.css")
+
 block content
   h1 Lista de Alunos
   form(action="/alunos/search", method="GET")
@@ -22,7 +25,6 @@ block content
     tbody
       each aluno in alunos
         tr
-        <div class="backgeral">
           td
             a(href=`/alunos/detalhes/${aluno._id}`)= aluno.nome
           td
@@ -39,7 +41,6 @@ block content
             a.btn(href=`/alunos/toggle-ativo/${aluno._id}`) Alterar Status
             |  
             a.btn(href=`/alunos/deletar/${aluno._id}`) Excluir
-          </div>
 
   a.btn.btnLista(href='/alunos/inativo') Lista de alunos inativos
   a.btn.btnLista(href="/alunos/formulario") Cadastrar novo aluno

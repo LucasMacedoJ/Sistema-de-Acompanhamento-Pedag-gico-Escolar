@@ -1,0 +1,84 @@
+/* Fundo geral */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f3f6f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove estilo de tabela tradicional */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+thead {
+  display: none; /* esconde o cabeçalho */
+}
+
+/* Cada linha da tabela vira um card */
+tbody tr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #76aadb;
+  margin: 10px;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+  color: black;
+  font-weight: bold;
+}
+
+/* Cada célula da linha */
+tbody tr td {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border: none;
+}
+
+/* Nome + sobrenome juntos em destaque */
+tbody tr td:first-child,
+tbody tr td:nth-child(2) {
+  font-size: 15px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+/* Turma aparece logo abaixo */
+tbody tr td:nth-child(3) {
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+/* Ícone imagem fictícia (substitui primeira célula) */
+tbody tr td:first-child::before {
+  content: url("https://via.placeholder.com/40x40");
+  margin-right: 10px;
+  border-radius: 10px;
+}
+
+/* Botões de ação ficam no canto direito */
+tbody tr td:last-child {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+/* Botões */
+tbody tr td a.btn {
+  background: none;
+  border: none;
+  padding: 6px 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: white;
+  background-color: #4a90e2;
+  text-decoration: none;
+}
+
+tbody tr td a.btn:hover {
+  background-color: #357ab8;
+}

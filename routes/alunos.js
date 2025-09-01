@@ -4,7 +4,7 @@ const alunosController = require('../controllers/alunosControllers');
 
 router.get('/formulario', alunosController.formulario);
 router.post('/cadastrar', alunosController.cadastrar);
-router.get('/lista', alunosController.lista);
+router.get('/', alunosController.lista); // Corrigido aqui
 router.get('/inativo', alunosController.inativo);
 router.get('/editar/:id', alunosController.editarForm);
 router.post('/editar/:id', alunosController.editar);

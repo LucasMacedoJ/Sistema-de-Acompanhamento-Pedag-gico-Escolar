@@ -1,4 +1,4 @@
-const express= require('express');
+const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 
@@ -6,8 +6,8 @@ const app = express();
 
 // Fazendo a conexão com o banco MongoDB
 mongoose.connect('mongodb://localhost/sapebd', {
-  useNewUrlParser: true,        // Para o parser moderno de URL
-  useUnifiedTopology: true      // Para lidar melhor com conexões
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
 .then(() => {
   console.log("MongoDB conectado");
@@ -20,7 +20,6 @@ mongoose.connect('mongodb://localhost/sapebd', {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
 // Configurando o diretório onde estão os templates (views)
 app.set('views', path.join(__dirname, 'views'));
 
@@ -31,16 +30,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug');
 
 // Importando as rotas 
-const loginRoutes = require('./routes/login')
+const loginRoutes = require('./routes/login');
 const alunosRoutes = require('./routes/alunos');
 const ocorrenciasRoutes = require('./routes/ocorrencias');
-const turmasRoutes = require('./routes/turmas')
+const turmasRoutes = require('./routes/turmas');
+const apoiaRoutes = require('./routes/apoia'); // Adicionado
 
 // Dizendo ao Express: qual rota usar
-app.use('/login',loginRoutes)
+app.use('/login', loginRoutes);
 app.use('/alunos', alunosRoutes);
 app.use('/ocorrencias', ocorrenciasRoutes);
-app.use('/turmas',turmasRoutes)
+app.use('/turmas', turmasRoutes);
+app.use('/apoia', apoiaRoutes); // Adicionado
 
 // Rota inicial (opcional, apenas para redirecionar direto pro formulário)
 app.get('/', (req, res) => {

@@ -3,8 +3,8 @@ const Turma = require('../models/turma');
 
 exports.formulario = async (req, res) => {
   try {
-    const turmas = await Turma.find(); // <- busca todas as turmas no banco
-    res.render('alunos/formulario', { turmas }); // <- envia as turmas para a view
+    const turmas = await Turma.find();
+    res.render('alunos/formulario', { turmas });
   } catch (err) {
     console.error('Erro ao carregar turmas:', err);
     res.status(500).send('Erro ao carregar formulário.');
@@ -33,7 +33,7 @@ exports.cadastrar = async (req, res) => {
       observacao: req.body.observacao
     });
     await novoAluno.save();
-    res.redirect('/alunos/lista');
+    res.redirect('/alunos');
   } catch (err) {
     res.send("erro ao salvar o aluno:" + err);
   }
@@ -59,7 +59,7 @@ exports.inativo = async (req, res) => {
 
 exports.editarForm = async (req, res) => {
   try {
-    const Aluno = await Aluno.findById(req.params.id).lean();
+    const aluno = await Aluno.findById(req.params.id).lean();
     if (!aluno) return res.status(404).send("aluno não encontrado");
     res.render('alunos/editar', { aluno });
   } catch (err) {
@@ -76,7 +76,7 @@ exports.editar = async (req, res) => {
       idade: req.body.idade,
       pais: req.body.pais
     });
-    res.redirect('/alunos/lista');
+    res.redirect('/alunos');
   } catch (err) {
     res.send("Erro ao editar alunos: " + err);
   }
@@ -88,7 +88,7 @@ exports.toggleAtivo = async (req, res) => {
     if (!aluno) return res.status(404).send("Usuário não encontrado");
     aluno.ativo = !aluno.ativo;
     await aluno.save();
-    res.redirect('/alunos/lista');
+    res.redirect('/alunos');
   } catch (err) {
     res.send("Erro ao alterar status: " + err);
   }
@@ -97,11 +97,12 @@ exports.toggleAtivo = async (req, res) => {
 exports.search = async (req, res) => {
   const query = req.query.q;
   try {
-    const alunos = await Alunos.find({
+    const alunos = await Aluno.find({
       ativo: true,
       $or: [
         { nome: { $regex: query, $options: 'i' } },
-        { email: { $regex: query, $options: 'i' } }
+        { sobrenome: { $regex: query, $options: 'i' } },
+        { turma: { $regex: query, $options: 'i' } }
       ]
     }).lean();
     res.render('alunos/lista', { alunos });
@@ -113,11 +114,12 @@ exports.search = async (req, res) => {
 exports.searchInativos = async (req, res) => {
   const query = req.query.q;
   try {
-    const alunos = await Alunos.find({
+    const alunos = await Aluno.find({
       ativo: false,
       $or: [
         { nome: { $regex: query, $options: 'i' } },
-        { email: { $regex: query, $options: 'i' } }
+        { sobrenome: { $regex: query, $options: 'i' } },
+        { turma: { $regex: query, $options: 'i' } }
       ]
     }).lean();
     res.render('alunos/inativo', { alunos });
@@ -125,14 +127,16 @@ exports.searchInativos = async (req, res) => {
     res.send("Erro ao buscar alunos inativos: " + err);
   }
 };
+
 exports.deletar = async (req, res) => {
   try {
     await Aluno.findByIdAndDelete(req.params.id);
-    res.redirect('/alunos/lista');
+    res.redirect('/alunos');
   } catch (err) {
     res.send("Erro ao deletar aluno: " + err);
   }
 };
+
 exports.detalhes = async (req, res) => {
   try{
     const aluno = await Aluno.findById(req.params.id).lean();
