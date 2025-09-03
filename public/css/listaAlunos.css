@@ -11,10 +11,10 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-
+/*
 thead {
-  display: none; /* esconde o cabeçalho */
-}
+   display: none; */ /* <-- Remover ou comentar esta linha 
+}*/
 
 /* Cada linha da tabela vira um card */
 tbody tr {
@@ -81,4 +81,50 @@ tbody tr td a.btn {
 
 tbody tr td a.btn:hover {
   background-color: #357ab8;
+}
+
+.preto{
+  color: black;
+}
+
+/* Estiliza os indicadores (th) como cards, igual aos alunos */
+tbody tr th {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border: none;
+  background-color: #76aadb;
+  color: black;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+  margin: 10px 0;
+}
+
+/* Estiliza o cabeçalho como card */
+thead tr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #76aadb;
+  margin: 10px;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+  color: black;
+  font-weight: bold;
+}
+
+thead th {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border: none;
+  background-color: transparent;
+  color: black;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 12px;
+  margin: 0 0;
 }

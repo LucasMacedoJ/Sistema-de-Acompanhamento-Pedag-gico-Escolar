@@ -23,9 +23,10 @@ app.use(express.json());
 
 // Configuração de sessão
 app.use(session({
-  secret: 'seuSegredoAqui', // Troque por um segredo forte em produção!
+  secret: 'aqjoeqdkhaiudahdkbakgsdliavktsdofp8qgilvdkgacfoszdigbv1o6208e9p81024-2rqsa',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {} // sessão expira ao fechar o navegador
 }));
 
 // Diretório das views

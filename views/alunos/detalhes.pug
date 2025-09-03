@@ -9,15 +9,15 @@ block content
     <li strong> Idade:     | #{aluno.idade}
     <li strong> País:      | #{aluno.pais}
     <li strong> Ativo:     | #{aluno.ativo ? 'Sim' : 'Não'}
-  a(href=`/ocorrencias/nova?aluno=${aluno._id}`)
+  a.btn(href=`/ocorrencias/nova?aluno=${aluno._id}`)
     button.detalhes Nova Ocorrência
   br
-  a(href=`/ocorrencias/listaOcorrencias?=${aluno._id}`)
+  a.btn(href=`/ocorrencias/listaOcorrencias?=${aluno._id}`)
     button.detalhes Lista de Ocorrencias
   br
   // Botão Apoia
-  a(href=`/apoia/nova?aluno=${aluno._id}`)
+  a.btn(href=`/apoia/nova?aluno=${aluno._id}`)
     button.detalhes Novo Apoio
   br
-  a(href="/alunos/")
+  a.btn(href="/alunos/")
     button.detalhes Voltar para lista
