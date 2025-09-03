@@ -1,0 +1,17 @@
+extends tela.pug
+
+block head
+  link(rel="stylesheet", href="/css/login.css")
+
+block content
+    h1 Login
+    if erro
+      p(style="color:red") #{erro}
+    form(action="/login" method="POST")
+      label(for="email") Email:
+      input(type="email" name="email" required)
+      br
+      label(for="senha") Senha:
+      input(type="password" name="senha" required)
+      br
+      button(type="submit") Entrar

@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const session = require('express-session');
 
 const app = express();
 
-// Fazendo a conexão com o banco MongoDB
+// Conexão com o MongoDB
 mongoose.connect('mongodb://localhost/sapebd', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -16,39 +17,70 @@ mongoose.connect('mongodb://localhost/sapebd', {
   console.log("Erro ao conectar: " + err);
 });
 
-// Middleware do Express para ler os dados de formulários
+// Middleware para ler dados de formulários
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Configurando o diretório onde estão os templates (views)
+// Configuração de sessão
+app.use(session({
+  secret: 'seuSegredoAqui', // Troque por um segredo forte em produção!
+  resave: false,
+  saveUninitialized: false
+}));
+
+// Diretório das views
 app.set('views', path.join(__dirname, 'views'));
 
-// Servindo arquivos estáticos da pasta public
+// Arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Definindo o template engine como Pug
+// Template engine
 app.set('view engine', 'pug');
 
-// Importando as rotas 
+// Importando as rotas
 const loginRoutes = require('./routes/login');
 const alunosRoutes = require('./routes/alunos');
 const ocorrenciasRoutes = require('./routes/ocorrencias');
 const turmasRoutes = require('./routes/turmas');
-const apoiaRoutes = require('./routes/apoia'); // Adicionado
+const apoiaRoutes = require('./routes/apoia');
+const usuariosRoutes = require('./routes/usuarios');
+const testeRoutes = require('./routes/teste');
 
-// Dizendo ao Express: qual rota usar
+// Middleware para proteger rotas
+function requireLogin(req, res, next) {
+  if (!req.session.usuarioId) {
+    return res.redirect('/login');
+  }
+  next();
+}
+
+// Middleware para proteger rotas de admin
+function requireAdmin(req, res, next) {
+  if (!req.session.usuario || req.session.usuario.perfil !== 'admin') {
+    return res.status(403).send('Acesso restrito ao administrador.');
+  }
+  next();
+}
+
+// Rotas públicas
 app.use('/login', loginRoutes);
-app.use('/alunos', alunosRoutes);
-app.use('/ocorrencias', ocorrenciasRoutes);
-app.use('/turmas', turmasRoutes);
-app.use('/apoia', apoiaRoutes); // Adicionado
+app.use('/teste', testeRoutes); // Cadastro de usuário de teste sem login
 
-// Rota inicial (opcional, apenas para redirecionar direto pro formulário)
+// Rotas de usuários (apenas admin pode acessar)
+app.use('/usuarios', requireLogin, requireAdmin, usuariosRoutes);
+
+// Rotas protegidas para usuários autenticados
+app.use('/alunos', requireLogin, alunosRoutes);
+app.use('/ocorrencias', requireLogin, ocorrenciasRoutes);
+app.use('/turmas', requireLogin, turmasRoutes);
+app.use('/apoia', requireLogin, apoiaRoutes);
+
+// Rota inicial
 app.get('/', (req, res) => {
   res.redirect('/login');
 });
 
-// Iniciando o servidor na porta 3000
+// Iniciando o servidor
 app.listen(3000, () => {
   console.log("Servidor rodando na porta 3000");
 });

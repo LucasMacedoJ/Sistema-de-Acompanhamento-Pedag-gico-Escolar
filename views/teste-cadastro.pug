@@ -1,0 +1,22 @@
+extends tela.pug
+
+block head
+  link(rel="stylesheet", href="/css/login.css")
+
+block content
+  h1 Cadastro de Usuário (Teste)
+  if erro
+    p(style="color:red") #{erro}
+  form(action="/teste" method="POST")
+    label(for="email") Email:
+    input(type="email" name="email" required)
+    br
+    label(for="senha") Senha:
+    input(type="password" name="senha" required)
+    br
+    label(for="perfil") Perfil:
+    select(name="perfil")
+      option(value="comum") Usuário comum
+      option(value="admin") Administrador
+    br
+    button(type="submit") Cadastrar

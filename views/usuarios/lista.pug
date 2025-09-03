@@ -1,0 +1,18 @@
+extends ../tela.pug
+
+block head
+  link(rel="stylesheet", href="/css/usuarios.css")
+
+block content
+  h1 Lista de Usuários
+  table
+    thead
+      tr
+        th Email
+        th Perfil
+    tbody
+      each usuario in usuarios
+        tr
+          td= usuario.email
+          td= usuario.perfil
+  a(href="/usuarios/novo") Cadastrar novo usuário

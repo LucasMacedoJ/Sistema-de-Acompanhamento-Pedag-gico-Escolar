@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const loginController = require('../controllers/loginControllers');
 
-// Corrigido: especifique o método do controller, por exemplo 'index' ou 'login'
-router.get('/', loginController.login);
+router.get('/', loginController.loginForm);
+router.post('/', loginController.login);
 
 module.exports = router;
