@@ -37,10 +37,8 @@ block content
           td= aluno.nepre ? 'Sim' : 'Não'
           td
             a.btn(href=`/alunos/editar/${aluno._id}`) Editar
-            |  
-            a.btn(href=`/alunos/toggle-ativo/${aluno._id}`) Alterar Status
-            |  
-            a.btn(href=`/alunos/deletar/${aluno._id}`) Excluir
+
+            a.btn(href=`/alunos/toggle-ativo/${aluno._id}`) Tornar Inativo
 
   a.btn.btnLista(href='/alunos/inativo') Lista de alunos inativos
   a.btn.btnLista(href="/alunos/formulario") Cadastrar novo aluno

@@ -11,7 +11,6 @@ router.post('/editar/:id', alunosController.editar);
 router.get('/toggle-ativo/:id', alunosController.toggleAtivo);
 router.get('/search', alunosController.search);
 router.get('/searchInativos', alunosController.searchInativos);
-router.get('/deletar/:id', alunosController.deletar);
 router.get('/detalhes/:id', alunosController.detalhes);
 
 module.exports = router;

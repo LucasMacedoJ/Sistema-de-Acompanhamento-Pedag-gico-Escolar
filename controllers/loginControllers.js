@@ -2,7 +2,7 @@ const Usuario = require('../models/usuario');
 const bcrypt = require('bcrypt');
 
 exports.loginForm = (req, res) => {
-  res.render('login');
+  res.render('login', { erro: null }); // Sempre passa erro
 };
 
 exports.login = async (req, res) => {
@@ -19,7 +19,7 @@ exports.login = async (req, res) => {
     // Autenticação OK, salva perfil na sessão
     req.session.usuarioId = usuario._id;
     req.session.usuario = { email: usuario.email, perfil: usuario.perfil };
-    res.redirect('/alunos/');
+    res.redirect('/alunos/'); // Corrigido aqui
   } catch (err) {
     res.render('login', { erro: 'Erro ao fazer login.' });
   }

@@ -48,7 +48,7 @@ const testeRoutes = require('./routes/teste');
 
 // Middleware para proteger rotas
 function requireLogin(req, res, next) {
-  if (!req.session.usuarioId) {
+  if (!req.session.usuario) {
     return res.redirect('/login');
   }
   next();

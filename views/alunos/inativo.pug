@@ -29,8 +29,6 @@ block content
             td= aluno.pais
             td= aluno.ativo ? 'Ativo' : 'Inativo'
             td
-              a(href=`/alunos/toggle-ativo/${aluno._id}`) Tornar Ativo
-            td 
-              a(href=`/alunos/deletar/${aluno._id}`) Excluir
-        a(href="/alunos/lista") Voltar para lista de ativos  
-    
+              a(href=`/alunos/toggle-ativo/${aluno._id}`) Excluir
+
+        a(href="/alunos/") Voltar para lista de ativos
