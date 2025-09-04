@@ -6,10 +6,10 @@ block head
 block content
   h1 Lista de Alunos
   form(action="/alunos/search", method="GET")
-    label Pesquisar:
-    input(class="pesquisa" type="text" name="q" placeholder="Digite o nome, sobrenome ou turma")
-    button(class="pesquisa" type="submit") Pesquisar
-
+    button( type="submit", style="all:unset;")
+      i.fa.fa-search(aria-hidden='true' style='font-size: 20px;')
+    input(type="text" name="q" placeholder="Digite o nome, sobrenome ou turma", style="all:unset;")
+    
   table
     thead
       tr
@@ -36,9 +36,11 @@ block content
           td= aluno.apoia ? 'Sim' : 'Não'
           td= aluno.nepre ? 'Sim' : 'Não'
           td
-            a.btn(href=`/alunos/editar/${aluno._id}`) Editar
+            a.btn(href=`/alunos/editar/${aluno._id}`) 
+              i.fa.fa-edit(aria-hidden='true' style='font-size: 20px;')
 
-            a.btn(href=`/alunos/toggle-ativo/${aluno._id}`) Excluir
+            a.btn(href=`/alunos/toggle-ativo/${aluno._id}`)
+              i.fa.fa-trash(aria-hidden='true' style='font-size: 20px;')
 
   a.btn.btnLista(href='/alunos/inativo') Lista de alunos inativos
   a.btn.btnLista(href="/alunos/formulario") Cadastrar novo aluno
