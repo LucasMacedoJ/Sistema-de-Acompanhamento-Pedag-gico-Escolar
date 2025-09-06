@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    title Erro
+  body
+  .geral
+    h1 Ops, algo deu errado
+    p= mensagem
+
+    if logado
+      a(href="/alunos") Voltar para o início
+    else
+      a(href="/login") Voltar para a página de login

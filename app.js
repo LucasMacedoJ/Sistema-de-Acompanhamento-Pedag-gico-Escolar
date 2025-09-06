@@ -46,6 +46,7 @@ const turmasRoutes = require('./routes/turmas');
 const apoiaRoutes = require('./routes/apoia');
 const usuariosRoutes = require('./routes/usuarios');
 const testeRoutes = require('./routes/teste');
+const erroRoutes = require('./routes/erro');
 
 // Middleware para proteger rotas
 function requireLogin(req, res, next) {
@@ -58,12 +59,13 @@ function requireLogin(req, res, next) {
 // Middleware para proteger rotas de admin
 function requireAdmin(req, res, next) {
   if (!req.session.usuario || req.session.usuario.perfil !== 'admin') {
-    return res.status(403).send('Acesso restrito ao administrador.');
+    return res.redirect('/erro');
   }
   next();
 }
 
 // Rotas públicas
+app.use('/erro', erroRoutes);
 app.use('/login', loginRoutes);
 app.use('/teste', testeRoutes); // Cadastro de usuário de teste sem login
 
