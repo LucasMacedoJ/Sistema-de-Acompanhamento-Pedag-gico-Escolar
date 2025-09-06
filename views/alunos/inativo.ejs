@@ -1,0 +1,44 @@
+<%- include('../tela') %>
+
+<head>
+  <link rel="stylesheet" href="/css/listaAlunos.css">
+</head>
+
+<h1>Lista de Alunos Inativos</h1>
+
+<form action="/alunos/searchInativos" method="GET">
+  <label>Pesquisar:</label>
+  <input class="pesquisa" type="text" name="q" placeholder="Digite o nome ou email">
+  <button class="pesquisa" type="submit">Pesquisar</button>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Sobrenome</th>
+      <th>Email</th>
+      <th>Idade</th>
+      <th>País</th>
+      <th>Ativo</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% alunos.forEach(function(aluno) { %>
+      <tr>
+        <td><%= aluno.nome %></td>
+        <td><%= aluno.sobrenome %></td>
+        <td><%= aluno.email %></td>
+        <td><%= aluno.idade %></td>
+        <td><%= aluno.pais %></td>
+        <td><%= aluno.ativo ? 'Ativo' : 'Inativo' %></td>
+        <td>
+          <a href="/alunos/toggle-ativo/<%= aluno._id %>">Tornar Ativo</a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<a class="btn" href="/alunos/">Voltar para a lista de Alunos</a>

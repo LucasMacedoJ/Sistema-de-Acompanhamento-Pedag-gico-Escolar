@@ -1,0 +1,26 @@
+<%- include('../tela') %>
+
+<head>
+  <link rel="stylesheet" href="/css/usuarios.css">
+</head>
+
+<h1>Lista de Usuários</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Perfil</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% usuarios.forEach(function(usuario) { %>
+      <tr>
+        <td><%= usuario.email %></td>
+        <td><%= usuario.perfil %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<a href="/usuarios/novo">Cadastrar novo usuário</a>

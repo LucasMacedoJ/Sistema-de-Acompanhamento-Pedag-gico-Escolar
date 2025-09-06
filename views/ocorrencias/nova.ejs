@@ -1,0 +1,21 @@
+<%- include('../tela') %>
+
+<h1>Cadastro de Ocorrência</h1>
+
+<form action="/ocorrencias/cadastrar" method="POST">
+  <input type="hidden" name="aluno" value="<%= alunoId %>">
+
+  <div>
+    <label for="data">Data:</label>
+    <input type="date" name="data" id="data" required>
+  </div>
+
+  <div>
+    <label for="descricao">Descrição da ocorrência:</label>
+    <textarea name="descricao" id="descricao" required></textarea>
+  </div>
+
+  <button type="submit">Cadastrar</button>
+</form>
+
+<a href="/alunos/">Ver lista de alunos</a>

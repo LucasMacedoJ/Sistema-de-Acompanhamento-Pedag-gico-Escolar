@@ -1,0 +1,34 @@
+<%- include('../tela') %>
+
+<% if (aluno) { %>
+  <h1>Lista de ocorrências de <%= aluno.nome %></h1>
+<% } else { %>
+  <h1>Lista de todas as ocorrências</h1>
+<% } %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Descrição</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% ocorrencias.forEach(function(ocorrencia) { %>
+      <tr>
+        <td><%= ocorrencia.data ? ocorrencia.data.toLocaleDateString('pt-BR') : '' %></td>
+        <td><%= ocorrencia.descricao %></td>
+        <td>
+          <a href="/ocorrencias/detalhes/<%= ocorrencia._id %>">Detalhes</a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<% if (aluno) { %>
+  <a href="/alunos/detalhes/<%= aluno._id %>">Voltar para detalhes do aluno</a>
+<% } else { %>
+  <a href="/alunos/">Voltar para lista de alunos</a>
+<% } %>

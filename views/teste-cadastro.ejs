@@ -1,0 +1,29 @@
+<%- include('tela') %>
+
+<%- typeof head !== 'undefined' ? head : '' %>
+<link rel="stylesheet" href="/css/login.css">
+
+<h1>Cadastro de Usuário (Teste)</h1>
+
+<% if (erro) { %>
+  <p style="color:red"><%= erro %></p>
+<% } %>
+
+<form action="/teste" method="POST">
+  <label for="email">Email:</label>
+  <input type="email" name="email" id="email" required>
+  <br>
+
+  <label for="senha">Senha:</label>
+  <input type="password" name="senha" id="senha" required>
+  <br>
+
+  <label for="perfil">Perfil:</label>
+  <select name="perfil" id="perfil">
+    <option value="comum">Usuário comum</option>
+    <option value="admin">Administrador</option>
+  </select>
+  <br>
+
+  <button type="submit">Cadastrar</button>
+</form>

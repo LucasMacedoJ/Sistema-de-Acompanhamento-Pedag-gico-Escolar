@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Erro</title>
+  </head>
+  <body>
+    <div class="geral">
+      <h1>Ops, algo deu errado</h1>
+      <p><%= mensagem %></p>
+
+      <% if (logado) { %>
+        <a href="/alunos">Voltar para o início</a>
+      <% } else { %>
+        <a href="/login">Voltar para a página de login</a>
+      <% } %>
+    </div>
+  </body>
+</html>

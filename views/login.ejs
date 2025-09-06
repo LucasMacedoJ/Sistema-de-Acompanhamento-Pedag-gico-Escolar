@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/login.css">
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Login</h2>
+
+      <% if (erro) { %>
+        <p style="color:red"><%= erro %></p>
+      <% } %>
+
+      <form action="/login" method="post">
+        <label for="email">Email:</label>
+        <input type="email" name="email" placeholder="exemplo@gmail.com" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" name="senha" placeholder="Senha" required>
+
+        <button class="forgot" type="button" onclick="window.location='/esqueceuSenha'">Esqueceu a senha?</button>
+        <br>
+
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  </body>
+</html>

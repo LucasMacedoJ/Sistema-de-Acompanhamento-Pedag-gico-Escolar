@@ -1,0 +1,28 @@
+<%- include('../tela') %>
+
+<h1>Editar Aluno</h1>
+
+<form action="/alunos/editar/<%= aluno._id %>" method="POST">
+  <label>Nome:</label>
+  <input type="text" name="nome" value="<%= aluno.nome %>" required>
+  <br>
+
+  <label>Sobrenome:</label>
+  <input type="text" name="sobrenome" value="<%= aluno.sobrenome %>" required>
+  <br>
+
+  <label>Email:</label>
+  <input type="email" name="email" value="<%= aluno.email %>" required>
+  <br>
+
+  <label>Idade:</label>
+  <input type="number" name="idade" value="<%= aluno.idade %>" required>
+  <br>
+
+  <label>País:</label>
+  <input type="text" name="pais" value="<%= aluno.pais %>">
+  <br>
+
+  <button type="submit">Salvar alterações</button>
+  <a class="btn" href="/alunos/">Cancelar</a>
+</form>

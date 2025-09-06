@@ -1,0 +1,31 @@
+<%- include('../tela') %>
+
+<h1>Detalhes do Aluno</h1>
+<ul>
+  <li><strong>Nome:</strong> <%= aluno.nome %></li>
+  <li><strong>Sobrenome:</strong> <%= aluno.sobrenome %></li>
+  <li><strong>Email:</strong> <%= aluno.email %></li>
+  <li><strong>Idade:</strong> <%= aluno.idade %></li>
+  <li><strong>País:</strong> <%= aluno.pais %></li>
+  <li><strong>Ativo:</strong> <%= aluno.ativo ? 'Sim' : 'Não' %></li>
+</ul>
+
+<a class="btn" href="/ocorrencias/nova?aluno=<%= aluno._id %>">
+  <button class="detalhes">Nova Ocorrência</button>
+</a>
+<br>
+
+<a class="btn" href="/ocorrencias/listaOcorrencias?aluno=<%= aluno._id %>">
+  <button class="detalhes">Lista de Ocorrências</button>
+</a>
+<br>
+
+<!-- Botão Apoia -->
+<a class="btn" href="/apoia/nova?aluno=<%= aluno._id %>">
+  <button class="detalhes">Novo Apoio</button>
+</a>
+<br>
+
+<a class="btn" href="/alunos/">
+  <button class="detalhes">Voltar para lista</button>
+</a>

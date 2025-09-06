@@ -1,0 +1,55 @@
+<%- include('../tela') %>
+
+<head>
+  <link rel="stylesheet" href="/css/listaAlunos.css">
+</head>
+
+<h1>Lista de Alunos</h1>
+
+<form action="/alunos/search" method="GET">
+  <button type="submit" style="all:unset;">
+    <i class="fa fa-search" aria-hidden="true" style="font-size: 20px;"></i>
+  </button>
+  <input type="text" name="q" placeholder="Digite o nome, sobrenome ou turma" style="all:unset;">
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Sobrenome</th>
+      <th>Turma</th>
+      <th>Data de Nascimento</th>
+      <th>Necessidade Especial</th>
+      <th>Problema Saúde</th>
+      <th>APOIA</th>
+      <th>NEPRE</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% alunos.forEach(function(aluno) { %>
+      <tr>
+        <td><a href="/alunos/detalhes/<%= aluno._id %>"><%= aluno.nome %></a></td>
+        <td><a href="/alunos/detalhes/<%= aluno._id %>"><%= aluno.sobrenome %></a></td>
+        <td><%= aluno.turma %></td>
+        <td><%= aluno.dataN ? aluno.dataN.toLocaleDateString('pt-BR') : '' %></td>
+        <td><%= aluno.necesidadeE %></td>
+        <td><%= aluno.problemaSaude %></td>
+        <td><%= aluno.apoia ? 'Sim' : 'Não' %></td>
+        <td><%= aluno.nepre ? 'Sim' : 'Não' %></td>
+        <td>
+          <a class="btn" href="/alunos/editar/<%= aluno._id %>">
+            <i class="fa fa-edit" aria-hidden="true" style="font-size: 20px;"></i>
+          </a>
+          <a class="btn" href="/alunos/toggle-ativo/<%= aluno._id %>">
+            <i class="fa fa-trash" aria-hidden="true" style="font-size: 20px;"></i>
+          </a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<a class="btn btnLista" href="/alunos/inativo">Lista de alunos inativos</a>
+<a class="btn btnLista" href="/alunos/formulario">Cadastrar novo aluno</a>

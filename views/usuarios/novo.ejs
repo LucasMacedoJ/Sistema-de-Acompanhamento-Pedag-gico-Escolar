@@ -1,0 +1,29 @@
+<%- include('../tela') %>
+
+<h1>Novo Usuário</h1>
+
+<% if (erro) { %>
+  <p style="color:red"><%= erro %></p>
+<% } %>
+
+<form action="/usuarios/novo" method="POST">
+  <label for="email">Email:</label>
+  <input type="email" name="email" id="email" required>
+  <br>
+
+  <label for="senha">Senha:</label>
+  <input type="password" name="senha" id="senha" required>
+  <br>
+
+  <% if (usuario && usuario.perfil === 'admin') { %>
+    <label for="perfil">Perfil:</label>
+    <select name="perfil" id="perfil">
+      <option value="comum">Usuário comum</option>
+      <option value="admin">Administrador</option>
+    </select>
+    <br>
+  <% } %>
+
+  <button type="submit">Cadastrar</button>
+  <a href="/login" style="margin-left:1rem;">Voltar ao login</a>
+</form>

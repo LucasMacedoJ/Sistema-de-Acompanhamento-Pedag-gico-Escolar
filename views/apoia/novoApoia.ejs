@@ -1,0 +1,18 @@
+<%- include('../tela') %>
+
+<h1>Novo Apoio</h1>
+
+<form action="/apoia/nova?aluno=<%= alunoId %>" method="POST">
+  <label for="descricao">Descrição do Apoio:</label>
+  <textarea name="descricao" id="descricao" rows="4" cols="40" required></textarea>
+  <br>
+
+  <label for="data">Data do Apoio:</label>
+  <input type="date" name="data" id="data" required>
+  <br>
+
+  <button type="submit">Salvar Apoio</button>
+  <a href="/alunos/detalhes/<%= alunoId %>" style="margin-left:1rem;">
+    <button type="button">Cancelar</button>
+  </a>
+</form>
