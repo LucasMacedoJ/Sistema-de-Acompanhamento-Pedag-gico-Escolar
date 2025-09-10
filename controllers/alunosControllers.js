@@ -41,7 +41,7 @@ exports.cadastrar = async (req, res) => {
 
 exports.lista = async (req, res) => {
   try {
-    const alunos = await Aluno.find({ ativo: true }).lean();
+    const alunos = await Aluno.find({ ativo: true }).populate('turma').lean();
     res.render('alunos/lista', { alunos });
   } catch (err) {
     res.send("Erro ao listar alunos: " + err);
