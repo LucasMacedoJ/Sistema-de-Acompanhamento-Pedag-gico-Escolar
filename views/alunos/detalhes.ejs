@@ -10,22 +10,31 @@
   <li><strong>Ativo:</strong> <%= aluno.ativo ? 'Sim' : 'Não' %></li>
 </ul>
 
+<!-- Botão Nova Ocorrência -->
 <a class="btn" href="/ocorrencias/nova?aluno=<%= aluno._id %>">
   <button class="detalhes">Nova Ocorrência</button>
 </a>
 <br>
 
-<a class="btn" href="/ocorrencias/listaOcorrencias?aluno=<%= aluno._id %>">
-  <button class="detalhes">Lista de Ocorrências</button>
+<!-- Botão Lista Ocorrências -->
+<a class="btn detalhes" href="/ocorrencias/listaOcorrencias?aluno=<%= aluno._id %>">
+  Lista de Ocorrências
 </a>
 <br>
 
-<!-- Botão Apoia -->
+<!-- Botão Novo Apoio -->
 <a class="btn" href="/apoia/nova?aluno=<%= aluno._id %>">
   <button class="detalhes">Novo Apoio</button>
 </a>
 <br>
 
+<!-- 🔹 Novo botão Lista Apoios -->
+<a class="btn detalhes" href="/apoia/lista?aluno=<%= aluno._id %>">
+  Lista de Apoios
+</a>
+<br>
+
+<!-- Voltar -->
 <a class="btn" href="/alunos/">
   <button class="detalhes">Voltar para lista</button>
 </a>

@@ -1,0 +1,13 @@
+<% apoios.forEach(a => { %>
+  <div>
+    <p><strong>Descrição:</strong> <%= a.descricao %></p>
+    <p><strong>Início:</strong> <%= a.inicio ? a.inicio.toLocaleString('pt-BR') : '' %></p>
+    <p><strong>Fim:</strong> <%= a.fim ? a.fim.toLocaleString('pt-BR') : 'Em andamento' %></p>
+
+    <% if (!a.fim) { %>
+      <form action="/apoia/finalizar/<%= a._id %>" method="POST">
+        <button type="submit">Finalizar</button>
+      </form>
+    <% } %>
+  </div>
+<% }) %>

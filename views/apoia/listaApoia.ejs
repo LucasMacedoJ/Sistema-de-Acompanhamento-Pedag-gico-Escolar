@@ -1,0 +1,24 @@
+<%- include('../tela') %>
+
+<h1>Lista de Apoios do Aluno</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Descrição</th>
+      <th>Data Início</th>
+      <th>Data Fim</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% apoios.forEach(function(apoio) { %>
+      <tr>
+        <td><%= apoio.descricao %></td>
+        <td><%= apoio.dataInicio ? apoio.dataInicio.toLocaleDateString('pt-BR') : '' %></td>
+        <td><%= apoio.dataFim ? apoio.dataFim.toLocaleDateString('pt-BR') : '' %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<a href="/alunos/detalhes/<%= alunoId %>">Voltar para detalhes do aluno</a>
