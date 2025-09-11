@@ -7,17 +7,16 @@
 <h1>Lista de Alunos</h1>
 
 <form action="/alunos/search" method="GET">
-  <button type="submit" style="all:unset;">
+  <button type="submit">
     <i class="fa fa-search" aria-hidden="true" style="font-size: 20px;"></i>
   </button>
-  <input type="text" name="q" placeholder="Digite o nome, sobrenome ou turma" style="all:unset;">
+  <input type="text" name="q" placeholder="Digite o nome, sobrenome ou turma">
 </form>
 
 <table>
   <thead>
     <tr>
       <th>Nome</th>
-      <th>Sobrenome</th>
       <th>Turma</th>
       <th>Data de Nascimento</th>
       <th>Necessidade Especial</th>
@@ -30,8 +29,7 @@
   <tbody>
     <% alunos.forEach(function(aluno) { %>
       <tr>
-        <td><a href="/alunos/detalhes/<%= aluno._id %>"><%= aluno.nome %></a></td>
-        <td><a href="/alunos/detalhes/<%= aluno._id %>"><%= aluno.sobrenome %></a></td>
+        <td><p><a href="/alunos/detalhes/<%= aluno._id %>"><%= aluno.nome %></a> <a href="/alunos/detalhes/<%= aluno._id %>"><%= aluno.sobrenome %></a></p></td>
         <td><%= aluno.turma && aluno.turma.nome ? aluno.turma.nome : '' %></td>
         <td><%= aluno.dataN ? aluno.dataN.toLocaleDateString('pt-BR') : '' %></td>
         <td><%= aluno.necesidadeE %></td>
