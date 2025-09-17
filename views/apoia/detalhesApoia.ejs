@@ -1,13 +1,20 @@
-<% apoios.forEach(a => { %>
-  <div>
-    <p><strong>Descrição:</strong> <%= a.descricao %></p>
-    <p><strong>Início:</strong> <%= a.inicio ? a.inicio.toLocaleString('pt-BR') : '' %></p>
-    <p><strong>Fim:</strong> <%= a.fim ? a.fim.toLocaleString('pt-BR') : 'Em andamento' %></p>
+<%- include('../tela') %>
 
-    <% if (!a.fim) { %>
-      <form action="/apoia/finalizar/<%= a._id %>" method="POST">
-        <button type="submit">Finalizar</button>
-      </form>
-    <% } %>
-  </div>
-<% }) %>
+<h1>Detalhes do Apoia</h1>
+
+<div>
+  <p><strong>Descrição:</strong> <%= apoia.descricao %></p>
+  <p><strong>Data Início:</strong> <%= apoia.dataInicio ? apoia.dataInicio.toLocaleDateString('pt-BR') : '' %></p>
+  
+  <!-- Data Fim atual -->
+  <p><strong>Data Fim:</strong> <%= apoia.dataFim ? apoia.dataFim.toLocaleDateString('pt-BR') : '' %></p>
+  
+  <!-- Formulário para editar Data Fim -->
+  <form action="/apoia/editarDataFim/<%= apoia._id %>" method="POST">
+    <label for="dataFim">Alterar Data de Fim:</label>
+    <input type="date" id="dataFim" name="dataFim" value="<%= apoia.dataFim ? apoia.dataFim.toISOString().split('T')[0] : '' %>">
+    <button type="submit">Salvar</button>
+  </form>
+</div>
+
+<a href="/apoia/lista?aluno=<%= apoia.aluno._id %>">Voltar para lista de apoias</a>

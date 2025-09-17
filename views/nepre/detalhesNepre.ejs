@@ -1,0 +1,20 @@
+<%- include('../tela') %>
+
+<h1>Detalhes do Nepre</h1>
+
+<div>
+  <p><strong>Descrição:</strong> <%= nepre.descricao %></p>
+  <p><strong>Data Início:</strong> <%= nepre.dataInicio ? nepre.dataInicio.toLocaleDateString('pt-BR') : '' %></p>
+  
+  <!-- Data Fim atual -->
+  <p><strong>Data Fim:</strong> <%= nepre.dataFim ? nepre.dataFim.toLocaleDateString('pt-BR') : '' %></p>
+  
+  <!-- Formulário para editar Data Fim -->
+  <form action="/nepre/editarDataFim/<%= nepre._id %>" method="POST">
+    <label for="dataFim">Alterar Data de Fim:</label>
+    <input type="date" id="dataFim" name="dataFim" value="<%= nepre.dataFim ? nepre.dataFim.toISOString().split('T')[0] : '' %>">
+    <button type="submit">Salvar</button>
+  </form>
+</div>
+
+<a href="/nepre/lista?aluno=<%= nepre.aluno._id %>">Voltar para lista de nepres</a>

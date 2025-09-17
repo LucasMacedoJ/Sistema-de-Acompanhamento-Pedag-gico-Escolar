@@ -1,6 +1,6 @@
 <%- include('../tela') %>
 
-<h1>Lista de apoias do Aluno</h1>
+<h1>Lista de nepres do Aluno</h1>
 
 <table>
   <thead>
@@ -12,13 +12,13 @@
     </tr>
   </thead>
   <tbody>
-    <% apoias.forEach(function(apoia) { %>
+    <% nepres.forEach(function(nepre) { %>
       <tr>
-        <td><%= apoia.descricao %></td> 
-        <td><%= apoia.dataInicio ? apoia.dataInicio.toLocaleDateString('pt-BR') : '' %></td>
-        <td><%= apoia.dataFim ? apoia.dataFim.toLocaleDateString('pt-BR') : '' %></td>
+        <td><%= nepre.descricao %></td> 
+        <td><%= nepre.dataInicio ? nepre.dataInicio.toLocaleDateString('pt-BR') : '' %></td>
+        <td><%= nepre.dataFim ? nepre.dataFim.toLocaleDateString('pt-BR') : '' %></td>
         <td>
-          <a href="/apoia/detalhes/<%= apoia._id %>">
+          <a href="/nepre/detalhes/<%= nepre._id %>">
             <button>Detalhes</button>
           </a>
         </td>
