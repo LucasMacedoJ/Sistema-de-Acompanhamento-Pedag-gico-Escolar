@@ -29,7 +29,7 @@
   <tbody>
     <% alunos.forEach(function(aluno) { %>
       <tr>
-        <td><p><a href="/alunos/detalhes/<%= aluno._id %>"><%= aluno.nome %></a> <a href="/alunos/detalhes/<%= aluno._id %>"><%= aluno.sobrenome %></a></p></td>
+        <td><p><a href="/alunos/detalhes/<%= aluno._id %>" class="nome"><%= aluno.nome %></a> <a href="/alunos/detalhes/<%= aluno._id %>" class="nome"><%= aluno.sobrenome %></a></p></td>
         <td><%= aluno.turma && aluno.turma.nome ? aluno.turma.nome : '' %></td>
         <td><%= aluno.dataN ? aluno.dataN.toLocaleDateString('pt-BR') : '' %></td>
         <td><%= aluno.necesidadeE %></td>

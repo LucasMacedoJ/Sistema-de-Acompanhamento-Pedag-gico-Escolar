@@ -20,7 +20,7 @@
         <td><%= ocorrencia.data ? ocorrencia.data.toLocaleDateString('pt-BR') : '' %></td>
         <td><%= ocorrencia.descricao %></td>
         <td>
-          <a href="/ocorrencias/detalhes/<%= ocorrencia._id %>">Detalhes</a>
+          <a class="btn" href="/ocorrencias/detalhes/<%= ocorrencia._id %>">Detalhes</a>
         </td>
       </tr>
     <% }) %>
@@ -28,7 +28,7 @@
 </table>
 
 <% if (aluno) { %>
-  <a href="/alunos/detalhes/<%= aluno._id %>">Voltar para detalhes do aluno</a>
+  <a class="btn" href="/alunos/detalhes/<%= aluno._id %>">Voltar para detalhes do aluno</a>
 <% } else { %>
-  <a href="/alunos/">Voltar para lista de alunos</a>
+  <a class="btn" href="/alunos/">Voltar para lista de alunos</a>
 <% } %>

@@ -108,3 +108,8 @@ form button {
 form button:hover {
   color: #222; /* leve escurecido */
 }
+
+.nome{
+  text-decoration: none;
+  color: black;
+}

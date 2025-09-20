@@ -5,6 +5,6 @@
 <p>Descrição: <%= Ocorrencia.descricao %></p>
 <p>Data: <%= Ocorrencia.data.toLocaleDateString('pt-BR') %></p>
 
-<a href="/alunos/detalhes/<%= Ocorrencia.aluno._id %>">Voltar para detalhes do aluno</a>
-<br>
-<a href="/ocorrencias/listaOcorrencias">Ir para lista de ocorrências</a>
+<a class="btn" href="/alunos/detalhes/<%= Ocorrencia.aluno._id %>">Voltar para detalhes do aluno</a>
+
+<a class="btn" href="/ocorrencias/listaOcorrencias">Ir para lista de ocorrências</a>
