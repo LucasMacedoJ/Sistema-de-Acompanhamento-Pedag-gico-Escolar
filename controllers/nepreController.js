@@ -3,7 +3,7 @@ const Nepre = require('../models/nepre');
 // Formulário para criar nepre
 exports.novoNepreForm = (req, res) => {
   const alunoId = req.query.aluno;
-  res.render('nepre/novoNepre', { alunoId });
+  res.render('nepre/novo', { alunoId });
 };
 
 // Criar nepre
@@ -40,7 +40,7 @@ exports.listanepres = async (req, res) => {
   try {
     const alunoId = req.query.aluno;
     const nepres = await Nepre.find({ aluno: alunoId }).populate('aluno').lean();
-    res.render('nepre/listaNepre', { nepres, alunoId });
+    res.render('nepre/lista', { nepres, alunoId });
   } catch (err) {
     res.status(500).send('Erro ao buscar nepres: ' + err);
   }
@@ -53,7 +53,7 @@ exports.detalhesNepre = async (req, res) => {
     if (!nepre) {
       return res.status(404).send('nepre não encontrado');
     }
-    res.render('nepre/detalhesNepre', { nepre });
+    res.render('nepre/detalhes', { nepre });
   } catch (err) {
     res.status(500).send('Erro ao buscar detalhes do nepre: ' + err);
   }

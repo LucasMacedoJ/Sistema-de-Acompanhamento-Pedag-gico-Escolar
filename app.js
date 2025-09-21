@@ -44,6 +44,7 @@ const alunosRoutes = require('./routes/alunos');
 const ocorrenciasRoutes = require('./routes/ocorrencias');
 const turmasRoutes = require('./routes/turmas');
 const apoiaRoutes = require('./routes/apoia');
+const nepreRoutes = require('./routes/nepre');
 const usuariosRoutes = require('./routes/usuarios');
 const testeRoutes = require('./routes/teste');
 const erroRoutes = require('./routes/erro');
@@ -77,6 +78,8 @@ app.use('/alunos', requireLogin, alunosRoutes);
 app.use('/ocorrencias', requireLogin, ocorrenciasRoutes);
 app.use('/turmas', requireLogin, turmasRoutes);
 app.use('/apoia', requireLogin, apoiaRoutes);
+app.use('/nepre', requireLogin, nepreRoutes);
+
 
 // Rota inicial
 app.get('/', (req, res) => {
