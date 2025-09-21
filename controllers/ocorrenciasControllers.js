@@ -1,67 +1,84 @@
-const Ocorrencia = require('../models/ocorrencias'); // ajuste conforme o nome do arquivo do model
+const Ocorrencia = require('../models/ocorrencias'); // ajuste conforme o nome do model
 
 // Exibe o formulário de nova ocorrência
 exports.nova = (req, res) => {
-  res.render('ocorrencias/nova', { alunoId: req.query.aluno });
+  return res.render('ocorrencias/nova', { 
+    usuario: req.session.usuario || null,
+    alunoId: req.query.aluno || null 
+  });
 };
 
 // Cadastra uma nova ocorrência
 exports.cadastrar = async (req, res) => {
   try {
+    const { aluno, descricao, data } = req.body;
+
+    if (!descricao || !data) {
+      return res.render('ocorrencias/nova', { 
+        usuario: req.session.usuario || null,
+        alunoId: aluno || null,
+        erro: 'Preencha todos os campos obrigatórios.' 
+      });
+    }
+
     const novaOcorrencia = new Ocorrencia({
-      aluno: req.body.aluno,       // se houver relação com aluno
-      descricao: req.body.descricao,
-      data: req.body.data
+      aluno: aluno || null, 
+      descricao,
+      data
     });
 
     await novaOcorrencia.save();
-    res.render("ocorrencias/SUCESSO", { ocorrencia: novaOcorrencia });
+
+    return res.render('ocorrencias/sucesso', { 
+      usuario: req.session.usuario || null,
+      ocorrencia: novaOcorrencia 
+    });
   } catch (err) {
     console.error(err);
-    res.send("Erro ao salvar a Ocorrência: " + err.message);
+    return res.status(500).send("Erro ao salvar a Ocorrência: " + err.message);
   }
 };
 
-// Lista ocorrências (de todos ou de um aluno específico)
+// Lista ocorrências (todas ou de um aluno específico)
 exports.listaOcorrencias = async (req, res) => {
   const alunoId = req.query.aluno;
-  let ocorrencias = [];
-  let aluno = null;
-
   try {
     const filtro = alunoId ? { aluno: alunoId } : {};
-    ocorrencias = await Ocorrencia.find(filtro)
-      .populate('aluno') // só se houver referência a aluno no schema
+    const ocorrencias = await Ocorrencia.find(filtro)
+      .populate('aluno') // só se houver referência no schema
       .lean();
 
-    // Se houver alunoId e registros, pega o primeiro aluno
-    if (alunoId && ocorrencias.length > 0) {
-      aluno = ocorrencias[0].aluno;
-    }
+    const aluno = alunoId && ocorrencias.length > 0 ? ocorrencias[0].aluno : null;
 
-    res.render('ocorrencias/listaOcorrencias', { ocorrencias, aluno });
+    return res.render('ocorrencias/lista', { 
+      usuario: req.session.usuario || null,
+      ocorrencias, 
+      aluno 
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Erro ao buscar ocorrências: " + err.message);
+    return res.status(500).send("Erro ao buscar ocorrências: " + err.message);
   }
 };
 
 // Exibe os detalhes de uma ocorrência específica
 exports.detalhesOcorrencia = async (req, res) => {
-  const ocorrenciaId = req.params.id;
-
   try {
-    const ocorrencia = await Ocorrencia.findById(ocorrenciaId)
-      .populate('aluno') // só se houver referência a aluno
+    const { id } = req.params;
+    const ocorrencia = await Ocorrencia.findById(id)
+      .populate('aluno')
       .lean();
 
     if (!ocorrencia) {
       return res.status(404).send("Ocorrência não encontrada");
     }
 
-    res.render('ocorrencias/detalhesOcorrencias', { ocorrencia });
+    return res.render('ocorrencias/detalhes', { 
+      usuario: req.session.usuario || null,
+      ocorrencia 
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Erro ao buscar ocorrência: " + err.message);
+    return res.status(500).send("Erro ao buscar ocorrência: " + err.message);
   }
 };
