@@ -97,19 +97,24 @@ exports.toggleAtivo = async (req, res) => {
 exports.search = async (req, res) => {
   const query = req.query.q;
   try {
-    const alunos = await Aluno.find({
-      ativo: true,
-      $or: [
-        { nome: { $regex: query, $options: 'i' } },
-        { sobrenome: { $regex: query, $options: 'i' } },
-        { turma: { $regex: query, $options: 'i' } }
-      ]
-    }).lean();
-    res.render('alunos/lista', { alunos });
+    // traz aluno com turma populada
+    const alunos = await Aluno.find({ ativo: true })
+      .populate('turma')
+      .lean();
+
+    // filtra em memória (inclui turma.nome)
+    const resultados = alunos.filter(aluno =>
+      new RegExp(query, 'i').test(aluno.nome) ||
+      new RegExp(query, 'i').test(aluno.sobrenome) ||
+      (aluno.turma && new RegExp(query, 'i').test(aluno.turma.nome))
+    );
+
+    res.render('alunos/lista', { alunos: resultados });
   } catch (err) {
     res.send("Erro ao buscar alunos: " + err);
   }
 };
+
 
 exports.searchInativos = async (req, res) => {
   const query = req.query.q;
