@@ -119,19 +119,24 @@ exports.search = async (req, res) => {
 exports.searchInativos = async (req, res) => {
   const query = req.query.q;
   try {
-    const alunos = await Aluno.find({
-      ativo: false,
-      $or: [
-        { nome: { $regex: query, $options: 'i' } },
-        { sobrenome: { $regex: query, $options: 'i' } },
-        { turma: { $regex: query, $options: 'i' } }
-      ]
-    }).lean();
-    res.render('alunos/inativo', { alunos });
+    const alunos = await Aluno.find({ ativo: false })
+      .populate('turma') // carrega o objeto turma
+      .lean();
+
+    const regex = new RegExp(query, 'i');
+
+    const resultados = alunos.filter(aluno =>
+      regex.test(aluno.nome) ||
+      regex.test(aluno.sobrenome) ||
+      (aluno.turma && regex.test(aluno.turma.nome))
+    );
+
+    res.render('alunos/inativo', { alunos: resultados });
   } catch (err) {
     res.send("Erro ao buscar alunos inativos: " + err);
   }
 };
+
 
 exports.deletar = async (req, res) => {
   try {
