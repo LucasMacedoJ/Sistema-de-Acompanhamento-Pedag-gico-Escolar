@@ -18,8 +18,8 @@
         <td><%= nepre.dataInicio ? nepre.dataInicio.toLocaleDateString('pt-BR') : '' %></td>
         <td><%= nepre.dataFim ? nepre.dataFim.toLocaleDateString('pt-BR') : '' %></td>
         <td>
-          <a href="/nepre/detalhes/<%= nepre._id %>">
-            <button>Detalhes</button>
+          <a class="btn" href="/nepre/detalhes/<%= nepre._id %>">
+            Detalhes
           </a>
         </td>
       </tr>
@@ -27,4 +27,4 @@
   </tbody>
 </table>
 
-<a href="/alunos/detalhes/<%= alunoId %>">Voltar para detalhes do aluno</a>
+<a class="btn" href="/alunos/detalhes/<%= alunoId %>">Voltar para detalhes do aluno</a>
