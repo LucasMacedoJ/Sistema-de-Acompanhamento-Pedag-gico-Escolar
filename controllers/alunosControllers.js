@@ -86,13 +86,25 @@ exports.toggleAtivo = async (req, res) => {
   try {
     const aluno = await Aluno.findById(req.params.id);
     if (!aluno) return res.status(404).send("Usuário não encontrado");
+
+    // alterna ativo/inativo
     aluno.ativo = !aluno.ativo;
     await aluno.save();
-    res.redirect('/alunos');
+
+    // redireciona dependendo do novo status
+    if (aluno.ativo) {
+      // se ficou ativo, volta para lista de inativos
+      res.redirect('/alunos/inativo');
+    } else {
+      // se ficou inativo, vai para lista de ativos
+      res.redirect('/alunos/');
+    }
+
   } catch (err) {
     res.send("Erro ao alterar status: " + err);
   }
 };
+
 
 exports.search = async (req, res) => {
   const query = req.query.q;
