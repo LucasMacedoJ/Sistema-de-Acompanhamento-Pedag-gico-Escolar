@@ -1,11 +1,17 @@
 <%- include('../tela') %>
-
+<head>
+  <link rel="stylesheet" href="/css/turmas.css">
+</head>
+<body>
+  <div class="container">
 <h1>Lista de Turmas</h1>
 
-<ul>
+<ul class="ger">
   <% turmas.forEach(function(turma) { %>
-    <li><%= turma.nome %> - <%= turma.periodo %></li>
+    <li class="turmas"><%= turma.nome %> - <%= turma.periodo %></li>
   <% }) %>
 </ul>
 
 <a class="btn" href="/turmas/formulario">Cadastrar nova turma</a>
+  </div>
+</body>

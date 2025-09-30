@@ -1,0 +1,15 @@
+.turmas {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 10px;
+    border-color: grey;
+    border-style: solid;
+    background-color: white;
+}
+
+.ger{
+    display: flex;
+    justify-content: center;
+    flex-wrap:  wrap;         /* quebra para a linha de baixo */
+    gap: 10px;    
+}
