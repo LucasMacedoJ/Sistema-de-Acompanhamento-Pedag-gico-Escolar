@@ -1,63 +1,49 @@
 <%- include('../tela') %>
-
+<head>
+  <link rel="stylesheet" href="/css/cdetalhes.css">
+</head>
 
 <body>
   <div class="container">
-<h1>Detalhes do Aluno</h1>
-<ul>
-  <li><strong>Nome:</strong> <%= aluno.nome %></li>
-  <li><strong>Sobrenome:</strong> <%= aluno.sobrenome %></li>
-  <li><strong>Email:</strong> <%= aluno.email %></li>
-  <li><strong>Idade:</strong> <%= aluno.idade %></li>
-  <li><strong>País:</strong> <%= aluno.pais %></li>
-  <li><strong>Ativo:</strong> <%= aluno.ativo ? 'Sim' : 'Não' %></li>
-</ul>
+    <h1>Detalhes do Aluno</h1>
 
-<!-- Botão Nova Ocorrência -->
-<a class="btn" href="/ocorrencias/nova?aluno=<%= aluno._id %>">
-Nova Ocorrência
-</a>
+    <ul>
+      <li><strong>Nome:</strong> <%= aluno.nome %> <%= aluno.sobrenome %></li>
+      <li>
+        <strong>Idade:</strong> 
+        <% if (aluno.dataN) { %>
+          <% 
+            const hoje = new Date();
+            const nascimento = new Date(aluno.dataN);
+            let idade = hoje.getFullYear() - nascimento.getFullYear();
+            const m = hoje.getMonth() - nascimento.getMonth();
+            if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) {
+              idade--;
+            }
+          %>
+          <%= idade %> anos
+        <% } else { %>
+          —
+        <% } %>
+      </li>
+      <li><strong>Turma:</strong> <%= aluno.turma ? aluno.turma.nome : '—' %></li>
+      <li><strong>Responsável:</strong> <%= aluno.responsavel || '—' %></li>
+      <li><strong>Contato do Responsável:</strong> <%= aluno.contato || '—' %></li>
 
+      <!-- Necessidade Especial como texto -->
+      <li><strong>Necessidade Especial:</strong> <%= aluno.necessidadeE || '—' %></li>
 
+      <!-- Disciplinares como texto -->
+      <li><strong>Detalhes Disciplinares:</strong> <%= aluno.disciplinaD || '—' %></li>
 
-<!-- Botão Lista Ocorrências -->
-<a class="btn" href="/ocorrencias/lista?aluno=<%= aluno._id %>">
-  Lista de Ocorrências
-</a>
-<br>
+      <li><strong>Ativo:</strong> <%= aluno.ativo ? 'Sim' : 'Não' %></li>
+    </ul>
 
-
-<!-- Botão Novo apoia -->
-<a class="btn" href="/apoia/novo?aluno=<%= aluno._id %>">
-Novo apoia
-</a>
-
-
-
-<!-- 🔹 Novo botão Lista apoias -->
-<a class="btn" href="/apoia/lista?aluno=<%= aluno._id %>">
-  Lista de apoia
-</a>
-<br>
-
-
-<!-- Botão Novo nepre -->
-<a class="btn" href="/nepre/novo?aluno=<%= aluno._id %>">
-Novo nepre
-</a>
-  
-
-
-<!-- 🔹 Novo botão Lista nepres -->
-<a class="btn" href="/nepre/lista?aluno=<%= aluno._id %>">
-  Lista de nepre
-</a>
-<br>
-
-
-<!-- Voltar -->
-<a class="btn" href="/alunos/">
-Voltar para lista
-</a>
-</div>
+    <div class="botoes">
+      <a class="btn" href="/ocorrencias/nova?aluno=<%= aluno._id %>">Nova Ocorrência</a>
+      <a class="btn" href="/ocorrencias/lista?aluno=<%= aluno._id %>">Lista de Ocorrências</a>
+      <br>
+      <a class="btn" href="/alunos/">Voltar para lista</a>
+    </div>
+  </div>
 </body>

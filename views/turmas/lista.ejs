@@ -8,7 +8,11 @@
 
 <ul class="ger">
   <% turmas.forEach(function(turma) { %>
-    <li class="turmas"><%= turma.nome %> - <%= turma.periodo %></li>
+    <li class="turmas">
+      <a href="/turmas/detalhes/<%= turma._id %>">
+        <%= turma.nome %> - <%= turma.periodo %>
+      </a>
+    </li>
   <% }) %>
 </ul>
 

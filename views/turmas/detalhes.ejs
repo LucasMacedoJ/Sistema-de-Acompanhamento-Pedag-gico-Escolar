@@ -1,0 +1,11 @@
+<%- include('../tela') %>
+<h1>Turma: <%= turma.nome %> (<%= turma.periodo %>)</h1>
+<div class="container">
+  <h2>Alunos vinculados:</h2>
+  <ul>
+    <% alunos.forEach(function(aluno) { %>
+      <li><%= aluno.nome %> <%= aluno.sobrenome %></li>
+    <% }) %>
+  </ul>
+  <a class="btn" href="/turmas/lista">Voltar para lista de turmas</a>
+</div>

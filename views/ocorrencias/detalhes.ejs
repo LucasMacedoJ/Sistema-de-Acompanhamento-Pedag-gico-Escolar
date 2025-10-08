@@ -1,7 +1,7 @@
 <%- include('../tela') %>
 
 <h1>Detalhes da ocorrência de <%= ocorrencia.aluno ? ocorrencia.aluno.nome : 'Aluno não informado' %></h1>
-
+  <div class="container">
 <ul>
   <li>Data: <%= ocorrencia.data ? ocorrencia.data.toLocaleDateString('pt-BR') : 'Data não informada' %></li>
   <li>Descrição: <%= ocorrencia.descricao %></li>
@@ -16,3 +16,4 @@
 <a href="/alunos/">
   <button>Voltar para lista</button>
 </a>
+</div>

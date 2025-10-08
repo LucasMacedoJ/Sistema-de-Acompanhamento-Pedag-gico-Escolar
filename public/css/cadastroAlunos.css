@@ -1,0 +1,19 @@
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* duas colunas iguais */
+  gap: 20px 5%; /* espaço entre linhas e colunas */
+
+  width: 80%;        /* largura do formulário em relação à tela */
+  max-width: 100%;   /* nunca passa de 100% */
+  margin: 0 auto;    /* centraliza horizontalmente */
+}
+
+form label,
+form input {
+  width: 100%;        /* cada campo ocupa toda a célula */
+  box-sizing: border-box;
+}
+
+form textarea{
+    width: 100%;
+}

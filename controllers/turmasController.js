@@ -1,4 +1,5 @@
 const Turma = require('../models/turma');
+const Aluno = require('../models/alunos');
 
 // Renderiza o formulário de aluno com turmas
 const renderFormularioAluno = async (req, res) => {
@@ -40,10 +41,24 @@ const lista = async (req, res) => {
   }
 };
 
+// Detalhes da turma com alunos vinculados
+const detalhesTurma = async (req, res) => {
+  try {
+    const turma = await Turma.findById(req.params.id).lean();
+    if (!turma) return res.status(404).send('Turma não encontrada');
+    const alunos = await Aluno.find({ turma: turma._id }).lean();
+    res.render('turmas/detalhes', { turma, alunos });
+  } catch (err) {
+    res.status(500).send('Erro ao buscar detalhes da turma');
+  }
+};
+
+
 // Exporta todos os métodos corretamente
 module.exports = {
   renderFormularioAluno,
   formularioTurma,
   cadastrar,
-  lista
+  lista,
+  detalhesTurma
 };

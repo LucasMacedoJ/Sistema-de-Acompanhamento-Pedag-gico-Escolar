@@ -2,12 +2,15 @@ body {
   font-family: Arial, sans-serif;
   background-color: aliceblue;
 }
-
 .container {
-  width: 80%;       /* controla largura do conteúdo */
-  max-width: 1200px; /* limite para não ficar gigante */
-  margin: 0 auto;   /* centraliza horizontalmente */
-  padding-bottom: 50px; /* espaço embaixo pro footer */
+  width: 80%;            /* ocupa 80% da tela */
+  max-width: 80%;     /* limite em telas grandes */
+  margin-left: auto;     /* centraliza */
+  margin-right: auto;    /* centraliza */
+  padding-bottom: 5%;    /* espaço embaixo responsivo */
+  display: flex;         
+  flex-direction: column;
+  align-items: center;   /* centraliza também o conteúdo interno */
 }
 
 h1 {
@@ -35,8 +38,6 @@ h1 {
 
 /* Campos de input */ 
 input { 
-  width: 100%; 
-  max-width: 300px; /* limite opcional p/ não ficar gigante */ 
   padding: 10px; 
   margin: 5px 0; 
   border: 1px solid #ccc; 
@@ -44,22 +45,28 @@ input {
   display: block; 
 } 
 
+.botoes {
+    display: flex;
+    justify-content: center;  /* centraliza horizontalmente */
+    align-items: center;      /* centraliza verticalmente (se precisar) */
+    flex-wrap: wrap;          /* permite quebrar linha */
+    gap: 10px;                /* espaço entre botões */
+}
+
+
 /* Botão */ 
   button, a.btn { 
-    display: flex; 
+    display: inline-block; 
     padding: 8px 14px; 
     background: #004aad; 
     color: #f3f5f7; 
     border-radius: 4px; 
     border: none; 
-    border-color: #004aad;
     font-size: 14px; 
     cursor: pointer; 
-    margin: 10px auto; 
+    margin: 10px 0;
     text-decoration: none; 
-    transition: background 0.2s; 
-    justify-content: center;
-    width: fit-content;
+    transition: background 0.2s;
   } 
   
 button:hover, a.btn:hover {

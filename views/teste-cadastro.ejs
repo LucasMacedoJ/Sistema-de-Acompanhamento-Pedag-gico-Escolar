@@ -4,12 +4,12 @@
 <link rel="stylesheet" href="/css/login.css">
 
 <h1>Cadastro de Usuário (Teste)</h1>
-
+<div class="container">
 <% if (erro) { %>
   <p style="color:red"><%= erro %></p>
 <% } %>
 
-<form action="/teste" method="POST">
+<form action="/teste" method="POST" >
   <label for="email">Email:</label>
   <input type="email" name="email" id="email" required>
   <br>
@@ -27,3 +27,4 @@
 
   <button type="submit">Cadastrar</button>
 </form>
+</div>

@@ -5,6 +5,7 @@ const turmasController = require('../controllers/turmasController');
 router.get('/formulario', turmasController.formularioTurma);
 router.post('/cadastrar', turmasController.cadastrar);
 router.get('/lista', turmasController.lista);
+router.get('/detalhes/:id', turmasController.detalhesTurma);
 
 module.exports = router;
  

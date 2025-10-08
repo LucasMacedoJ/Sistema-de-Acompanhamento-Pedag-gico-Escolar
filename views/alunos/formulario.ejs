@@ -1,89 +1,106 @@
 <%- include('../tela') %>
-
-
+<head>
+  <link rel="stylesheet" href="/css/cadastroAlunos.css">
+</head>
+<!--Pode separa por tipo de informação quando for fazer o css-->
 <body>
   <div class="container">
-<h1>Cadastro de Aluno</h1>
+    <h1>Cadastro de Aluno</h1>
 
-<form action="/alunos/cadastrar" method="POST">
-  <div>
-    <label for="nome">Nome:</label>
-    <input type="text" name="nome" id="nome" required>
+    <form action="/alunos/cadastrar" method="POST">
+      
+      <!-- Nome e Sobrenome -->
+      <div>
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome" required>
+      </div>
+
+      <div>
+        <label for="sobrenome">Sobrenome:</label>
+        <input type="text" name="sobrenome" id="sobrenome" required>
+      </div>
+
+      <!-- Turma -->
+      <div>
+        <label for="turma">Turma:</label>
+        <select name="turma" id="turma" required>
+          <option value="" disabled selected>Selecione uma turma</option>
+          <% turmas.forEach(function(turma) { %>
+            <option value="<%= turma._id %>"><%= turma.nome %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <!-- Data de nascimento -->
+      <div>
+        <label for="dataN">Data de Nascimento:</label>
+        <input type="date" name="dataN" id="dataN" required>
+      </div>
+
+      <!-- Necessidade Especial -->
+      <div>
+        <label for="necessidadeE">Necessidades especiais:</label>
+        <input type="text" name="necessidadeE" id="necessidadeE" placeholder="Ex: TDAH, Dislexia">
+      </div>
+
+      <!-- Problema de Saúde -->
+      <div>
+        <label for="problemaSaude">Problema de saúde:</label>
+        <input type="text" name="problemaSaude" id="problemaSaude" placeholder="Se houver">
+      </div>
+
+      <!-- Problema Disciplinar -->
+      <div>
+        <label for="disciplinaD">Problema disciplinar:</label>
+        <input type="text" name="disciplinaD" id="disciplinaD" placeholder="Se houver">
+      </div>
+
+      <!-- Transferência -->
+      <div>
+        <label for="transferenciaOnde">Transferência de onde:</label>
+        <input type="text" name="transferenciaOnde" id="transferenciaOnde" placeholder="Nome da escola anterior">
+      </div>
+
+      <div>
+        <label for="transferenciaD">Descrição da transferência:</label>
+        <input type="text" name="transferenciaD" id="transferenciaD" placeholder="Motivo ou detalhes">
+      </div>
+
+      <!-- Responsável -->
+      <div>
+        <label for="responsavelNome">Nome do Responsável:</label>
+        <input type="text" name="responsavelNome" id="responsavelNome" required>
+      </div>
+
+      <div>
+        <label for="responsavelContato">Contato do Responsável:</label>
+        <input type="text" name="responsavelContato" id="responsavelContato" required>
+      </div>
+
+      <!-- Segundo Professor -->
+      <div>
+        <label for="segundoProfessor">Segundo Professor:</label>
+        <input type="checkbox" name="segundoProfessor" id="segundoProfessor">
+      </div>
+
+      <div>
+        <label for="segundoProfessorNome">Nome do Segundo Professor:</label>
+        <input type="text" name="segundoProfessorNome" id="segundoProfessorNome" placeholder="Se houver">
+      </div>
+
+      <!-- Observação -->
+      <div>
+        <label for="observacao">Observação:</label>
+        <br>
+        <textarea class="ctexto" name="observacao" id="observacao" rows="4" cols="50" placeholder="Digite observações adicionais"></textarea>
+      </div>
+
+      <!-- Botões -->
+      <div class="botoes">
+        <button type="submit">Cadastrar</button>
+        <a class="btn" href="/alunos/">Voltar para a lista de alunos</a>
+      </div>
+      
+    </form>
   </div>
-
-  <div>
-    <label for="sobrenome">Sobrenome:</label>
-    <input type="text" name="sobrenome" id="sobrenome" required>
-  </div>
-
-  <div>
-    <label for="turma">Turma:</label>
-    <select name="turma" id="turma" required>
-      <option value="" disabled selected>Selecione uma turma</option>
-      <% turmas.forEach(function(turma) { %>
-        <option value="<%= turma._id %>"><%= turma.nome %></option>
-      <% }) %>
-    </select>
-  </div>
-
-  <div>
-    <label for="dataN">Data de Nascimento:</label>
-    <input type="date" name="dataN" id="dataN" required>
-  </div>
-
-  <div>
-    <label for="necesidadeE">Necessidades especiais:</label>
-    <input type="text" name="necesidadeE" id="necesidadeE">
-  </div>
-
-  <div>
-    <label for="problemaSaude">Problema de saúde:</label>
-    <input type="text" name="problemaSaude" id="problemaSaude">
-  </div>
-
-  <div>
-    <label for="apoia">APOIA</label>
-    <input type="checkbox" name="apoia" id="apoia">
-    <br>
-    <label for="nepre">NEPRE</label>
-    <input type="checkbox" name="nepre" id="nepre">
-  </div>
-
-  <div>
-    <label for="disiplinarD">Problema disciplinar:</label>
-    <input type="text" name="disiplinarD" id="disiplinarD">
-  </div>
-
-  <div>
-    <label for="trasfenciaOnde">Transferência de onde:</label>
-    <input type="text" name="trasfenciaOnde" id="trasfenciaOnde">
-  </div>
-
-  <div>
-    <label for="trasferenciaD">Descrição da transferência:</label>
-    <input type="text" name="trasferenciaD" id="trasferenciaD">
-  </div>
-
-  <div>
-    <label for="segundoProfessor">Segundo Professor:</label>
-    <input type="checkbox" name="segundoProfessor" id="segundoProfessor">
-  </div>
-
-  <div>
-    <label for="segundoProfessorNome">Nome de segundo professor:</label>
-    <input type="text" name="segundoProfessorNome" id="segundoProfessorNome">
-  </div>
-
-  <div>
-    <label for="observacao">Observação:</label>
-    <textarea class="ctexto" name="observacao" id="observacao" rows="4" cols="50"></textarea>
-  </div>
-
-  <div>
-    <button type="submit">Cadastrar</button>
-    <a class="btn" href="/alunos/">Voltar para a lista de alunos</a>
-  </div>
-</form>
-
-</div>
 </body>

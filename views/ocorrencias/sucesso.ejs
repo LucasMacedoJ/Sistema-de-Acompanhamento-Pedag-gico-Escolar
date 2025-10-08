@@ -2,9 +2,43 @@
 
 <h1>Ocorrência cadastrada com sucesso!</h1>
 
-<p>Descrição: <%= Ocorrencia.descricao %></p>
-<p>Data: <%= Ocorrencia.data.toLocaleDateString('pt-BR') %></p>
+<div class="container">
+  <p><strong>Descrição:</strong> <%= ocorrencia.descricao %></p>
+  <p><strong>Tipo:</strong> <%= ocorrencia.tipo %></p>
+  <p><strong>Responsável:</strong> <%= ocorrencia.responsavel %></p>
+  <p><strong>Data:</strong> 
+    <%= ocorrencia.dataAbertura 
+      ? new Date(ocorrencia.dataAbertura).toLocaleDateString('pt-BR') 
+      : '—' %>
+  </p>
 
-<a class="btn" href="/alunos/detalhes/<%= Ocorrencia.aluno._id %>">Voltar para detalhes do aluno</a>
+  <% if (ocorrencia.aluno) { %>
+    <a class="btn" href="/alunos/detalhes/<%= ocorrencia.aluno._id %>">Voltar para detalhes do aluno</a>
+  <% } else { %>
+    <a class="btn" href="/alunos/">Voltar para lista de alunos</a>
+  <% } %>
+</div>
 
-<a class="btn" href="/ocorrencias/listaOcorrencias">Ir para lista de ocorrências</a>
+<style>
+  .container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 10px;
+    background: #007bff;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background: #0056b3;
+  }
+</style>
