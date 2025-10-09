@@ -16,32 +16,39 @@ thead tr {
 }
 
 /* Linha de aluno em grid igual ao cabeçalho */
+tbody {
+  display: block;
+  background-color: aliceblue;
+  margin: 20px;
+  border: 10px solid #76aadb;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+}
+
 tbody tr {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr auto;
   align-items: center;
-  background-color: #76aadb;
+  box-shadow: 2px 2px 4px black;
   margin: 10px;
   border-radius: 12px;
   padding: 12px;
-  box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
   color: black;
   font-weight: bold;
   gap: 10px;
 }
 
-/* Células normais */
 tbody tr td {
-  padding: 6px;
-  border: none;
   display: flex;
   align-items: center;
+  padding-left: 30%;
+  
 }
 
 /* Última célula (botões) */
 tbody tr td:last-child {
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
 }
 
@@ -63,7 +70,8 @@ tbody tr td a.btn:hover {
 }
 
 /* Centraliza o formulário de busca */
-form {
+.busca{
+  background-color: aliceblue;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,6 +79,9 @@ form {
   margin: 20px auto; /* centraliza no container */
   width: 60%; /* controla largura */
   padding: 8px 12px;
+  position: sticky;
+  top: 40px;
+  border-radius: 10px;
 }
 
 /* Input ocupa espaço flexível */
