@@ -31,9 +31,9 @@ h1 {
   padding: 5px 10px;
   font-size: 14px;
   position: fixed;
-  bottom: 0;
+  bottom: 0;     /* gruda no fundo da tela */
   left: 0;
-  width: 100%;
+  width: 100%;   /* ocupa toda a largura */
 }
 
 /* Campos de input */ 
@@ -58,8 +58,8 @@ input {
   button, a.btn { 
     display: inline-block; 
     padding: 8px 14px; 
-    background: #004aad; 
-    color: #f3f5f7; 
+    background: #4a90e2; 
+    color: white;
     border-radius: 4px; 
     border: none; 
     font-size: 14px; 
@@ -70,7 +70,7 @@ input {
   } 
   
 button:hover, a.btn:hover {
-  background: #003080; 
+  background: #357ab8; 
 }
 
 /* Caixa central */

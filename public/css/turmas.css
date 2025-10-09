@@ -13,3 +13,8 @@
     flex-wrap:  wrap;         /* quebra para a linha de baixo */
     gap: 10px;    
 }
+
+.nome{
+  text-decoration: none;
+  color: black;
+}
