@@ -52,7 +52,7 @@ const erroRoutes = require('./routes/erro');
 // Middleware para proteger rotas
 function requireLogin(req, res, next) {
   if (!req.session.usuario) {
-    return res.redirect('/login');
+    return res.redirect('/login');  
   }
   next();
 }

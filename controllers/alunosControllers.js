@@ -1,6 +1,42 @@
+const path = require('path');
+const fs = require('fs');
+const sharp = require('sharp');
+const multer = require('multer');
 const Aluno = require('../models/alunos');
 const Turma = require('../models/turma');
 
+// =============================
+// 📸 CONFIGURAÇÃO DO UPLOAD
+// =============================
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, '../public/uploads/alunos');
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `${Date.now()}-${file.fieldname}${ext}`);
+  }
+});
+
+exports.upload = multer({ storage });
+
+// =============================
+// 🖼 Função helper para processar foto
+// =============================
+async function processarFoto(file) {
+  const outputPath = path.join('alunos', `resized-${file.filename}`).replace(/\\/g, '/'); // força barra normal
+  await sharp(file.path)
+    .resize(300, 300)
+    .toFile(path.join('public', 'uploads', 'alunos', `resized-${file.filename}`));
+  fs.unlinkSync(file.path);
+  return outputPath; // salva só 'alunos/resized-...'
+}
+
+// =============================
+// 📋 FORMULÁRIO DE CADASTRO
+// =============================
 exports.formulario = async (req, res) => {
   try {
     const turmas = await Turma.find();
@@ -11,34 +47,50 @@ exports.formulario = async (req, res) => {
   }
 };
 
+// =============================
+// 🧩 CADASTRAR ALUNO
+// =============================
 exports.cadastrar = async (req, res) => {
   try {
+    // Validação básica
+    if (!req.body.nome || !req.body.sobrenome) {
+      return res.status(400).send("Nome e sobrenome são obrigatórios");
+    }
+
+    let fotoPath = null;
+    if (req.file) {
+      fotoPath = await processarFoto(req.file);
+    }
+
     const novoAluno = new Aluno({
       nome: req.body.nome,
       sobrenome: req.body.sobrenome,
-      turma: req.body.turma,
       dataN: req.body.dataN,
-      necessidade: req.body.necessidade === "on",
-      necesidadeE: req.body.necesidadeE,
+      turma: req.body.turma,
+      necessidadeE: req.body.necessidadeE,
       problemaSaude: req.body.problemaSaude,
-      apoia: req.body.apoia === "on",
-      nepre: req.body.nepre === "on",
-      disiplinar: req.body.disiplinar === "on",
-      disciplinaD: req.body.disiplinarD,
-      traferencia: req.body.traferencia === "on",
-      traferenciaD: req.body.trasferenciaD,
-      traferenciaOnde: req.body.trasfenciaOnde,
+      disciplinaD: req.body.disciplinaD,
+      transferenciaOnde: req.body.transferenciaOnde,
+      transferenciaD: req.body.transferenciaD,
+      responsavelNome: req.body.responsavelNome,
+      responsavelContato: req.body.responsavelContato,
       segundoProfessor: req.body.segundoProfessor === "on",
       segundoProfessorNome: req.body.segundoProfessorNome,
-      observacao: req.body.observacao
+      observacao: req.body.observacao,
+      foto: fotoPath
     });
+
     await novoAluno.save();
     res.redirect('/alunos');
   } catch (err) {
-    res.send("erro ao salvar o aluno:" + err);
+    console.error("Erro ao salvar o aluno:", err);
+    res.status(500).send("Erro ao salvar o aluno: " + err.message);
   }
 };
 
+// =============================
+// 📃 LISTAR ATIVOS
+// =============================
 exports.lista = async (req, res) => {
   try {
     const alunos = await Aluno.find({ ativo: true }).populate('turma').lean();
@@ -48,78 +100,96 @@ exports.lista = async (req, res) => {
   }
 };
 
+// =============================
+// 💤 LISTAR INATIVOS
+// =============================
 exports.inativo = async (req, res) => {
   try {
-    const alunosInativos = await Aluno.find({ ativo: false }).lean();
+    const alunosInativos = await Aluno.find({ ativo: false }).populate('turma').lean();
     res.render('alunos/inativo', { alunos: alunosInativos });
   } catch (err) {
     res.send("Erro ao listar alunos inativos: " + err);
   }
 };
 
+// =============================
+// ✏️ EDITAR FORMULÁRIO
+// =============================
 exports.editarForm = async (req, res) => {
   try {
     const aluno = await Aluno.findById(req.params.id).lean();
-    if (!aluno) return res.status(404).send("aluno não encontrado");
-    res.render('alunos/editar', { aluno });
+    if (!aluno) return res.status(404).send("Aluno não encontrado");
+    const turmas = await Turma.find();
+    res.render('alunos/editar', { aluno, turmas });
   } catch (err) {
-    res.send("Erro ao buscar usuário: " + err);
+    res.send("Erro ao buscar aluno: " + err);
   }
 };
 
+// =============================
+// 🔄 ATUALIZAR ALUNO
+// =============================
 exports.editar = async (req, res) => {
   try {
-    await Aluno.findByIdAndUpdate(req.params.id, {
+    const updateData = {
       nome: req.body.nome,
       sobrenome: req.body.sobrenome,
-      email: req.body.email,
-      idade: req.body.idade,
-      pais: req.body.pais
-    });
+      dataN: req.body.dataN,
+      turma: req.body.turma,
+      necessidadeE: req.body.necessidadeE,
+      problemaSaude: req.body.problemaSaude,
+      disciplinaD: req.body.disciplinaD,
+      transferenciaOnde: req.body.transferenciaOnde,
+      transferenciaD: req.body.transferenciaD,
+      responsavelNome: req.body.responsavelNome,
+      responsavelContato: req.body.responsavelContato,
+      segundoProfessor: req.body.segundoProfessor === "on",
+      segundoProfessorNome: req.body.segundoProfessorNome,
+      observacao: req.body.observacao
+    };
+
+    if (req.file) {
+      updateData.foto = await processarFoto(req.file);
+    }
+
+    await Aluno.findByIdAndUpdate(req.params.id, updateData);
     res.redirect('/alunos');
   } catch (err) {
-    res.send("Erro ao editar alunos: " + err);
+    res.status(500).send("Erro ao editar aluno: " + err.message);
   }
 };
 
+// =============================
+// 🔁 ATIVAR/DESATIVAR
+// =============================
 exports.toggleAtivo = async (req, res) => {
   try {
     const aluno = await Aluno.findById(req.params.id);
-    if (!aluno) return res.status(404).send("Usuário não encontrado");
+    if (!aluno) return res.status(404).send("Aluno não encontrado");
 
-    // alterna ativo/inativo
     aluno.ativo = !aluno.ativo;
     await aluno.save();
 
-    // redireciona dependendo do novo status
-    if (aluno.ativo) {
-      // se ficou ativo, volta para lista de inativos
-      res.redirect('/alunos/inativo');
-    } else {
-      // se ficou inativo, vai para lista de ativos
-      res.redirect('/alunos/');
-    }
-
+    // Corrigido: se ativo, volta para lista de ativos; se inativo, para lista de inativos
+    res.redirect(aluno.ativo ? '/alunos' : '/alunos/inativo');
   } catch (err) {
     res.send("Erro ao alterar status: " + err);
   }
 };
 
-
+// =============================
+// 🔍 BUSCA
+// =============================
 exports.search = async (req, res) => {
   const query = req.query.q;
   try {
-    // traz aluno com turma populada
-    const alunos = await Aluno.find({ ativo: true })
-      .populate('turma')
-      .lean();
-
-    // filtra em memória (inclui turma.nome)
-    const resultados = alunos.filter(aluno =>
-      new RegExp(query, 'i').test(aluno.nome) ||
-      new RegExp(query, 'i').test(aluno.sobrenome) ||
-      (aluno.turma && new RegExp(query, 'i').test(aluno.turma.nome))
-    );
+    const resultados = await Aluno.find({
+      ativo: true,
+      $or: [
+        { nome: { $regex: query, $options: 'i' } },
+        { sobrenome: { $regex: query, $options: 'i' } }
+      ]
+    }).populate('turma').lean();
 
     res.render('alunos/lista', { alunos: resultados });
   } catch (err) {
@@ -127,21 +197,19 @@ exports.search = async (req, res) => {
   }
 };
 
-
+// =============================
+// 🔍 BUSCA INATIVOS
+// =============================
 exports.searchInativos = async (req, res) => {
   const query = req.query.q;
   try {
-    const alunos = await Aluno.find({ ativo: false })
-      .populate('turma') // carrega o objeto turma
-      .lean();
-
-    const regex = new RegExp(query, 'i');
-
-    const resultados = alunos.filter(aluno =>
-      regex.test(aluno.nome) ||
-      regex.test(aluno.sobrenome) ||
-      (aluno.turma && regex.test(aluno.turma.nome))
-    );
+    const resultados = await Aluno.find({
+      ativo: false,
+      $or: [
+        { nome: { $regex: query, $options: 'i' } },
+        { sobrenome: { $regex: query, $options: 'i' } }
+      ]
+    }).populate('turma').lean();
 
     res.render('alunos/inativo', { alunos: resultados });
   } catch (err) {
@@ -149,7 +217,9 @@ exports.searchInativos = async (req, res) => {
   }
 };
 
-
+// =============================
+// 🗑️ DELETAR
+// =============================
 exports.deletar = async (req, res) => {
   try {
     await Aluno.findByIdAndDelete(req.params.id);
@@ -159,75 +229,15 @@ exports.deletar = async (req, res) => {
   }
 };
 
+// =============================
+// 🔎 DETALHES
+// =============================
 exports.detalhes = async (req, res) => {
-  try{
-    const aluno = await Aluno.findById(req.params.id).lean();
-    if (!aluno) return res.status(404).send("aluno não encontrado");
+  try {
+    const aluno = await Aluno.findById(req.params.id).populate('turma').lean();
+    if (!aluno) return res.status(404).send("Aluno não encontrado");
     res.render('alunos/detalhes', { aluno });
   } catch (err) {
     res.send("Erro ao buscar detalhes do aluno: " + err);
   }
 };
-
-exports.listarAlunos = async (req, res) => {
-  try {
-    const alunos = await Aluno.find().populate('turma');
-    res.render('alunos/lista', { alunos });
-  } catch (err) {
-    res.status(500).send('Erro ao listar alunos');
-  }
-};
-
-exports.formularioCadastro = (req, res) => {
-  res.render('alunos/formulario', { turmas: [] });
-};
-
-exports.cadastrarAluno = async (req, res) => {
-  const { nome, sobrenome, turma, dataN, necesidadE, problemaSaude, apoia, nepre, disiplinarD, trasfenciaOnde, trasferenciaD, segundoProfessor, segundoProfessorNome, observacao } = req.body;
-  
-  try {
-    await Aluno.create({ nome, sobrenome, turma, dataN, necesidadE, problemaSaude, apoia, nepre, disiplinarD, trasfenciaOnde, trasferenciaD, segundoProfessor, segundoProfessorNome, observacao });
-    res.redirect('/alunos/');
-  } catch (err) {
-    res.status(500).send('Erro ao cadastrar aluno');
-  }
-};
-
-exports.detalhesAluno = async (req, res) => {
-  try {
-    const aluno = await Aluno.findById(req.params.id).populate('turma');
-    res.render('alunos/detalhes', { aluno });
-  } catch (err) {
-    res.status(500).send('Erro ao buscar detalhes do aluno');
-  }
-};
-
-exports.editarAluno = async (req, res) => {
-  try {
-    const aluno = await Aluno.findById(req.params.id);
-    res.render('alunos/editar', { aluno });
-  } catch (err) {
-    res.status(500).send('Erro ao buscar aluno para edição');
-  }
-};
-
-exports.atualizarAluno = async (req, res) => {
-  const { nome, sobrenome, turma, dataN, necesidadE, problemaSaude, apoia, nepre, disiplinarD, trasfenciaOnde, trasferenciaD, segundoProfessor, segundoProfessorNome, observacao } = req.body;
-  
-  try {
-    await Aluno.findByIdAndUpdate(req.params.id, { nome, sobrenome, turma, dataN, necesidadE, problemaSaude, apoia, nepre, disiplinarD, trasfenciaOnde, trasferenciaD, segundoProfessor, segundoProfessorNome, observacao });
-    res.redirect('/alunos/');
-  } catch (err) {
-    res.status(500).send('Erro ao atualizar aluno');
-  }
-};
-
-// Remova ou comente a função de deletar:
-// exports.deletarAluno = async (req, res) => {
-//   try {
-//     await Aluno.findByIdAndDelete(req.params.id);
-//     res.redirect('/alunos/');
-//   } catch (err) {
-//     res.status(500).send('Erro ao excluir aluno');
-//   }
-// };

@@ -2,12 +2,13 @@
 <head>
   <link rel="stylesheet" href="/css/cadastroAlunos.css">
 </head>
-<!--Pode separa por tipo de informação quando for fazer o css-->
+
 <body>
   <div class="container">
     <h1>Cadastro de Aluno</h1>
 
-    <form action="/alunos/cadastrar" method="POST">
+    <!-- IMPORTANTE: precisa do enctype para enviar arquivo -->
+    <form action="/alunos/cadastrar" method="POST" enctype="multipart/form-data">
       
       <!-- Nome e Sobrenome -->
       <div>
@@ -35,6 +36,12 @@
       <div>
         <label for="dataN">Data de Nascimento:</label>
         <input type="date" name="dataN" id="dataN" required>
+      </div>
+
+      <!-- 📸 Foto do aluno -->
+      <div>
+        <label for="foto">Foto do Aluno:</label>
+        <input type="file" name="foto" id="foto" accept="image/*">
       </div>
 
       <!-- Necessidade Especial -->

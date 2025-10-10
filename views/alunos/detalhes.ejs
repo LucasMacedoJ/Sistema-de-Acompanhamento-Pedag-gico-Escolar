@@ -1,49 +1,65 @@
 <%- include('../tela') %>
-<head>
-  <link rel="stylesheet" href="/css/cdetalhes.css">
-</head>
 
-<body>
-  <div class="container">
-    <h1>Detalhes do Aluno</h1>
+  <head>
+    <link rel="stylesheet" href="/css/cdetalhes.css">
+  </head>
 
-    <ul>
-      <li><strong>Nome:</strong> <%= aluno.nome %> <%= aluno.sobrenome %></li>
-      <li>
-        <strong>Idade:</strong> 
-        <% if (aluno.dataN) { %>
-          <% 
-            const hoje = new Date();
-            const nascimento = new Date(aluno.dataN);
-            let idade = hoje.getFullYear() - nascimento.getFullYear();
-            const m = hoje.getMonth() - nascimento.getMonth();
-            if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) {
-              idade--;
-            }
-          %>
-          <%= idade %> anos
-        <% } else { %>
-          —
-        <% } %>
-      </li>
-      <li><strong>Turma:</strong> <%= aluno.turma ? aluno.turma.nome : '—' %></li>
-      <li><strong>Responsável:</strong> <%= aluno.responsavel || '—' %></li>
-      <li><strong>Contato do Responsável:</strong> <%= aluno.contato || '—' %></li>
+  <body>
+    <div class="container">
+      <h1>Detalhes do Aluno</h1>
 
-      <!-- Necessidade Especial como texto -->
-      <li><strong>Necessidade Especial:</strong> <%= aluno.necessidadeE || '—' %></li>
+      <!-- Foto do aluno -->
+      <div class="foto-aluno">
+        <% if (aluno.foto) { %>
+          <img src="/uploads/<%= aluno.foto %>" alt="Foto de <%= aluno.nome %>" width="150" height="150">
+          <% } else { %>
+            <!-- Imagem padrão quando não houver foto -->
+            <img src="/images/padrao.png" alt="Foto padrão" width="150" height="150">
+            <% } %>
+      </div>
 
-      <!-- Disciplinares como texto -->
-      <li><strong>Detalhes Disciplinares:</strong> <%= aluno.disciplinaD || '—' %></li>
 
-      <li><strong>Ativo:</strong> <%= aluno.ativo ? 'Sim' : 'Não' %></li>
-    </ul>
+      <ul>
+        <li><strong>Nome:</strong>
+          <%= aluno.nome %>
+            <%= aluno.sobrenome %>
+        </li>
+        <li>
+          <strong>Idade:</strong>
+          <% if (aluno.dataN) { %>
+            <% const hoje=new Date(); const nascimento=new Date(aluno.dataN); let idade=hoje.getFullYear() -
+              nascimento.getFullYear(); const m=hoje.getMonth() - nascimento.getMonth(); if (m < 0 || (m===0 &&
+              hoje.getDate() < nascimento.getDate())) { idade--; } %>
+              <%= idade %> anos
+                <% } else { %>
+                  —
+                  <% } %>
+        </li>
+        <li><strong>Turma:</strong>
+          <%= aluno.turma ? aluno.turma.nome : '—' %>
+        </li>
+        <li><strong>Responsável:</strong>
+          <%= aluno.responsavelNome || '—' %>
+        </li>
+        <li><strong>Contato do Responsável:</strong>
+          <%= aluno.responsavelContato || '—' %>
+        </li>
+        <li><strong>Necessidade Especial:</strong>
+          <%= aluno.necessidadeE || '—' %>
+        </li>
+        <li><strong>Detalhes Disciplinares:</strong>
+          <%= aluno.disciplinaD || '—' %>
+        </li>
+        <li><strong>Ativo:</strong>
+          <%= aluno.ativo ? 'Sim' : 'Não' %>
+        </li>
+      </ul>
 
-    <div class="botoes">
-      <a class="btn" href="/ocorrencias/nova?aluno=<%= aluno._id %>">Nova Ocorrência</a>
-      <a class="btn" href="/ocorrencias/lista?aluno=<%= aluno._id %>">Lista de Ocorrências</a>
-      <br>
-      <a class="btn" href="/alunos/">Voltar para lista</a>
+      <div class="botoes">
+        <a class="btn" href="/ocorrencias/nova?aluno=<%= aluno._id %>">Nova Ocorrência</a>
+        <a class="btn" href="/ocorrencias/lista?aluno=<%= aluno._id %>">Lista de Ocorrências</a>
+        <a class="btn" href="/alunos/editar/<%= aluno._id %>">Editar Aluno</a>
+        <a class="btn" href="/alunos">Voltar à Lista</a>
+      </div>
     </div>
-  </div>
-</body>
+  </body>

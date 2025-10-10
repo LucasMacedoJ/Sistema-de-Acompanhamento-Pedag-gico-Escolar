@@ -2,9 +2,17 @@ const express = require('express');
 const router = express.Router();
 const alunosController = require('../controllers/alunosControllers');
 
+// Formulário de cadastro
 router.get('/formulario', alunosController.formulario);
-router.post('/cadastrar', alunosController.cadastrar);
-router.get('/', alunosController.lista); // Corrigido aqui
+
+// Cadastro com upload de foto
+router.post('/cadastrar', alunosController.upload.single('foto'), alunosController.cadastrar);
+
+// Edição com upload
+router.post('/:id/editar', alunosController.upload.single('foto'), alunosController.editar);
+
+// Listagens
+router.get('/', alunosController.lista);
 router.get('/inativo', alunosController.inativo);
 router.get('/editar/:id', alunosController.editarForm);
 router.post('/editar/:id', alunosController.editar);
