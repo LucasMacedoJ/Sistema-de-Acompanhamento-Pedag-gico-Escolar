@@ -1,17 +1,27 @@
 .turmas { /* item */
     display: inline-block;
+    width: 20%;
+    margin: 10px;
     padding: 10px;
-    border-radius: 10px;
-    border-color: grey;
+    border-width: 5px;
+    border-radius: 20px;
+    border-color: #357ab8;
     border-style: solid;
-    background-color: white;
+    background-color: aliceblue;
+    text-align: center;
+
 }
 
 .ger{   /* geral */
     display: flex;
     justify-content: center;
     flex-wrap:  wrap;         /* quebra para a linha de baixo */
-    gap: 10px;    
+    gap: 10%;
+    border: #357ab8 solid 10px;
+    background-color: #7fb2e0;
+    border-radius: 30px;
+    padding: 10px;
+    vertical-align: middle;
 }
 
 .nome{
