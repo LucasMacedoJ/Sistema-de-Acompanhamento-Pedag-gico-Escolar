@@ -1,113 +1,127 @@
 <%- include('../tela') %>
-<head>
-  <link rel="stylesheet" href="/css/cadastroAlunos.css">
-</head>
 
-<body>
-  <div class="container">
-    <h1>Cadastro de Aluno</h1>
+  <head>
+    <link rel="stylesheet" href="/css/cadastroAlunos.css">
+  </head>
 
-    <!-- IMPORTANTE: precisa do enctype para enviar arquivo -->
-    <form action="/alunos/cadastrar" method="POST" enctype="multipart/form-data">
-      
-      <!-- Nome e Sobrenome -->
-      <div>
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" id="nome" required>
-      </div>
+  <body>
+    <div class="container">
+      <h1>Cadastro de Aluno</h1>
 
-      <div>
-        <label for="sobrenome">Sobrenome:</label>
-        <input type="text" name="sobrenome" id="sobrenome" required>
-      </div>
+      <!-- IMPORTANTE: precisa do enctype para enviar arquivo -->
+      <form action="/alunos/cadastrar" method="POST" enctype="multipart/form-data">
 
-      <!-- Turma -->
-      <div>
-        <label for="turma">Turma:</label>
-        <select name="turma" id="turma" required>
-          <option value="" disabled selected>Selecione uma turma</option>
-          <% turmas.forEach(function(turma) { %>
-            <option value="<%= turma._id %>"><%= turma.nome %></option>
-          <% }) %>
-        </select>
-      </div>
+        <!-- Nome e Sobrenome -->
+        <div>
+          <label for="nome">Nome:</label>
+          <input type="text" name="nome" id="nome" required>
+        </div>
 
-      <!-- Data de nascimento -->
-      <div>
-        <label for="dataN">Data de Nascimento:</label>
-        <input type="date" name="dataN" id="dataN" required>
-      </div>
+        <div>
+          <label for="sobrenome">Sobrenome:</label>
+          <input type="text" name="sobrenome" id="sobrenome" required>
+        </div>
 
-      <!-- 📸 Foto do aluno -->
-      <div>
-        <label for="foto">Foto do Aluno:</label>
-        <input type="file" name="foto" id="foto" accept="image/*">
-      </div>
+        <!-- Turma -->
+        <div>
+          <label for="turma">Turma:</label>
+          <select name="turma" id="turma" required>
+            <option value="" disabled selected>Selecione uma turma</option>
+            <% turmas.forEach(function(turma) { %>
+              <option value="<%= turma._id %>">
+                <%= turma.nome %>
+              </option>
+              <% }) %>
+          </select>
+        </div>
 
-      <!-- Necessidade Especial -->
-      <div>
-        <label for="necessidadeE">Necessidades especiais:</label>
-        <input type="text" name="necessidadeE" id="necessidadeE" placeholder="Ex: TDAH, Dislexia">
-      </div>
+        <!-- Data de nascimento -->
+        <div>
+          <label for="dataN">Data de Nascimento:</label>
+          <input type="date" name="dataN" id="dataN" required>
+        </div>
 
-      <!-- Problema de Saúde -->
-      <div>
-        <label for="problemaSaude">Problema de saúde:</label>
-        <input type="text" name="problemaSaude" id="problemaSaude" placeholder="Se houver">
-      </div>
+        <!-- 📸 Foto do aluno -->
+        <div>
+          <label for="foto">Foto do Aluno:</label>
+          <input type="file" name="foto" id="foto" accept="image/*">
+        </div>
 
-      <!-- Problema Disciplinar -->
-      <div>
-        <label for="disciplinaD">Problema disciplinar:</label>
-        <input type="text" name="disciplinaD" id="disciplinaD" placeholder="Se houver">
-      </div>
+        <!-- Necessidade Especial -->
+        <div>
+          <label for="necessidadeE">Necessidades especiais:</label>
+          <input type="text" name="necessidadeE" id="necessidadeE" placeholder="Ex: TDAH, Dislexia">
+        </div>
 
-      <!-- Transferência -->
-      <div>
-        <label for="transferenciaOnde">Transferência de onde:</label>
-        <input type="text" name="transferenciaOnde" id="transferenciaOnde" placeholder="Nome da escola anterior">
-      </div>
+        <!-- Problema de Saúde -->
+        <div>
+          <label for="problemaSaude">Problema de saúde:</label>
+          <input type="text" name="problemaSaude" id="problemaSaude" placeholder="Se houver">
+        </div>
 
-      <div>
-        <label for="transferenciaD">Descrição da transferência:</label>
-        <input type="text" name="transferenciaD" id="transferenciaD" placeholder="Motivo ou detalhes">
-      </div>
+        <!-- Problema Disciplinar -->
+        <div>
+          <label for="disciplinaD">Problema disciplinar:</label>
+          <input type="text" name="disciplinaD" id="disciplinaD" placeholder="Se houver">
+        </div>
 
-      <!-- Responsável -->
-      <div>
-        <label for="responsavelNome">Nome do Responsável:</label>
-        <input type="text" name="responsavelNome" id="responsavelNome" required>
-      </div>
+        <!-- Transferência -->
+        <div>
+          <label for="transferenciaOnde">Transferência de onde:</label>
+          <input type="text" name="transferenciaOnde" id="transferenciaOnde" placeholder="Nome da escola anterior">
+        </div>
 
-      <div>
-        <label for="responsavelContato">Contato do Responsável:</label>
-        <input type="text" name="responsavelContato" id="responsavelContato" required>
-      </div>
+        <div>
+          <label for="transferenciaD">Descrição da transferência:</label>
+          <input type="text" name="transferenciaD" id="transferenciaD" placeholder="Motivo ou detalhes">
+        </div>
 
-      <!-- Segundo Professor -->
-      <div>
-        <label for="segundoProfessor">Segundo Professor:</label>
-        <input type="checkbox" name="segundoProfessor" id="segundoProfessor">
-      </div>
+        <!-- Responsável -->
+        <div>
+          <label for="responsavelNome">Nome do Responsável:</label>
+          <input type="text" name="responsavelNome" id="responsavelNome" required>
+        </div>
 
-      <div>
-        <label for="segundoProfessorNome">Nome do Segundo Professor:</label>
-        <input type="text" name="segundoProfessorNome" id="segundoProfessorNome" placeholder="Se houver">
-      </div>
+        <div>
+          <label for="responsavelContato">Contato do Responsável:</label>
+          <input type="text" name="responsavelContato" id="responsavelContato" required>
+        </div>
 
-      <!-- Observação -->
-      <div>
-        <label for="observacao">Observação:</label>
-        <br>
-        <textarea class="ctexto" name="observacao" id="observacao" rows="4" cols="50" placeholder="Digite observações adicionais"></textarea>
-      </div>
+        <!-- Segundo Professor -->
+        <div>
+          <label for="segundoProfessor">Segundo Professor:</label>
+          <input type="checkbox" name="segundoProfessor" id="segundoProfessor">
+        </div>
 
-      <!-- Botões -->
-      <div class="botoes">
-        <button type="submit">Cadastrar</button>
-        <a class="btn" href="/alunos/">Voltar para a lista de alunos</a>
-      </div>
-      
-    </form>
-  </div>
-</body>
+        <div>
+          <label for="segundoProfessorNome">Nome do Segundo Professor:</label>
+          <input type="text" name="segundoProfessorNome" id="segundoProfessorNome" placeholder="Se houver">
+        </div>
+
+        <!-- Observação -->
+        <div>
+          <label for="observacao">Observação:</label>
+          <br>
+          <textarea class="ctexto" name="observacao" id="observacao" rows="4" cols="50"
+            placeholder="Digite observações adicionais"></textarea>
+        </div>
+
+        <!-- Botões -->
+        <div class="botoes">
+          <button type="submit">Cadastrar</button>
+          <a class="btn" href="/alunos/">Voltar para a lista de alunos</a>
+        </div>
+
+      </form>
+    </div>
+    <script src="https://unpkg.com/vanilla-masker/build/vanilla-masker.min.js"></script>
+    <script>
+      // Máscara para telefone (formato brasileiro)
+      const telInput = document.getElementById('responsavelContato');
+      if (telInput) {
+        telInput.addEventListener('input', function () {
+          VMasker(telInput).maskPattern('(99) 99999-9999');
+        });
+      }
+    </script>
+  </body>
