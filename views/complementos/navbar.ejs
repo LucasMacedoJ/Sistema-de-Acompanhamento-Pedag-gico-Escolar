@@ -5,6 +5,8 @@
   <ul>
     <li><a href="/alunos/">Alunos</a></li>
     <li><a href="/turmas/lista">Turmas</a></li>
-    <li><a href="/usuarios/lista">Usuários</a></li>
+    <% if (user && user.role==='admin' ) { %>
+      <li><a href="/usuarios/lista">Usuários</a></li>
+      <% } %>
   </ul>
 </nav>

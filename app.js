@@ -10,12 +10,12 @@ mongoose.connect('mongodb://localhost/sapebd', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => {
-  console.log("MongoDB conectado");
-})
-.catch((err) => {
-  console.log("Erro ao conectar: " + err);
-});
+  .then(() => {
+    console.log("MongoDB conectado");
+  })
+  .catch((err) => {
+    console.log("Erro ao conectar: " + err);
+  });
 
 // Middleware para ler dados de formulários
 app.use(express.urlencoded({ extended: true }));
@@ -29,6 +29,8 @@ app.use(session({
   cookie: {} // sessão expira ao fechar o navegador
 }));
 
+// ...existing code...
+
 // Diretório das views
 app.set('views', path.join(__dirname, 'views'));
 
@@ -37,6 +39,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Template engine
 app.set('view engine', 'ejs');
+
+
+// Middleware: disponibiliza o usuário da sessão para as views
+// e normaliza o campo `role` para compatibilidade com os templates.
+app.use((req, res, next) => {
+  const sessUser = req.session && req.session.usuario ? req.session.usuario : null;
+  if (sessUser) {
+    // copia os dados da sessão e garante que exista `role` usado nos templates
+    res.locals.user = Object.assign({}, sessUser, { role: sessUser.perfil || sessUser.role });
+    res.locals.isAdmin = (sessUser.perfil === 'admin' || sessUser.role === 'admin');
+  } else {
+    res.locals.user = null;
+    res.locals.isAdmin = false;
+  }
+  next();
+});
 
 // Importando as rotas
 const loginRoutes = require('./routes/login');
@@ -52,7 +70,7 @@ const erroRoutes = require('./routes/erro');
 // Middleware para proteger rotas
 function requireLogin(req, res, next) {
   if (!req.session.usuario) {
-    return res.redirect('/login');  
+    return res.redirect('/login');
   }
   next();
 }

@@ -1,50 +1,63 @@
 <%- include('../tela') %>
 
-<head>
-  <link rel="stylesheet" href="/css/listaAlunos.css">
-</head>
+  <head>
+    <link rel="stylesheet" href="/css/listaAlunos.css">
+  </head>
 
-<body>
-  <div class="container">
-<h1>Lista de Alunos Inativos</h1>
+  <body>
+    <div class="container">
+      <h1>Lista de Alunos Inativos</h1>
 
-<form action="/alunos/searchInativos" method="GET" class="busca">
-  <button type="submit">
-    <i class="fa fa-search" aria-hidden="true" style="font-size: 20px;"></i>
-  </button>
-  <input type="text" name="q" placeholder="Digite o nome, sobrenome ou turma">
-</form>
+      <form action="/alunos/searchInativos" method="GET" class="busca">
+        <button type="submit">
+          <i class="fa fa-search" aria-hidden="true" style="font-size: 20px;"></i>
+        </button>
+        <input type="text" name="q" placeholder="Digite o nome, sobrenome ou turma">
+      </form>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Sobrenome</th>
-      <th>Email</th>
-      <th>Idade</th>
-      <th>País</th>
-      <th>Ativo</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% alunos.forEach(function(aluno) { %>
-      <tr>
-        <td><%= aluno.nome %></td>
-        <td><%= aluno.sobrenome %></td>
-        <td><%= aluno.email %></td>
-        <td><%= aluno.idade %></td>
-        <td><%= aluno.pais %></td>
-        <td><%= aluno.ativo ? 'Ativo' : 'Inativo' %></td>
-        <td>
-          <a class="nome" href="/alunos/toggle-ativo/<%= aluno._id %>">Tornar Ativo</a>
-        </td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Sobrenome</th>
+            <th>Idade</th>
+            <th>Turma</th>
+            <th>Ativo</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% alunos.forEach(function(aluno) { %>
+            <tr>
+              <td>
+                <%= aluno.nome %>
+              </td>
+              <td>
+                <%= aluno.sobrenome %>
+              </td>
+              <td>
+                <% if (aluno.dataN) { const hoje=new Date(); const nascimento=new Date(aluno.dataN); let
+                  idade=hoje.getFullYear() - nascimento.getFullYear(); const m=hoje.getMonth() - nascimento.getMonth();
+                  if (m < 0 || (m===0 && hoje.getDate() < nascimento.getDate())) { idade--; } %>
+                  <%= idade %>
+                    <% } else { %>
+                      —
+                      <% } %>
+              </td>
+              <td>
+                <%= aluno.turma && aluno.turma.nome ? aluno.turma.nome : '—' %>
+              </td>
+              <td>
+                <%= aluno.ativo ? 'Ativo' : 'Inativo' %>
+              </td>
+              <td>
+                <a class="nome" href="/alunos/toggle-ativo/<%= aluno._id %>">Tornar Ativo</a>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
 
-
-<a class="btn" href="/alunos/">Voltar para a lista de Alunos</a>
-</div>
-</body>
+      <a class="btn" href="/alunos/">Voltar para a lista de Alunos</a>
+    </div>
+  </body>
