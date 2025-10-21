@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="/css/navbar.css">
+<h2>Meu perfil</h2>
+
+<div>
+    <p><strong>Nome:</strong>
+        <%= usuario.nome %>
+    </p>
+    <p><strong>Email:</strong>
+        <%= usuario.email %>
+    </p>
+
+    <div>
+        <p>Foto atual:</p>
+        <% if (usuario.avatar) { %>
+            <img src="<%= usuario.avatar %>" alt="avatar" style="width:120px;height:120px;border-radius:50%;">
+            <% } else { %>
+                <img src="/images/default-avatar.png" alt="sem avatar"
+                    style="width:120px;height:120px;border-radius:50%;">
+                <% } %>
+    </div>
+
+    <form action="/upload/upload" method="post" enctype="multipart/form-data">
+        <label>Escolher nova foto (jpg/png, até 2MB)</label>
+        <input type="file" name="avatar" accept="image/*" required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <form action="/upload/remover" method="post" style="margin-top:8px;">
+        <button type="submit">Remover foto</button>
+    </form>
+</div>

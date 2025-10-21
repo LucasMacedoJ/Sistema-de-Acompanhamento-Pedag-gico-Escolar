@@ -29,8 +29,6 @@ app.use(session({
   cookie: {} // sessão expira ao fechar o navegador
 }));
 
-// ...existing code...
-
 // Diretório das views
 app.set('views', path.join(__dirname, 'views'));
 
@@ -39,7 +37,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Template engine
 app.set('view engine', 'ejs');
-
 
 // Middleware: disponibiliza o usuário da sessão para as views
 // e normaliza o campo `role` para compatibilidade com os templates.
@@ -69,7 +66,7 @@ const erroRoutes = require('./routes/erro');
 
 // Middleware para proteger rotas
 function requireLogin(req, res, next) {
-  if (!req.session.usuario) {
+  if (!req.session || !req.session.usuario) {
     return res.redirect('/login');
   }
   next();
@@ -77,7 +74,7 @@ function requireLogin(req, res, next) {
 
 // Middleware para proteger rotas de admin
 function requireAdmin(req, res, next) {
-  if (!req.session.usuario || req.session.usuario.perfil !== 'admin') {
+  if (!req.session || !req.session.usuario || req.session.usuario.perfil !== 'admin') {
     return res.redirect('/erro');
   }
   next();
@@ -88,8 +85,8 @@ app.use('/erro', erroRoutes);
 app.use('/login', loginRoutes);
 app.use('/teste', testeRoutes); // Cadastro de usuário de teste sem login
 
-// Rotas de usuários (apenas admin pode acessar)
-app.use('/usuarios', requireLogin, requireAdmin, usuariosRoutes);
+// Monta /usuarios — routes/usuarios.js aplica requireLogin/requireAdmin conforme necessário
+app.use('/usuarios', usuariosRoutes);
 
 // Rotas protegidas para usuários autenticados
 app.use('/alunos', requireLogin, alunosRoutes);
@@ -97,7 +94,6 @@ app.use('/ocorrencias', requireLogin, ocorrenciasRoutes);
 app.use('/turmas', requireLogin, turmasRoutes);
 app.use('/apoia', requireLogin, apoiaRoutes);
 app.use('/nepre', requireLogin, nepreRoutes);
-
 
 // Rota inicial
 app.get('/', (req, res) => {

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Usuario = require('../models/usuario');
+const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 
 // Rota GET para exibir o formulário de teste de cadastro

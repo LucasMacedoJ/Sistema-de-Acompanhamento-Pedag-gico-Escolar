@@ -1,3 +1,4 @@
+// ...existing code...
 <link rel="stylesheet" href="/css/navbar.css">
 
 <nav id="navbar">
@@ -5,8 +6,27 @@
   <ul>
     <li><a href="/alunos/">Alunos</a></li>
     <li><a href="/turmas/lista">Turmas</a></li>
-    <% if (user && user.role==='admin' ) { %>
+    <% if (user && (user.role==='admin' || user.perfil==='admin' )) { %>
       <li><a href="/usuarios/lista">Usuários</a></li>
       <% } %>
   </ul>
+
+  <div id="user-info" style="display:flex;align-items:center;">
+    <% if (user) { %>
+      <a href="/usuarios/perfil" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+        <% if (user.avatar || user.foto) { %>
+          <img src="<%= user.avatar || user.foto %>" alt="avatar"
+            style="width:36px;height:36px;border-radius:50%;margin-right:8px;">
+          <% } else { %>
+            <img src="/images/default-avatar.png" alt="sem avatar"
+              style="width:36px;height:36px;border-radius:50%;margin-right:8px;">
+            <% } %>
+              <span>
+                <%= user.nome || user.email %>
+              </span>
+      </a>
+      <% } else { %>
+        <a href="/login">Entrar</a>
+        <% } %>
+  </div>
 </nav>

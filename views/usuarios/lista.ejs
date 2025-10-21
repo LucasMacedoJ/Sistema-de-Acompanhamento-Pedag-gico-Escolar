@@ -1,27 +1,59 @@
 <%- include('../tela') %>
 
-<head>
-  <link rel="stylesheet" href="/css/usuarios.css">
-</head>
+  <head>
+    <link rel="stylesheet" href="/css/usuarios.css">
+  </head>
 
-<h1>Lista de Usuários</h1>
+  <h1>Lista de Usuários</h1>
   <div class="container">
-<table>
-  <thead>
-    <tr>
-      <th>Email</th>
-      <th>Perfil</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% usuarios.forEach(function(usuario) { %>
-      <tr>
-        <td><%= usuario.email %></td>
-        <td><%= usuario.perfil %></td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+    <table>
+      <thead>
+        <tr>
+          <th>Avatar</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Perfil</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% usuarios.forEach(function(usuario) { %>
+          <tr>
+            <td>
+              <% if (usuario.avatar) { %>
+                <img src="<%= usuario.avatar %>" alt="avatar" style="width:40px;height:40px;border-radius:50%;">
+                <% } else { %>
+                  <img src="/images/default-avatar.png" alt="sem avatar"
+                    style="width:40px;height:40px;border-radius:50%;">
+                  <% } %>
+            </td>
+            <td>
+              <%= usuario.nome || '-' %>
+            </td>
+            <td>
+              <%= usuario.email %>
+            </td>
+            <td>
+              <%= usuario.perfil %>
+            </td>
+            <td>
+              <% if (user && (user.perfil==='admin' || String(user._id)===String(usuario._id))) { %>
+                <a class="btn" href="/usuarios/editar/<%= usuario._id %>">Editar</a>
+                <% } %>
 
-<a class="btn" href="/usuarios/novo">Cadastrar novo usuário</a>
-</div>
+                  <% if (user && user.perfil==='admin' ) { %>
+                    <form action="/usuarios/excluir/<%= usuario._id %>" method="POST" style="display:inline"
+                      onsubmit="return confirm('Confirma exclusão deste usuário?');">
+                      <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                    <% } %>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+
+    <% if (user && user.perfil==='admin' ) { %>
+      <a class="btn" href="/usuarios/novo" style="margin-top:1rem;display:inline-block;">Cadastrar novo usuário</a>
+      <% } %>
+  </div>
