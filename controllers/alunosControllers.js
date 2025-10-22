@@ -1,38 +1,6 @@
-const path = require('path');
-const fs = require('fs');
-const sharp = require('sharp');
-const multer = require('multer');
 const Aluno = require('../models/alunos');
 const Turma = require('../models/turma');
-
-// =============================
-// 📸 CONFIGURAÇÃO DO UPLOAD
-// =============================
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const dir = path.join(__dirname, '../public/uploads/alunos');
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `${Date.now()}-${file.fieldname}${ext}`);
-  }
-});
-
-exports.upload = multer({ storage });
-
-// =============================
-// 🖼 Função helper para processar foto
-// =============================
-async function processarFoto(file) {
-  const outputPath = path.join('alunos', `resized-${file.filename}`).replace(/\\/g, '/'); // força barra normal
-  await sharp(file.path)
-    .resize(300, 300)
-    .toFile(path.join('public', 'uploads', 'alunos', `resized-${file.filename}`));
-  fs.unlinkSync(file.path);
-  return outputPath; // salva só 'alunos/resized-...'
-}
+const { upload, processarFoto, removerFoto } = require('./fotoController');
 
 // =============================
 // 📋 FORMULÁRIO DE CADASTRO
@@ -52,7 +20,6 @@ exports.formulario = async (req, res) => {
 // =============================
 exports.cadastrar = async (req, res) => {
   try {
-    // Validação básica
     if (!req.body.nome || !req.body.sobrenome) {
       return res.status(400).send("Nome e sobrenome são obrigatórios");
     }
@@ -170,7 +137,6 @@ exports.toggleAtivo = async (req, res) => {
     aluno.ativo = !aluno.ativo;
     await aluno.save();
 
-    // Corrigido: se ativo, volta para lista de ativos; se inativo, para lista de inativos
     res.redirect(aluno.ativo ? '/alunos' : '/alunos/inativo');
   } catch (err) {
     res.send("Erro ao alterar status: " + err);

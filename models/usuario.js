@@ -6,17 +6,12 @@ const UsuarioSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   senha: String,
   perfil: String,
-  avatar: String,
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  foto: { type: String, default: null }
 });
 
-UsuarioSchema.methods.setSenha = async function (plain) {
-  const hash = await bcrypt.hash(plain, 10);
-  this.senha = hash;
-};
-
-// evita re-declarar o modelo se já foi compilado (corrige OverwriteModelError)
+// Evita o OverwriteModelError
 const Usuario = mongoose.models.Usuario || mongoose.model('Usuario', UsuarioSchema);
 
 module.exports = Usuario;

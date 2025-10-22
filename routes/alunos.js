@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const alunosController = require('../controllers/alunosControllers');
+const { uploadAlunos } = require('../controllers/fotoController'); // ✅ upload específico para alunos
 
 // Formulário de cadastro
 router.get('/formulario', alunosController.formulario);
 
 // Cadastro com upload de foto
-router.post('/cadastrar', alunosController.upload.single('foto'), alunosController.cadastrar);
+router.post('/cadastrar', uploadAlunos.single('foto'), alunosController.cadastrar);
 
 // Edição com upload
-router.post('/:id/editar', alunosController.upload.single('foto'), alunosController.editar);
+router.post('/:id/editar', uploadAlunos.single('foto'), alunosController.editar);
 
 // Listagens
 router.get('/', alunosController.lista);
