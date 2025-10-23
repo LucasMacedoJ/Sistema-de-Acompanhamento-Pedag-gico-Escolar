@@ -8,18 +8,12 @@
     <div class="container">
       <h1>Cadastro de Aluno</h1>
 
-      <!-- IMPORTANTE: precisa do enctype para enviar arquivo -->
       <form action="/alunos/cadastrar" method="POST" enctype="multipart/form-data">
 
-        <!-- Nome e Sobrenome -->
+        <!-- Nome completo -->
         <div>
-          <label for="nome">Nome:</label>
-          <input type="text" name="nome" id="nome" required>
-        </div>
-
-        <div>
-          <label for="sobrenome">Sobrenome:</label>
-          <input type="text" name="sobrenome" id="sobrenome" required>
+          <label for="nome">Nome completo:</label>
+          <input type="text" name="nome" id="nome" required placeholder="Ex: Ana Beatriz da Silva">
         </div>
 
         <!-- Turma -->
@@ -41,28 +35,57 @@
           <input type="date" name="dataN" id="dataN" required>
         </div>
 
-        <!-- 📸 Foto do aluno -->
+        <!-- 📸 Foto -->
         <div>
           <label for="foto">Foto do Aluno:</label>
           <input type="file" name="foto" id="foto" accept="image/*">
         </div>
 
-        <!-- Necessidade Especial -->
+        <!-- 🧠 Necessidade Especial -->
         <div>
-          <label for="necessidadeE">Necessidades especiais:</label>
-          <input type="text" name="necessidadeE" id="necessidadeE" placeholder="Ex: TDAH, Dislexia">
+          <label for="necessidadeE">Necessidades Especiais:</label>
+          <select name="necessidadeE" id="necessidadeE">
+            <option value="Nenhuma">Nenhuma</option>
+            <option value="TDAH">TDAH</option>
+            <option value="Autismo">Autismo</option>
+            <option value="Dislexia">Dislexia</option>
+            <option value="Deficiência visual">Deficiência visual</option>
+            <option value="Deficiência auditiva">Deficiência auditiva</option>
+            <option value="Deficiência física">Deficiência física</option>
+            <option value="Outro">Outro</option>
+          </select>
+          <input type="text" name="necessidadeEOutro" id="necessidadeEOutro"
+            placeholder="Descreva a necessidade especial" style="display:none;">
         </div>
 
-        <!-- Problema de Saúde -->
+        <!-- ❤️ Problema de Saúde -->
         <div>
-          <label for="problemaSaude">Problema de saúde:</label>
-          <input type="text" name="problemaSaude" id="problemaSaude" placeholder="Se houver">
+          <label for="problemaSaude">Problema de Saúde:</label>
+          <select name="problemaSaude" id="problemaSaude">
+            <option value="Nenhum">Nenhum</option>
+            <option value="Asma">Asma</option>
+            <option value="Epilepsia">Epilepsia</option>
+            <option value="Diabetes">Diabetes</option>
+            <option value="Alergia">Alergia</option>
+            <option value="Outro">Outro</option>
+          </select>
+          <input type="text" name="problemaSaudeOutro" id="problemaSaudeOutro"
+            placeholder="Descreva o problema de saúde" style="display:none;">
         </div>
 
-        <!-- Problema Disciplinar -->
+        <!-- ⚙️ Dificuldade Disciplinar -->
         <div>
-          <label for="disciplinaD">Problema disciplinar:</label>
-          <input type="text" name="disciplinaD" id="disciplinaD" placeholder="Se houver">
+          <label for="disciplinaD">Dificuldade / Problema Disciplinar:</label>
+          <select name="disciplinaD" id="disciplinaD">
+            <option value="Nenhuma">Nenhuma</option>
+            <option value="Falta de atenção">Falta de atenção</option>
+            <option value="Agressividade">Agressividade</option>
+            <option value="Desinteresse">Desinteresse</option>
+            <option value="Dificuldade de concentração">Dificuldade de concentração</option>
+            <option value="Outro">Outro</option>
+          </select>
+          <input type="text" name="disciplinaDOutro" id="disciplinaDOutro" placeholder="Descreva o problema disciplinar"
+            style="display:none;">
         </div>
 
         <!-- Transferência -->
@@ -100,8 +123,7 @@
 
         <!-- Observação -->
         <div>
-          <label for="observacao">Observação:</label>
-          <br>
+          <label for="observacao">Observação:</label><br>
           <textarea class="ctexto" name="observacao" id="observacao" rows="4" cols="50"
             placeholder="Digite observações adicionais"></textarea>
         </div>
@@ -111,12 +133,11 @@
           <button type="submit">Cadastrar</button>
           <a class="btn" href="/alunos/">Voltar para a lista de alunos</a>
         </div>
-
       </form>
     </div>
+
     <script src="https://unpkg.com/vanilla-masker/build/vanilla-masker.min.js"></script>
     <script>
-      // Máscara para telefone (formato brasileiro)
       const telInput = document.getElementById('responsavelContato');
       if (telInput) {
         telInput.addEventListener('input', function () {

@@ -2,19 +2,58 @@ const mongoose = require('mongoose');
 
 const AlunoSchema = new mongoose.Schema({
   // 🧩 Principais
-  nome: { type: String, required: true },
-  sobrenome: { type: String, required: true },
+  nome: { type: String, required: true }, // Nome completo
   dataN: { type: Date, required: true },
   turma: { type: mongoose.Schema.Types.ObjectId, ref: 'Turma', required: true },
 
   // 🧠 Sobre o aluno
-  necessidadeE: { type: String },        // Ex.: TDAH, Dislexia
-  problemaSaude: { type: String },       // Ex.: Asma
-  disciplinaD: { type: String },         // Ex.: Agressividade, Falta de atenção
+  necessidadeE: {
+    type: String,
+    enum: [
+      'Nenhuma',
+      'TDAH',
+      'Autismo',
+      'Dislexia',
+      'Deficiência visual',
+      'Deficiência auditiva',
+      'Deficiência física',
+      'Outro'
+    ],
+    default: 'Nenhuma'
+  },
+  necessidadeEOutro: { type: String },
+
+  problemaSaude: {
+    type: String,
+    enum: [
+      'Nenhum',
+      'Asma',
+      'Epilepsia',
+      'Diabetes',
+      'Alergia',
+      'Outro'
+    ],
+    default: 'Nenhum'
+  },
+  problemaSaudeOutro: { type: String },
+
+  disciplinaD: {
+    type: String,
+    enum: [
+      'Nenhuma',
+      'Falta de atenção',
+      'Agressividade',
+      'Desinteresse',
+      'Dificuldade de concentração',
+      'Outro'
+    ],
+    default: 'Nenhuma'
+  },
+  disciplinaDOutro: { type: String },
 
   // 🔁 Transferência
-  transferenciaOnde: { type: String },   // Escola anterior
-  transferenciaD: { type: String },      // Motivo ou detalhes
+  transferenciaOnde: { type: String },
+  transferenciaD: { type: String },
 
   // 👨‍👩‍👧 Responsáveis
   responsavelNome: { type: String, required: true },
@@ -28,10 +67,7 @@ const AlunoSchema = new mongoose.Schema({
   observacao: { type: String },
 
   // 🖼️ Foto do aluno
-  foto: {
-    type: String,       // Caminho da imagem (ex: "/uploads/alunos/foto-123.jpg")
-    default: null
-  },
+  foto: { type: String, default: null },
 
   // 📋 Ocorrências
   ocorrencias: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ocorrencia' }],

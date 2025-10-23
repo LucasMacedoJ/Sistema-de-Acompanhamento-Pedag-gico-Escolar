@@ -1,6 +1,6 @@
 const Aluno = require('../models/alunos');
 const Turma = require('../models/turma');
-const { upload, processarFoto, removerFoto } = require('./fotoController');
+const { uploadAlunos, processarFoto, removerFoto } = require('./fotoController');
 
 // =============================
 // 📋 FORMULÁRIO DE CADASTRO
@@ -20,30 +20,25 @@ exports.formulario = async (req, res) => {
 // =============================
 exports.cadastrar = async (req, res) => {
   try {
-    if (!req.body.nome || !req.body.sobrenome) {
-      return res.status(400).send("Nome e sobrenome são obrigatórios");
-    }
-
     let fotoPath = null;
     if (req.file) {
-      fotoPath = await processarFoto(req.file);
+      fotoPath = await processarFoto(req.file, 'alunos');
     }
 
     const novoAluno = new Aluno({
-      nome: req.body.nome,
-      sobrenome: req.body.sobrenome,
+      nome: req.body.nome || '', // Nome completo
       dataN: req.body.dataN,
       turma: req.body.turma,
-      necessidadeE: req.body.necessidadeE,
-      problemaSaude: req.body.problemaSaude,
-      disciplinaD: req.body.disciplinaD,
-      transferenciaOnde: req.body.transferenciaOnde,
-      transferenciaD: req.body.transferenciaD,
-      responsavelNome: req.body.responsavelNome,
-      responsavelContato: req.body.responsavelContato,
+      necessidadeE: req.body.necessidadeE || 'Nenhuma',
+      problemaSaude: req.body.problemaSaude || 'Nenhum',
+      disciplinaD: req.body.disciplinaD || 'Nenhuma',
+      transferenciaOnde: req.body.transferenciaOnde || '',
+      transferenciaD: req.body.transferenciaD || '',
+      responsavelNome: req.body.responsavelNome || '',
+      responsavelContato: req.body.responsavelContato || '',
       segundoProfessor: req.body.segundoProfessor === "on",
-      segundoProfessorNome: req.body.segundoProfessorNome,
-      observacao: req.body.observacao,
+      segundoProfessorNome: req.body.segundoProfessorNome || '',
+      observacao: req.body.observacao || '',
       foto: fotoPath
     });
 
@@ -51,7 +46,11 @@ exports.cadastrar = async (req, res) => {
     res.redirect('/alunos');
   } catch (err) {
     console.error("Erro ao salvar o aluno:", err);
-    res.status(500).send("Erro ao salvar o aluno: " + err.message);
+    if (err.name === 'ValidationError') {
+      res.status(400).send("Erro de validação: " + err.message);
+    } else {
+      res.status(500).send("Erro ao salvar o aluno: " + err.message);
+    }
   }
 };
 
@@ -63,7 +62,7 @@ exports.lista = async (req, res) => {
     const alunos = await Aluno.find({ ativo: true }).populate('turma').lean();
     res.render('alunos/lista', { alunos });
   } catch (err) {
-    res.send("Erro ao listar alunos: " + err);
+    res.status(500).send("Erro ao listar alunos: " + err.message);
   }
 };
 
@@ -75,7 +74,7 @@ exports.inativo = async (req, res) => {
     const alunosInativos = await Aluno.find({ ativo: false }).populate('turma').lean();
     res.render('alunos/inativo', { alunos: alunosInativos });
   } catch (err) {
-    res.send("Erro ao listar alunos inativos: " + err);
+    res.status(500).send("Erro ao listar alunos inativos: " + err.message);
   }
 };
 
@@ -89,7 +88,7 @@ exports.editarForm = async (req, res) => {
     const turmas = await Turma.find();
     res.render('alunos/editar', { aluno, turmas });
   } catch (err) {
-    res.send("Erro ao buscar aluno: " + err);
+    res.status(500).send("Erro ao buscar aluno: " + err.message);
   }
 };
 
@@ -99,30 +98,34 @@ exports.editarForm = async (req, res) => {
 exports.editar = async (req, res) => {
   try {
     const updateData = {
-      nome: req.body.nome,
-      sobrenome: req.body.sobrenome,
+      nome: req.body.nome || '',
       dataN: req.body.dataN,
       turma: req.body.turma,
-      necessidadeE: req.body.necessidadeE,
-      problemaSaude: req.body.problemaSaude,
-      disciplinaD: req.body.disciplinaD,
-      transferenciaOnde: req.body.transferenciaOnde,
-      transferenciaD: req.body.transferenciaD,
-      responsavelNome: req.body.responsavelNome,
-      responsavelContato: req.body.responsavelContato,
+      necessidadeE: req.body.necessidadeE || 'Nenhuma',
+      problemaSaude: req.body.problemaSaude || 'Nenhum',
+      disciplinaD: req.body.disciplinaD || 'Nenhuma',
+      transferenciaOnde: req.body.transferenciaOnde || '',
+      transferenciaD: req.body.transferenciaD || '',
+      responsavelNome: req.body.responsavelNome || '',
+      responsavelContato: req.body.responsavelContato || '',
       segundoProfessor: req.body.segundoProfessor === "on",
-      segundoProfessorNome: req.body.segundoProfessorNome,
-      observacao: req.body.observacao
+      segundoProfessorNome: req.body.segundoProfessorNome || '',
+      observacao: req.body.observacao || ''
     };
 
     if (req.file) {
-      updateData.foto = await processarFoto(req.file);
+      updateData.foto = await processarFoto(req.file, 'alunos');
     }
 
-    await Aluno.findByIdAndUpdate(req.params.id, updateData);
+    await Aluno.findByIdAndUpdate(req.params.id, updateData, { runValidators: true });
     res.redirect('/alunos');
   } catch (err) {
-    res.status(500).send("Erro ao editar aluno: " + err.message);
+    console.error("Erro ao editar aluno:", err);
+    if (err.name === 'ValidationError') {
+      res.status(400).send("Erro de validação: " + err.message);
+    } else {
+      res.status(500).send("Erro ao editar aluno: " + err.message);
+    }
   }
 };
 
@@ -136,10 +139,14 @@ exports.toggleAtivo = async (req, res) => {
 
     aluno.ativo = !aluno.ativo;
     await aluno.save();
-
     res.redirect(aluno.ativo ? '/alunos' : '/alunos/inativo');
   } catch (err) {
-    res.send("Erro ao alterar status: " + err);
+    console.error("Erro ao alterar status:", err);
+    if (err.name === 'ValidationError') {
+      res.status(400).send("Erro de validação: " + err.message);
+    } else {
+      res.status(500).send("Erro ao alterar status: " + err.message);
+    }
   }
 };
 
@@ -151,15 +158,12 @@ exports.search = async (req, res) => {
   try {
     const resultados = await Aluno.find({
       ativo: true,
-      $or: [
-        { nome: { $regex: query, $options: 'i' } },
-        { sobrenome: { $regex: query, $options: 'i' } }
-      ]
+      nome: { $regex: query, $options: 'i' } // apenas nome completo
     }).populate('turma').lean();
 
     res.render('alunos/lista', { alunos: resultados });
   } catch (err) {
-    res.send("Erro ao buscar alunos: " + err);
+    res.status(500).send("Erro ao buscar alunos: " + err.message);
   }
 };
 
@@ -171,15 +175,12 @@ exports.searchInativos = async (req, res) => {
   try {
     const resultados = await Aluno.find({
       ativo: false,
-      $or: [
-        { nome: { $regex: query, $options: 'i' } },
-        { sobrenome: { $regex: query, $options: 'i' } }
-      ]
+      nome: { $regex: query, $options: 'i' }
     }).populate('turma').lean();
 
     res.render('alunos/inativo', { alunos: resultados });
   } catch (err) {
-    res.send("Erro ao buscar alunos inativos: " + err);
+    res.status(500).send("Erro ao buscar alunos inativos: " + err.message);
   }
 };
 
@@ -191,7 +192,7 @@ exports.deletar = async (req, res) => {
     await Aluno.findByIdAndDelete(req.params.id);
     res.redirect('/alunos');
   } catch (err) {
-    res.send("Erro ao deletar aluno: " + err);
+    res.status(500).send("Erro ao deletar aluno: " + err.message);
   }
 };
 
@@ -204,6 +205,6 @@ exports.detalhes = async (req, res) => {
     if (!aluno) return res.status(404).send("Aluno não encontrado");
     res.render('alunos/detalhes', { aluno });
   } catch (err) {
-    res.send("Erro ao buscar detalhes do aluno: " + err);
+    res.status(500).send("Erro ao buscar detalhes do aluno: " + err.message);
   }
 };
