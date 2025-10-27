@@ -6,19 +6,19 @@
     <li><a href="/alunos/">Alunos</a></li>
     <li><a href="/turmas/lista">Turmas</a></li>
     <% if (isAdmin) { %>
-      <li><a href="/usuarios/lista">Usuários</a></li>
+      <li><a href="/usuario/lista">Usuários</a></li>
       <% } %>
   </ul>
 
   <% if (usuario) { %>
-    <a href="/usuarios/perfil" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+    <a href="/usuario/perfil" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
       <% if (usuario.foto) { %>
-        <img src="/uploads/<%= usuario.foto %>" alt="foto" style="width:40px;height:40px;border-radius:50%;">
+        <img src="<%= usuario.foto %>" alt="foto" style="width:40px;height:40px;border-radius:50%;">
         <% } else { %>
-          <img src="/images/default-avatar.png" alt="sem foto" style="width:40px;height:40px;border-radius:50%;">
+          <img src="../imagens/padra.png" alt="sem foto" style="width:40px;height:40px;border-radius:50%;">
           <% } %>
     </a>
     <% } else { %>
       <a href="/login">Entrar</a>
       <% } %>
-</nav>  
+</nav>

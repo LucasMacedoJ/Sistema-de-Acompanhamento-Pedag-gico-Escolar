@@ -8,7 +8,7 @@
       </p>
       <% } %>
 
-        <form action="/usuarios/novo" method="POST" enctype="multipart/form-data">
+        <form action="/usuario/novo" method="POST" enctype="multipart/form-data">
           <label for="nome">Nome:</label>
           <input type="text" name="nome" id="nome" value="<%= (form && form.nome) ? form.nome : '' %>">
           <br>
@@ -37,7 +37,7 @@
               <button type="submit">Cadastrar</button>
 
               <% if (usuario && usuario.perfil==='admin' ) { %>
-                <a class="btn" href="/usuarios/lista" style="margin-left:1rem;">Voltar à lista</a>
+                <a class="btn" href="/usuario/lista" style="margin-left:1rem;">Voltar à lista</a>
                 <% } else { %>
                   <a class="btn" href="/login" style="margin-left:1rem;">Voltar ao login</a>
                   <% } %>

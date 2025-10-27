@@ -1,7 +1,9 @@
+// controllers/fotoController.js
 const path = require('path');
 const fs = require('fs');
 const sharp = require('sharp');
 const multer = require('multer');
+const crypto = require('crypto');
 
 // =============================
 // Função genérica de storage
@@ -15,14 +17,16 @@ function criarUpload(pasta) {
         },
         filename: (req, file, cb) => {
             const ext = path.extname(file.originalname);
-            cb(null, `${Date.now()}-${file.fieldname}${ext}`);
+            const uniqueName = crypto.randomBytes(16).toString('hex') + ext;
+            cb(null, uniqueName);
         }
     });
+
     return multer({ storage });
 }
 
 // =============================
-// Função helper para processar foto
+// Processar foto (redimensionar)
 // =============================
 async function processarFoto(file, pasta = 'alunos') {
     try {
@@ -32,17 +36,17 @@ async function processarFoto(file, pasta = 'alunos') {
         if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
         const resizedFilename = `resized-${file.filename}`;
-        const outputPath = path.join(uploadsDir, resizedFilename).replace(/\\/g, '/');
+        const outputPath = path.normalize(path.join(uploadsDir, resizedFilename));
 
-        // Redimensiona a imagem
+        // Redimensiona a imagem mantendo proporção e cobrindo 300x300
         await sharp(file.path)
-            .resize(300, 300)
+            .resize(300, 300, { fit: 'cover' })
             .toFile(outputPath);
 
-        // Remove o arquivo original
+        // Remove arquivo original
         if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
 
-        // Retorna o caminho relativo para o uso no front-end
+        // Retorna caminho relativo para o front-end
         return `/uploads/${pasta}/${resizedFilename}`;
     } catch (err) {
         console.error('Erro ao processar foto:', err);
@@ -51,11 +55,12 @@ async function processarFoto(file, pasta = 'alunos') {
 }
 
 // =============================
-// Função para remover foto
+// Remover foto do servidor
 // =============================
 function removerFoto(caminhoRelativo) {
     if (!caminhoRelativo) return;
-    const fullPath = path.join(__dirname, '../public', caminhoRelativo);
+
+    const fullPath = path.normalize(path.join(__dirname, '../public', caminhoRelativo));
     try {
         if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
     } catch (err) {
@@ -65,7 +70,7 @@ function removerFoto(caminhoRelativo) {
 
 module.exports = {
     uploadAlunos: criarUpload('alunos'),
-    uploadUsuarios: criarUpload('usuarios'),
+    uploadUsuario: criarUpload('usuario'),
     processarFoto,
     removerFoto
 };

@@ -11,7 +11,7 @@
       <!-- Foto do aluno -->
       <div class="foto-aluno">
         <% if (aluno.foto) { %>
-          <img src="/uploads/<%= aluno.foto %>" alt="Foto de <%= aluno.nome %>" width="150" height="150">
+          <img src="<%= aluno.foto %>" alt="Foto de <%= aluno.nome %>" width="150" height="150">
           <% } else { %>
             <!-- Imagem padrão quando não houver foto -->
             <img src="/imagens/padrao.png" alt="Foto padrão" width="150" height="150">

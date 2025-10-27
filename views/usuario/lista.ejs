@@ -1,0 +1,62 @@
+<%- include('../tela') %>
+
+  <head>
+    <link rel="stylesheet" href="/css/usuario.css">
+  </head>
+
+  <h1>Lista de Usuários</h1>
+
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>Foto</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Perfil</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% usuario.forEach(function(usuarioItem) { %>
+          <tr>
+            <td>
+              <% if (usuarioItem.foto && usuarioItem.foto !=='' ) { %>
+                <img src="<%= usuarioItem.foto %>" alt="foto" class="avatar" width="150" height="150">
+                <% } else { %>
+                  <img src="../imagens/padrao.png" alt="sem foto" class="avatar" width="150" height="150">
+                  <% } %>
+            </td>
+            <td>
+              <%= usuarioItem.nome || '-' %>
+            </td>
+            <td>
+              <%= usuarioItem.email %>
+            </td>
+            <td>
+              <%= usuarioItem.perfil %>
+            </td>
+            <td>
+              <% if (usuarioLogado && (usuarioLogado.perfil==='admin' ||
+                String(usuarioLogado._id)===String(usuarioItem._id))) { %>
+                <a class="btn" href="/usuario/<%= usuarioItem._id %>/editar">Editar</a>
+                <% } %>
+
+                  <% if (usuarioLogado && usuarioLogado.perfil==='admin' ) { %>
+                    <form action="/usuario/<%= usuarioItem._id %>/excluir" method="POST" style="display:inline;"
+                      onsubmit="return confirm('Confirma exclusão deste usuário?');">
+                      <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                    <% } %>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+
+    <% if (usuarioLogado && usuarioLogado.perfil==='admin' ) { %>
+      <a class="btn" href="/usuario/novo" style="margin-top:1rem;display:inline-block;">
+        Cadastrar novo usuário
+      </a>
+      <% } %>
+  </div>

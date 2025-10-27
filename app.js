@@ -76,7 +76,7 @@ const ocorrenciasRoutes = require('./routes/ocorrencias');
 const turmasRoutes = require('./routes/turmas');
 const apoiaRoutes = require('./routes/apoia');
 const nepreRoutes = require('./routes/nepre');
-const usuariosRoutes = require('./routes/usuarios');
+const usuarioRouter = require('./routes/usuario');
 const testeRoutes = require('./routes/teste');
 const erroRoutes = require('./routes/erro');
 
@@ -107,7 +107,7 @@ app.use('/login', loginRoutes);
 app.use('/teste', testeRoutes); // rota de teste
 
 // Rotas de usuários (com controle interno)
-app.use('/usuarios', usuariosRoutes);
+app.use('/usuario', usuarioRouter);
 
 // Rotas protegidas
 app.use('/alunos', requireLogin, alunosRoutes);
