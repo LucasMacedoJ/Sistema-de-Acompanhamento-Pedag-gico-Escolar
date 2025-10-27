@@ -1,8 +1,24 @@
-<link rel="stylesheet" href="/css/navbar.css">
-
-<h2>Meu perfil</h2>
+<%- include('../tela') %>
+<head>
+    <link rel="stylesheet" href="/css/perfil.css">
+<h1>Meu perfil</h1>
 
 <div class="perfil-container">
+    <br>
+    <div class="foto-container">
+        <% if (usuario.avatar && usuario.avatar.trim() !=='' ) { %>
+            <img src="<%= usuario.avatar.startsWith('/') ? usuario.avatar : '/uploads/avatars/' + usuario.avatar %>"
+                alt="Avatar de <%= usuario.nome %>"
+                style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+            <% } else { %>
+                <img src="/imagens/padrao.png" alt="Sem avatar"
+                    style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+                <% } %>
+    </div>
+    <form action="/upload/remover" method="post" style="margin-top:8px;">
+        <button type="submit">Remover foto</button>
+    </form>
+
     <p><strong>Nome:</strong>
         <%= usuario.nome %>
     </p>
@@ -10,26 +26,12 @@
         <%= usuario.email %>
     </p>
 
-    <div class="foto-container">
-        <p>Foto atual:</p>
-
-        <% if (usuario.avatar && usuario.avatar.trim() !=='' ) { %>
-            <img src="<%= usuario.avatar.startsWith('/') ? usuario.avatar : '/uploads/avatars/' + usuario.avatar %>"
-                alt="Avatar de <%= usuario.nome %>"
-                style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
-            <% } else { %>
-                <img src="/images/default-avatar.png" alt="Sem avatar"
-                    style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
-                <% } %>
-    </div>
-
     <form action="/upload/upload" method="post" enctype="multipart/form-data">
-        <label>Escolher nova foto (jpg/png, até 2MB):</label>
+  
         <input type="file" name="avatar" accept="image/*" required>
-        <button type="submit">Enviar</button>
+        <label>Escolher nova foto (jpg/png, até 2MB)</label>
+        <button type="submit" class="submit">Enviar</button>      
+        
     </form>
 
-    <form action="/upload/remover" method="post" style="margin-top:8px;">
-        <button type="submit">Remover foto</button>
-    </form>
 </div>

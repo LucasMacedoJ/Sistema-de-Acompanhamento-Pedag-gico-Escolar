@@ -1,0 +1,28 @@
+.perfil-container {
+    margin: 20px auto;
+    padding: 0px;
+    border: 5px solid #76aadb;
+    border-radius: 8px;
+    background-color: aliceblue;
+    box-sizing: border-box;
+    width: 25%;
+    /* centra o conteúdo interno */
+    display: flex;
+    flex-direction: column; /* ou 'row' se quiser em linha */
+    align-items: center;    /* centraliza horizontalmente o conteúdo */
+    justify-content: center; /* centraliza verticalmente o conteúdo interno */
+
+    /* opcional: centralizar em relação à viewport (ajuste conforme layout) */
+    /* min-height: 60vh; */
+}
+
+form {
+    display: flex;
+    flex-direction: column; /* ou 'row' se quiser em linha */
+    align-items: center;    /* centraliza horizontalmente o conteúdo */
+    justify-content: center; /* centraliza verticalmente o conteúdo interno */
+}
+
+form label {
+    font-size: 75%;
+}
