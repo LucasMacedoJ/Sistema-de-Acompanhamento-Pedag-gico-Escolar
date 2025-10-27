@@ -3,8 +3,8 @@ body {
   background-color: aliceblue;
 }
 .container {
-  width: 80%;            /* ocupa 80% da tela */
-  max-width: 80%;     /* limite em telas grandes */
+  width: 90%;            /* ocupa 80% da tela */
+  max-width: 90%;     /* limite em telas grandes */
   margin-left: auto;     /* centraliza */
   margin-right: auto;    /* centraliza */
   padding-bottom: 5%;    /* espaço embaixo responsivo */

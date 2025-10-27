@@ -1,0 +1,157 @@
+/* replace previous .barra block with pseudo-element header box */
+.barra {
+  position: relative; /* necessário para o ::before */
+  display: table-header-group; /* compatibilidade se aplicada ao thead */
+  width: 100%;
+}
+
+thead.barra::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: 5px solid #76aadb; /* borda visível (combina com tbody tr::before) */
+  border-radius: 12px;
+  background: #76aadb;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* garante que o conteúdo do cabeçalho fique acima da caixa */
+.barra th,
+thead th {
+  /* garantir cabeçalho centralizado e visível sobre o ::before */
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  color: black;
+  font-weight: 700;
+  text-align: center; /* <- mudou para centralizar o cabeçalho */
+  padding: 12px;
+}
+
+/* se a barra foi aplicada diretamente ao thead, assegura largura total */
+thead.barra,
+thead.barra tr {
+    width: 100%;
+}
+
+thead.barra th:last-child {
+  right: 190px; /* espaço extra para o último cabeçalho (Ações) */
+}
+
+.fotos {
+    width: 17%;
+    height: 17%;
+    border-radius: 50%;
+    margin: 1px;
+    margin-left: 190px;
+
+}
+
+
+table {
+	/* usar separate para que o pseudo-elemento consiga cobrir a linha sem interferência de colapso de bordas */
+	border-collapse: separate;
+	border-spacing: 0;
+	width: 100%;
+	table-layout: fixed; /* volta para fixed para colunas estáveis */
+}
+
+/* remove bordas/planos das células para evitar linhas entre colunas */
+thead th,
+tbody td {
+	border: none;
+	background: transparent;
+	box-sizing: border-box;
+}
+
+/* cria a "caixa" arredondada por linha usando pseudo-elemento */
+tbody tr {
+  position: relative;
+  /* remove qualquer borda direta da tr */
+  /* padding e background são controlados pelo pseudo-elemento */
+}
+
+tbody tr::before {
+  content: "";
+  position: absolute;
+  left: 0;    /* preencher até a borda da tabela */
+  right: 0;
+  top: 6px;    /* ajuste vertical interno (espaço entre linhas) */
+  bottom: 6px; /* ajuste vertical interno */
+  border: 5px solid #357ab8;
+  border-radius: 20px;
+  background: aliceblue;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* padding geral das células — consistente com a margem criada acima */
+tbody td {
+  position: relative;
+  z-index: 1;
+  padding: 12px 14px; /* menos espaçamento horizontal para melhor ajuste */
+  vertical-align: middle;
+  /* texto por padrão à esquerda para melhor leitura; será sobrescrito por colunas específicas */
+  text-align: left;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+/* remove as regras de border-radius em td:first/last (não necessárias agora) */
+tbody tr td:first-child,
+tbody tr td:last-child {
+	border-radius: 0;
+}
+
+tbody {
+  /* geral */
+  justify-content: center;
+}
+
+/* ------------- UPDATED COLUMN ALIGNMENT RULES ------------- */
+
+/* definir larguras básicas por coluna (ajuste conforme necessário) */
+thead.barra th:nth-child(1),
+tbody td:nth-child(1) { width: 80px;  text-align: center;  padding-left: 0; padding-right: 0; } /* Foto */
+thead.barra th:nth-child(2),
+tbody td:nth-child(2) { width: 30%;  text-align: left;  padding-left: 12px; }  /* Nome */
+thead.barra th:nth-child(3),
+tbody td:nth-child(3) { width: 35%;  text-align: center; }                       /* Email */
+thead.barra th:nth-child(4),
+tbody td:nth-child(4) { width: 10%;  text-align: center; white-space: nowrap; }   /* Perfil (sem quebra) */
+thead.barra th:nth-child(5),
+tbody td:nth-child(5) { width: 120px; text-align: right; padding-right: 18px; }  /* Ações (botões) */
+
+/* centralizar imagem dentro da célula de foto */
+tbody td:nth-child(1) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* garantir que a imagem não force altura/width estranhos */
+.fotos, img.fotos {
+  width: 48px;
+  height: 48px;
+}
+
+/* forçar botões a ficarem em escrita horizontal (evita botão vertical) */
+tbody td:nth-child(5) > * {
+  writing-mode: horizontal-tb !important;
+  white-space: nowrap;
+  transform: none !important;
+  display: inline-block;
+}
+
+/* espaçamento dos botões e garantir alinhamento à direita */
+tbody td:nth-child(5) {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}

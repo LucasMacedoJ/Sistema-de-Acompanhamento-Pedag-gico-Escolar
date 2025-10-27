@@ -1,54 +1,177 @@
+/* replace previous .barra block with pseudo-element header box */
+.barra {
+  position: relative; /* necessário para o ::before */
+  display: table-header-group; /* compatibilidade se aplicada ao thead */
+  width: 100%;
+}
 
-/* Cabeçalho em grid com espaço para os botões */
-thead tr {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr auto; 
-  /* 8 colunas de conteúdo + 1 pros botões */
-  align-items: center;
-  background-color: #76aadb;
-  margin: 10px;
+thead.barra::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: 5px solid #76aadb; /* borda visível (combina com tbody tr::before) */
   border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+  background: #76aadb;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* garante que o conteúdo do cabeçalho fique acima da caixa */
+.barra th,
+thead th {
+  position: relative;
+  z-index: 1;
+  background: transparent;
   color: black;
-  font-weight: bold;
-  gap: 10px;
+  font-weight: 700;
+  text-align: left;
+  padding: 12px;
 }
 
-/* Linha de aluno em grid igual ao cabeçalho */
-tbody {
-  display: block;
-  background-color: aliceblue;
-  margin: 20px;
-  padding: 20px;
-  border-radius: 20px;
+/* se a barra foi aplicada diretamente ao thead, assegura largura total */
+thead.barra,
+thead.barra tr {
+    width: 100%;
 }
 
+table {
+	/* usar separate para que o pseudo-elemento consiga cobrir a linha sem interferência de colapso de bordas */
+	border-collapse: separate;  
+	border-spacing: 0;
+	width: 100%;
+}
+
+/* garante que cabeçalho e linhas usem a mesma grade para alinhamento */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-sizing: border-box;
+}
+
+/* mesma definição de colunas para header e linhas (ajuste proporções conforme necessário) */
+thead.barra tr,
 tbody tr {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr auto;
+  /* proporções mais estáveis; ajuste números se quiser colunas maiores/menores */
+  grid-template-columns: 2.2fr 0.8fr 1fr 1.1fr 1.1fr 0.6fr 0.6fr 0.9fr;
   align-items: center;
-  box-shadow: 2px 2px 4px black;
-  background-color: #76aadb;
-  margin: 10px;
-  border-radius: 12px;
-  padding: 12px;
-  color: black;
-  font-weight: bold;
-  gap: 10px;
+  gap: 8px;
+  box-sizing: border-box;
 }
 
-tbody tr td {
+/* remove paddings que deslocavam a grid; controla padding nas células */
+thead.barra tr,
+tbody tr {
+  padding: 0; /* padding será aplicado nas células (th/td) */
+}
+
+/* padding consistente para todas as células (mantém alinhamento entre header e rows) */
+thead.barra th,
+tbody td {
+  position: relative;
+  z-index: 1;
+  padding: 12px 16px; /* mesma largura interna esquerda/direita */
+  background: transparent;
   display: flex;
   align-items: center;
-  padding-left: 30%;
-  
+  box-sizing: border-box;
 }
 
-/* Última célula (botões) */
+/* remove regra que adicionava padding-left extra na primeira coluna */
+thead.barra th:nth-child(1),
+tbody tr td:nth-child(1) {
+  justify-content: flex-start;
+  text-align: left;
+  /* padding agora controlado por th/td geral */
+}
+
+/* colunas intermediárias centralizadas (datas, flags, turma) */
+thead.barra th:nth-child(n+2):not(:last-child),
+tbody tr td:nth-child(n+2):not(:last-child) {
+  justify-content: center;
+  text-align: center;
+}
+
+/* última coluna (ações) alinhada à direita com gap padronizado para botões */
+thead.barra th:last-child,
 tbody tr td:last-child {
+  justify-content: flex-end;
+  padding-right: 16px; /* alinhamento consistente com células */
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* botão dentro da célula de ações mantém gap e alinhamento */
+tbody tr td:last-child > .btn {
+  margin-left: 6px;
+}
+
+/* padroniza botões da coluna Ações (menor chance de deslocar layout) */
+tbody tr td:last-child .btn,
+tbody tr td:last-child button,
+tbody tr td:last-child a.btn {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* remove bordas/planos das células para evitar linhas entre colunas */
+thead th,
+tbody td {
+	border: none;
+	background: transparent;
+}
+
+/* cria a "caixa" arredondada por linha usando pseudo-elemento */
+tbody tr {
+  position: relative;
+  /* remove qualquer borda direta da tr */
+  /* padding e background são controlados pelo pseudo-elemento */
+}
+
+tbody tr::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;    /* ajuste vertical interno (espaço entre linhas) */
+  bottom: 6px; /* ajuste vertical interno */
+  border: 5px solid #357ab8;
+  border-radius: 20px;
+  background: aliceblue;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* garante que o conteúdo das células fique acima da "caixa" */
+tbody td {
+  position: relative;
+  z-index: 1;
+  padding: 12px;
+    text-align: center;
+}
+
+/* remove as regras de border-radius em td:first/last (não necessárias agora) */
+tbody tr td:first-child,
+tbody tr td:last-child {
+	border-radius: 0;
+}
+
+tbody {
+  /* geral */
+  justify-content: center;
 }
 
 /* Botões */

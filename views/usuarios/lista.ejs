@@ -1,13 +1,13 @@
 <%- include('../tela') %>
 
 <head>
-  <link rel="stylesheet" href="/css/usuarios.css">
+  <link rel="stylesheet" href="/css/listaUsuarios.css">
 </head>
 
 <h1>Lista de Usuários</h1>
 <div class="container">
   <table>
-    <thead>
+    <thead class="barra">
       <tr>
         <th>Foto</th>
         <th>Nome</th>
@@ -21,9 +21,9 @@
         <tr>
           <td>
             <% if (u.foto) { %>
-              <img src="/uploads/<%= u.foto %>" alt="foto" style="width:40px;height:40px;border-radius:50%;">
+              <img src="/uploads/<%= u.foto %>" alt="foto" class="fotos">
             <% } else { %>
-              <img src="/images/default-avatar.png" alt="sem foto" style="width:40px;height:40px;border-radius:50%;">
+              <img src="/imagens/padrao.png" alt="sem foto" class="fotos">
             <% } %>
           </td>
           <td><%= u.nome || '-' %></td>
