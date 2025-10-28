@@ -1,56 +1,82 @@
 <%- include('../tela') %>
 
-<head>
-  <link rel="stylesheet" href="/css/listaAlunos.css">
-</head>
-<body>
-  <div class="container">
-<h1>Lista de Alunos</h1>
+  <head>
+    <link rel="stylesheet" href="/css/listaAlunos.css">
+  </head>
 
-<form action="/alunos/search" method="GET" class="busca">
-  <button type="submit">
-    <i class="fa fa-search" aria-hidden="true" style="font-size: 20px;"></i>
-  </button>
-  <input type="text" name="q" placeholder="Digite o nome, sobrenome ou turma">
-</form>
+  <body>
+    <div class="container">
+      <h1>Lista de Alunos</h1>
 
-<table>
-  <thead class="barra">
-    <tr>
-      <th>Nome</th>
-      <th>Turma</th>
-      <th>Data de Nascimento</th>
-      <th>Necessidade Especial</th>
-      <th>Problema Saúde</th>
-      <th>APOIA</th>
-      <th>NEPRE</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% alunos.forEach(function(aluno) { %>
-      <tr>
-        <td><p><a href="/alunos/detalhes/<%= aluno._id %>" class="nome"><%= aluno.nome %></a> <a href="/alunos/detalhes/<%= aluno._id %>" class="nome"><%= aluno.sobrenome %></a></p></td>
-        <td><%= aluno.turma && aluno.turma.nome ? aluno.turma.nome : '' %></td>
-        <td><%= aluno.dataN ? aluno.dataN.toLocaleDateString('pt-BR') : '' %></td>
-        <td><%= aluno.necesidadeE %></td>
-        <td><%= aluno.problemaSaude %></td>
-        <td><%= aluno.apoia ? 'Sim' : 'Não' %></td>
-        <td><%= aluno.nepre ? 'Sim' : 'Não' %></td>
-        <td>
-          <a class="btn" href="/alunos/editar/<%= aluno._id %>">
-            <i class="fa fa-edit" aria-hidden="true" style="font-size: 20px;"></i>
-          </a>
-          <a class="btn" href="/alunos/toggle-ativo/<%= aluno._id %>">
-            <i class="fa fa-trash" aria-hidden="true" style="font-size: 20px;"></i>
-          </a>
-        </td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+      <form action="/alunos/search" method="GET" class="busca">
+        <button type="submit">
+          <i class="fa fa-search" aria-hidden="true" style="font-size: 20px;"></i>
+        </button>
+        <input type="text" name="q" placeholder="Digite o nome, sobrenome ou turma">
+      </form>
 
-<a class="btn btnLista" href="/alunos/inativo">Lista de alunos inativos</a>
-<a class="btn btnLista" href="/alunos/formulario">Cadastrar novo aluno</a>
-</div>
-</body>
+      <table>
+        <thead class="barra">
+          <tr>
+            <th>Foto</th>
+            <th>Nome</th>
+            <th>Turma</th>
+            <th>Data de Nascimento</th>
+            <th>Necessidade Especial</th>
+            <th>Problema Saúde</th>
+            <th>APOIA</th>
+            <th>NEPRE</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% alunos.forEach(function(aluno) { %>
+            <tr>
+              <td>
+                <% if (aluno.foto && aluno.foto !=='' ) { %>
+                  <img src="<%= aluno.foto %>" alt="foto" class="fotos" width="150" height="150">
+                  <% } else { %>
+                    <img src="../imagens/padrao.png" alt="sem foto" class="fotos" width="150" height="150">
+                    <% } %>
+              <td>
+                <p><a href="/alunos/detalhes/<%= aluno._id %>" class="nome">
+                    <%= aluno.nome %>
+                  </a> <a href="/alunos/detalhes/<%= aluno._id %>" class="nome">
+                    <%= aluno.sobrenome %>
+                  </a></p>
+              </td>
+              <td>
+                <%= aluno.turma && aluno.turma.nome ? aluno.turma.nome : '' %>
+              </td>
+              <td>
+                <%= aluno.dataN ? aluno.dataN.toLocaleDateString('pt-BR') : '' %>
+              </td>
+              <td>
+                <%= aluno.necesidadeE %>
+              </td>
+              <td>
+                <%= aluno.problemaSaude %>
+              </td>
+              <td>
+                <%= aluno.apoia ? 'Sim' : 'Não' %>
+              </td>
+              <td>
+                <%= aluno.nepre ? 'Sim' : 'Não' %>
+              </td>
+              <td>
+                <a class="btn" href="/alunos/editar/<%= aluno._id %>">
+                  <i class="fa fa-edit" aria-hidden="true" style="font-size: 20px;"></i>
+                </a>
+                <a class="btn" href="/alunos/toggle-ativo/<%= aluno._id %>">
+                  <i class="fa fa-trash" aria-hidden="true" style="font-size: 20px;"></i>
+                </a>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+
+      <a class="btn btnLista" href="/alunos/inativo">Lista de alunos inativos</a>
+      <a class="btn btnLista" href="/alunos/formulario">Cadastrar novo aluno</a>
+    </div>
+  </body>
