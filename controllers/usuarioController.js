@@ -241,3 +241,18 @@ exports.mostrarPerfil = async (req, res) => {
     res.redirect('/');
   }
 };
+
+// ====================================
+// 🔒 Logout
+// ====================================
+exports.logout = (req, res) => {
+  if (!req.session) return res.redirect('/login');
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Erro ao fazer logout:', err);
+      return res.redirect('/');
+    }
+    if (typeof res.clearCookie === 'function') res.clearCookie('connect.sid');
+    res.redirect('/login');
+  });
+};

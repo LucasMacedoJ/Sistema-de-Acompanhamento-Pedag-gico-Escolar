@@ -31,4 +31,7 @@ router.post('/:id/excluir', usuarioController.excluirUsuario);
 // ================================
 router.get('/perfil', usuarioController.mostrarPerfil);
 
+// rota de logout
+router.post('/logout', usuarioController.logout);
+
 module.exports = router;
