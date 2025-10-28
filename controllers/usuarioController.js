@@ -100,7 +100,7 @@ exports.listarUsuario = async (req, res) => {
     // Ajusta caminho das fotos
     usuarios.forEach(usuarioItem => {
       if (usuarioItem.foto && !usuarioItem.foto.startsWith('/')) {
-        usuarioItem.foto = `/uploads/usuario/${usuarioItem.foto}`;
+        usuarioItem.foto = `/uploads/usuarios/${usuarioItem.foto}`;
       }
     });
 

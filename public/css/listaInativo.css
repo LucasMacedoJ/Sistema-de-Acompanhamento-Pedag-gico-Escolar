@@ -56,8 +56,8 @@ table {
 thead.barra tr,
 tbody tr {
   display: grid;
-  /* agora com 9 colunas (correspondendo às 9 <th>/<td> do template) */
-  grid-template-columns: 2fr 2fr 0.8fr 1fr 1fr 1fr 0.6fr 0.6fr 1fr;
+  /* proporções mais estáveis; ajuste números se quiser colunas maiores/menores */
+  grid-template-columns: 2.2fr 0.8fr 1fr 1.1fr 1.1fr 0.6fr 0.6fr 0.9fr;
   align-items: center;
   gap: 8px;
   box-sizing: border-box;

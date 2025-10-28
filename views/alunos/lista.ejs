@@ -35,9 +35,11 @@
               <td>
                 <% if (aluno.foto && aluno.foto !=='' ) { %>
                   <img src="<%= aluno.foto %>" alt="foto" class="fotos" width="150" height="150">
-                  <% } else { %>
-                    <img src="../imagens/padrao.png" alt="sem foto" class="fotos" width="150" height="150">
-                    <% } %>
+                <% } else { %>
+                  <!-- use absolute path para garantir que o asset seja encontrado -->
+                  <img src="/imagens/padrao.png" alt="sem foto" class="fotos" width="150" height="150">
+                <% } %>
+              </td>
               <td>
                 <p><a href="/alunos/detalhes/<%= aluno._id %>" class="nome">
                     <%= aluno.nome %>
