@@ -1,0 +1,43 @@
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* duas colunas iguais */
+  gap: 20px 5%; /* espaço entre linhas e colunas */
+
+  width: 80%;        /* largura do formulário em relação à tela */
+  max-width: 100%;   /* nunca passa de 100% */
+  margin: 0 auto;    /* centraliza horizontalmente */
+}
+
+/* Aplica width:100% apenas aos inputs (não aos labels) */
+form input:not([type="checkbox"]):not([type="radio"]) {
+  width: 100%;        /* cada campo ocupa toda a célula, exceto checkbox/radio */
+  box-sizing: border-box;
+}
+
+/* Mantém textarea ocupando 100% */
+form textarea{
+    width: 100%;
+}
+
+/* estilos para checkboxes e radios: não ocupam toda a célula e ficam alinhados */
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px; /* pequeno espaçamento relativo ao texto do label */
+}
+
+/* wrapper para manter label + checkbox na mesma linha dentro da célula do grid */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* evita que o label dentro da linha de checkbox seja forçado a 100% */
+.checkbox-row label {
+  width: auto;
+  margin: 0;
+  display: inline-block;
+}
