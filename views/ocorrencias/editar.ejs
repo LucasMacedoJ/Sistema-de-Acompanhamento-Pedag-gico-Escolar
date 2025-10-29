@@ -1,0 +1,31 @@
+<%- include('../tela') %>
+
+    <h1>Editar Ocorrência</h1>
+
+    <form action="/ocorrencias/editar/<%= ocorrencia._id %>" method="POST" class="form-ocorrencia">
+        <label>Aluno:</label>
+        <input type="text" value="<%= ocorrencia.aluno.nome %>" disabled>
+
+        <label>Tipo:</label>
+        <input type="text" name="tipo" value="<%= ocorrencia.tipo %>">
+
+        <label>Descrição:</label>
+        <textarea name="descricao"><%= ocorrencia.descricao %></textarea>
+
+        <label>Responsável:</label>
+        <input type="text" name="responsavel" value="<%= ocorrencia.responsavel %>">
+
+        <label>Encaminhamento:</label>
+        <input type="text" name="encaminhamento" value="<%= ocorrencia.encaminhamento %>">
+
+        <label>Resultado:</label>
+        <textarea name="resultado"><%= ocorrencia.resultado %></textarea>
+
+        <label>Status:</label>
+        <select name="status">
+            <option value="ABERTA" <%=ocorrencia.status==='ABERTA' ? 'selected' : '' %>>Aberta</option>
+            <option value="ENCERRADA" <%=ocorrencia.status==='ENCERRADA' ? 'selected' : '' %>>Encerrada</option>
+        </select>
+
+        <button type="submit">Salvar alterações</button>
+    </form>

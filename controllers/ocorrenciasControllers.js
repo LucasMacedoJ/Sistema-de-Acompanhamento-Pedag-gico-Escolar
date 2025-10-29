@@ -2,7 +2,7 @@ const Ocorrencia = require('../models/ocorrencias');
 
 // Exibe o formulário de nova ocorrência
 exports.nova = (req, res) => {
-  return res.render('ocorrencias/nova', { 
+  return res.render('ocorrencias/nova', {
     usuario: req.session.usuario || null,
     alunoId: req.query.aluno || null,
     erro: null
@@ -15,7 +15,7 @@ exports.cadastrar = async (req, res) => {
     const { aluno, tipo, descricao, responsavel, encaminhamento, resultado } = req.body;
 
     if (!aluno || !descricao || !responsavel) {
-      return res.render('ocorrencias/nova', { 
+      return res.render('ocorrencias/nova', {
         usuario: req.session.usuario || null,
         alunoId: aluno || null,
         erro: 'Preencha todos os campos obrigatórios (aluno, descrição e responsável).'
@@ -30,15 +30,16 @@ exports.cadastrar = async (req, res) => {
       encaminhamento: encaminhamento || '',
       resultado: resultado || '',
       dataAbertura: new Date(),
+      dataEncerramento: null,
       status: 'ABERTA',
       ativo: true
     });
 
     await novaOcorrencia.save();
 
-    return res.render('ocorrencias/sucesso', { 
+    return res.render('ocorrencias/sucesso', {
       usuario: req.session.usuario || null,
-      ocorrencia: novaOcorrencia 
+      ocorrencia: novaOcorrencia
     });
 
   } catch (err) {
@@ -63,7 +64,7 @@ exports.listaOcorrencias = async (req, res) => {
 
     const aluno = alunoId && ocorrencias.length > 0 ? ocorrencias[0].aluno : null;
 
-    return res.render('ocorrencias/lista', { 
+    return res.render('ocorrencias/lista', {
       usuario: req.session.usuario || null,
       ocorrencias,
       aluno,
@@ -88,9 +89,9 @@ exports.detalhesOcorrencia = async (req, res) => {
       return res.status(404).send("Ocorrência não encontrada");
     }
 
-    return res.render('ocorrencias/detalhes', { 
+    return res.render('ocorrencias/detalhes', {
       usuario: req.session.usuario || null,
-      ocorrencia 
+      ocorrencia
     });
 
   } catch (err) {
@@ -121,5 +122,56 @@ exports.encerrar = async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).send("Erro ao encerrar ocorrência: " + err.message);
+  }
+};
+
+// Exibe o formulário de edição de ocorrência
+exports.formEditar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ocorrencia = await Ocorrencia.findById(id).populate('aluno').lean();
+
+    if (!ocorrencia) {
+      return res.status(404).send("Ocorrência não encontrada");
+    }
+
+    return res.render('ocorrencias/editar', {
+      usuario: req.session.usuario || null,
+      ocorrencia,
+      erro: null
+    });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Erro ao carregar ocorrência: " + err.message);
+  }
+};
+
+// Atualiza os dados da ocorrência
+exports.atualizar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { tipo, descricao, responsavel, encaminhamento, resultado, status } = req.body;
+
+    const ocorrencia = await Ocorrencia.findById(id);
+    if (!ocorrencia) {
+      return res.status(404).send("Ocorrência não encontrada");
+    }
+
+    // Atualiza apenas os campos enviados
+    ocorrencia.tipo = tipo || ocorrencia.tipo;
+    ocorrencia.descricao = descricao || ocorrencia.descricao;
+    ocorrencia.responsavel = responsavel || ocorrencia.responsavel;
+    ocorrencia.encaminhamento = encaminhamento || ocorrencia.encaminhamento;
+    ocorrencia.resultado = resultado || ocorrencia.resultado;
+    ocorrencia.status = status || ocorrencia.status;
+
+    await ocorrencia.save();
+
+    return res.redirect(`/ocorrencias/detalhes/${id}`);
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Erro ao atualizar ocorrência: " + err.message);
   }
 };

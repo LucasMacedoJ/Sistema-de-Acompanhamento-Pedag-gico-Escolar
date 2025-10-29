@@ -1,19 +1,25 @@
 <%- include('../tela') %>
 
-<h1>Detalhes da ocorrência de <%= ocorrencia.aluno ? ocorrencia.aluno.nome : 'Aluno não informado' %></h1>
+  <h1>Detalhes da ocorrência de <%= ocorrencia.aluno ? ocorrencia.aluno.nome : 'Aluno não informado' %>
+  </h1>
   <div class="container">
-<ul>
-  <li>Data: <%= ocorrencia.data ? ocorrencia.data.toLocaleDateString('pt-BR') : 'Data não informada' %></li>
-  <li>Descrição: <%= ocorrencia.descricao %></li>
-</ul>
+    <ul>
+      <li>Data: <%= ocorrencia.data ? ocorrencia.data.toLocaleDateString('pt-BR') : 'Data não informada' %>
+      </li>
+      <li>Descrição: <%= ocorrencia.descricao %>
+      </li>
+    </ul>
 
-<% if (ocorrencia.aluno) { %>
-  <a href="/ocorrencias/nova?aluno=<%= ocorrencia.aluno._id %>">
-    <button>Nova Ocorrência</button>
-  </a>
-<% } %>
+    <% if (ocorrencia.aluno) { %>
+      <a href="/ocorrencias/nova?aluno=<%= ocorrencia.aluno._id %>">
+        <button>Nova Ocorrência</button>
+      </a>
+      <% } %>
 
-<a href="/alunos/">
-  <button>Voltar para lista</button>
-</a>
-</div>
+        <a href="/ocorrencias/editar/<%= ocorrencia._id %>" class="btn btn-warning">Editar</a>
+
+
+        <a href="/alunos/">
+          <button>Voltar para lista</button>
+        </a>
+  </div>

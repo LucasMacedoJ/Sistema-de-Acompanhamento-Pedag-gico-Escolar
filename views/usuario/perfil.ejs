@@ -6,13 +6,13 @@
     <div class="perfil-container">
         <br>
         <div class="foto-container">
-            <% if (usuario.foto && usuario.foto.trim() !=='' ) { %>
-                <img src="<%= usuario.foto.startsWith('/') ? usuario.foto : '/uploads/fotos/' + usuario.foto %>"
-                    alt="foto de <%= usuario.nome %>"
-                    style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+            <% if (usuarioPerfil.foto) { %>
+                <img src="<%= usuarioPerfil.foto%>" alt="Foto do usuário">
+
                 <% } else { %>
-                    <img src="/imagens/padrao.png" alt="Sem foto"
-                        style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+
+                    <img src="/imagens/padrao.png" alt="sem foto" style="width:40px;height:40px;border-radius:50%;">
+
                     <% } %>
         </div>
         <form action="/upload/remover" method="post" style="margin-top:8px;">

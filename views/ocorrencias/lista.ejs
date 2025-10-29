@@ -1,60 +1,74 @@
 <%- include('../tela') %>
 
-<% if (aluno) { %>
-  <h1>Ocorrências de <%= aluno.nome %></h1>
-<% } else { %>
-  <h1>Todas as Ocorrências</h1>
-<% } %>
-
-<div class="container">
-
-  <!-- 🔍 Filtro por tipo -->
-  <form method="GET" action="/ocorrencias" class="filtro">
-    <% if (aluno) { %>
-      <input type="hidden" name="aluno" value="<%= aluno._id %>">
-    <% } %>
-
-    <label for="tipo">Filtrar por tipo:</label>
-    <select name="tipo" id="tipo" onchange="this.form.submit()">
-      <option value="TODOS" <%= tipoSelecionado === 'TODOS' ? 'selected' : '' %>>Todos</option>
-      <option value="GERAL" <%= tipoSelecionado === 'GERAL' ? 'selected' : '' %>>Geral</option>
-      <option value="APOIA" <%= tipoSelecionado === 'APOIA' ? 'selected' : '' %>>APOIA</option>
-      <option value="NEPRE" <%= tipoSelecionado === 'NEPRE' ? 'selected' : '' %>>NEPRE</option>
-      <option value="DISCIPLINAR" <%= tipoSelecionado === 'DISCIPLINAR' ? 'selected' : '' %>>Disciplinar</option>
-      <option value="TRANSFERENCIA" <%= tipoSelecionado === 'TRANSFERENCIA' ? 'selected' : '' %>>Transferência</option>
-    </select>
-  </form>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Data</th>
-        <th>Tipo</th>
-        <th>Descrição</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if (ocorrencias.length === 0) { %>
-        <tr><td colspan="4">Nenhuma ocorrência encontrada.</td></tr>
-      <% } else { %>
-        <% ocorrencias.forEach(function(ocorrencia) { %>
-          <tr>
-            <td><%= ocorrencia.dataAbertura ? ocorrencia.dataAbertura.toLocaleDateString('pt-BR') : '' %></td>
-            <td><%= ocorrencia.tipo %></td>
-            <td><%= ocorrencia.descricao %></td>
-            <td>
-              <a class="btn" href="/ocorrencias/detalhes/<%= ocorrencia._id %>">Detalhes</a>
-            </td>
-          </tr>
-        <% }) %>
-      <% } %>
-    </tbody>
-  </table>
-
   <% if (aluno) { %>
-    <a class="btn" href="/alunos/detalhes/<%= aluno._id %>">Voltar para detalhes do aluno</a>
-  <% } else { %>
-    <a class="btn" href="/alunos/">Voltar para lista de alunos</a>
-  <% } %>
-</div>
+    <h1>Ocorrências de <%= aluno.nome %>
+    </h1>
+    <% } else { %>
+      <h1>Todas as Ocorrências</h1>
+      <% } %>
+
+        <div class="container">
+
+          <!-- 🔍 Filtro por tipo -->
+          <form method="GET" action="/ocorrencias/lista" class="filtro">
+            <% if (aluno) { %>
+              <input type="hidden" name="aluno" value="<%= aluno._id %>">
+              <% } %>
+
+                <label for="tipo">Filtrar por tipo:</label>
+                <select name="tipo" id="tipo" onchange="this.form.submit()">
+                  <option value="TODOS" <%=tipoSelecionado==='TODOS' ? 'selected' : '' %>>Todos</option>
+                  <option value="GERAL" <%=tipoSelecionado==='GERAL' ? 'selected' : '' %>>Geral</option>
+                  <option value="APOIA" <%=tipoSelecionado==='APOIA' ? 'selected' : '' %>>APOIA</option>
+                  <option value="NEPRE" <%=tipoSelecionado==='NEPRE' ? 'selected' : '' %>>NEPRE</option>
+                  <option value="DISCIPLINAR" <%=tipoSelecionado==='DISCIPLINAR' ? 'selected' : '' %>>Disciplinar
+                  </option>
+                  <option value="TRANSFERENCIA" <%=tipoSelecionado==='TRANSFERENCIA' ? 'selected' : '' %>>Transferência
+                  </option>
+                </select>
+          </form>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (ocorrencias.length===0) { %>
+                <tr>
+                  <td colspan="4">Nenhuma ocorrência encontrada.</td>
+                </tr>
+                <% } else { %>
+                  <% ocorrencias.forEach(function(ocorrencia) { %>
+                    <tr>
+                      <td>
+                        <%= ocorrencia.dataAbertura ? new Date(ocorrencia.dataAbertura).toLocaleDateString('pt-BR') : ''
+                          %>
+                      </td>
+                      <td>
+                        <%= ocorrencia.tipo %>
+                      </td>
+                      <td>
+                        <%= ocorrencia.descricao %>
+                      </td>
+                      <td>
+                        <a class="btn" href="/ocorrencias/detalhes/<%= ocorrencia._id %>">Detalhes</a>
+                        <a class="btn btn-warning" href="/ocorrencias/editar/<%= ocorrencia._id %>">Editar</a>
+                      </td>
+                    </tr>
+                    <% }) %>
+                      <% } %>
+            </tbody>
+          </table>
+
+          <% if (aluno) { %>
+            <a class="btn" href="/alunos/detalhes/<%= aluno._id %>">Voltar para detalhes do aluno</a>
+            <% } else { %>
+              <a class="btn" href="/alunos/">Voltar para lista de alunos</a>
+              <% } %>
+
+        </div>
