@@ -1,44 +1,42 @@
 <head>
     <link rel="stylesheet" href="/css/perfil.css">
     <link rel="stylesheet" href="/css/geral.css">
-<h1>Meu perfil</h1>
+    <h1>Meu perfil</h1>
 
-<div class="perfil-container">
-    <br>
-    <div class="foto-container">
-        <% if (usuario.avatar && usuario.avatar.trim() !=='' ) { %>
-            <img src="<%= usuario.avatar.startsWith('/') ? usuario.avatar : '/uploads/avatars/' + usuario.avatar %>"
-                alt="Avatar de <%= usuario.nome %>"
-                style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
-            <% } else { %>
-                <img src="/imagens/padrao.png" alt="Sem avatar"
+    <div class="perfil-container">
+        <br>
+        <div class="foto-container">
+            <% if (usuario.foto && usuario.foto.trim() !=='' ) { %>
+                <img src="<%= usuario.foto.startsWith('/') ? usuario.foto : '/uploads/fotos/' + usuario.foto %>"
+                    alt="foto de <%= usuario.nome %>"
                     style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
-                <% } %>
+                <% } else { %>
+                    <img src="/imagens/padrao.png" alt="Sem foto"
+                        style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+                    <% } %>
+        </div>
+        <form action="/upload/remover" method="post" style="margin-top:8px;">
+            <button type="submit">Remover foto</button>
+        </form>
+
+        <p><strong>Nome:</strong>
+            <%= usuario.nome %>
+        </p>
+        <p><strong>Email:</strong>
+            <%= usuario.email %>
+        </p>
+
+        <form action="/usuario/perfil/foto" method="POST" enctype="multipart/form-data">
+            <input type="file" name="foto" accept="image/*" required>
+            <button type="submit">Atualizar Foto</button>
+        </form>
+
+        <!-- botão de voltar para a tela anterior -->
+        <form action="/usuario/logout" method="post" style="display:inline;margin-left:8px;">
+            <button type="submit" style="margin-bottom:12px;">Deslogar</button>
+        </form>
+        <button type="button" onclick="history.back()" style="margin-bottom:12px;">Voltar</button>
+        <!-- botão de deslogar (envia POST para /logout) -->
+
+
     </div>
-    <form action="/upload/remover" method="post" style="margin-top:8px;">
-        <button type="submit">Remover foto</button>
-    </form>
-
-    <p><strong>Nome:</strong>
-        <%= usuario.nome %>
-    </p>
-    <p><strong>Email:</strong>
-        <%= usuario.email %>
-    </p>
-
-    <form action="/upload/upload" method="post" enctype="multipart/form-data">
-  
-        <input type="file" name="avatar" accept="image/*" required>
-        <label>Escolher nova foto (jpg/png, até 2MB)</label>
-        <button type="submit" class="submit">Enviar</button>      
-        
-    </form>
-    <!-- botão de voltar para a tela anterior -->
-     <form action="/usuario/logout" method="post" style="display:inline;margin-left:8px;">
-        <button type="submit" style="margin-bottom:12px;">Deslogar</button>
-    </form>
-    <button type="button" onclick="history.back()" style="margin-bottom:12px;">Voltar</button>
-    <!-- botão de deslogar (envia POST para /logout) -->
-    
-
-</div>

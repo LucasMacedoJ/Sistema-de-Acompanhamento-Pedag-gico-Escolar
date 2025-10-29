@@ -1,21 +1,23 @@
 <%- include('../tela') %>
 
-<h1>Cadastrar Turma</h1>
+  <h1>Cadastrar Turma</h1>
 
-<form class="container" action="/turmas/cadastrar" method="POST">
-  <div>
-    <label for="nome">Nome da Turma:</label>
-    <input type="text" name="nome" id="nome" required>
-  </div>
+  <form class="container" action="/turmas/cadastrar" method="POST">
+    <div>
+      <label for="nome">Nome da Turma:</label>
+      <input type="text" name="nome" id="nome" required>
+    </div>
 
-  <div>
-    <label for="periodo">Turno:</label>
-    <select name="periodo" id="periodo" required>
-      <option value="" disabled selected>Selecione o período</option>
-      <option value="Manhã">Manhã</option>
-      <option value="Tarde">Tarde</option>
-    </select>
-  </div>
+    <div>
+      <label for="periodo">Turno:</label>
+      <select name="periodo" id="periodo" required>
+        <option value="" disabled selected>Selecione o período</option>
+        <option value="Matutino">Matutino</option>
+        <option value="Vespertino">Vespertino</option>
+        <option value="Noturno">Noturno</option>
+        <option value="Integral">Integral</option>
+      </select>
+    </div>
 
-  <button type="submit">Cadastrar</button>
-</form>
+    <button type="submit">Cadastrar</button>
+  </form>

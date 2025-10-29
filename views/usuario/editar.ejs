@@ -1,0 +1,45 @@
+<%- include('../tela') %>
+
+  <h1>Editar Usuario</h1>
+  <div class="container">
+    <% if (erro) { %>
+      <p style="color:red">
+        <%= erro %>
+      </p>
+      <% } %>
+
+        <form action="/usuario/<%= form._id %>/editar" method="POST" enctype="multipart/form-data">
+          <label for="nome">Nome:</label>
+          <input type="text" name="nome" id="nome" value="<%= (form && form.nome) ? form.nome : '' %>">
+          <br>
+
+          <label for="email">Email:</label>
+          <input type="email" name="email" id="email" required value="<%= (form && form.email) ? form.email : '' %>">
+          <br>
+
+          <label for="senha">Senha:</label>
+          <input type="password" name="senha" id="senha" required>
+          <br>
+
+          <label for="foto">Foto (opcional, jpg/png até 2MB):</label>
+          <input type="file" name="foto" id="foto" accept="image/*">
+          <br>
+
+          <% if (usuario && usuario.perfil==='admin' ) { %>
+            <label for="perfil">Perfil:</label>
+            <select name="perfil" id="perfil">
+              <option value="comum" <%=(form && form.perfil==='comum' ) ? 'selected' : '' %>>Usuário comum</option>
+              <option value="admin" <%=(form && form.perfil==='admin' ) ? 'selected' : '' %>>Administrador</option>
+            </select>
+            <br>
+            <% } %>
+
+              <button type="submit">Cadastrar</button>
+
+              <% if (usuario && usuario.perfil==='admin' ) { %>
+                <a class="btn" href="/usuario/lista" style="margin-left:1rem;">Voltar à lista</a>
+                <% } else { %>
+                  <a class="btn" href="/login" style="margin-left:1rem;">Voltar ao login</a>
+                  <% } %>
+        </form>
+  </div>

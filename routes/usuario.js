@@ -31,6 +31,9 @@ router.post('/:id/excluir', usuarioController.excluirUsuario);
 // ================================
 router.get('/perfil', usuarioController.mostrarPerfil);
 
+// 🖼️ Atualizar foto do perfil
+router.post('/perfil/foto', uploadUsuario.single('foto'), usuarioController.atualizarFotoPerfil);
+
 // rota de logout
 router.post('/logout', usuarioController.logout);
 

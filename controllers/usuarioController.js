@@ -1,4 +1,3 @@
-// controllers/usuarioController.js
 const Usuario = require('../models/usuario');
 const bcrypt = require('bcrypt');
 const { uploadUsuario, processarFoto, removerFoto } = require('./fotoController');
@@ -77,7 +76,6 @@ exports.cadastrarUsuario = async (req, res) => {
     await usuario.save();
 
     return isAdmin(req) ? res.redirect('/usuario/lista') : res.redirect('/login');
-
   } catch (err) {
     console.error('Erro ao cadastrar usuário:', err);
     res.render('usuario/novo', {
@@ -98,10 +96,8 @@ exports.listarUsuario = async (req, res) => {
     const usuarios = await Usuario.find({}, '_id nome email perfil foto').lean();
 
     // Ajusta caminho das fotos
-    usuarios.forEach(usuarioItem => {
-      if (usuarioItem.foto && !usuarioItem.foto.startsWith('/')) {
-        usuarioItem.foto = `/uploads/usuarios/${usuarioItem.foto}`;
-      }
+    usuarios.forEach(u => {
+      if (u.foto && !u.foto.startsWith('/')) u.foto = `/uploads/usuario/${u.foto}`;
     });
 
     res.render('usuario/lista', {
@@ -109,7 +105,6 @@ exports.listarUsuario = async (req, res) => {
       usuario: usuarios,
       erro: null
     });
-
   } catch (err) {
     console.error('Erro ao listar usuários:', err);
     res.status(500).send('Erro ao listar usuários.');
@@ -134,10 +129,9 @@ exports.formEditarUsuario = async (req, res) => {
 
     res.render('usuario/editar', {
       usuario: req.session.usuario || null,
-      usuarioEdit,
+      form: usuarioEdit,
       erro: null
     });
-
   } catch (err) {
     console.error(err);
     res.redirect('/usuario/lista');
@@ -161,7 +155,7 @@ exports.atualizarUsuario = async (req, res) => {
     if (erroEmail) {
       return res.render('usuario/editar', {
         usuario: req.session.usuario || null,
-        usuarioEdit: Object.assign(usuario.toObject(), { nome, email, perfil }),
+        form: Object.assign(usuario.toObject(), { nome, email, perfil }),
         erro: erroEmail
       });
     }
@@ -184,12 +178,11 @@ exports.atualizarUsuario = async (req, res) => {
     }
 
     return isAdmin(req) ? res.redirect('/usuario/lista') : res.redirect('/usuario/perfil');
-
   } catch (err) {
     console.error(err);
     res.render('usuario/editar', {
       usuario: req.session.usuario || null,
-      usuarioEdit: Object.assign({}, req.body, { _id: req.params.id }),
+      form: Object.assign({}, req.body, { _id: req.params.id }),
       erro: 'Erro ao atualizar usuário.'
     });
   }
@@ -205,12 +198,9 @@ exports.excluirUsuario = async (req, res) => {
     if (isSelf(req, id)) return res.redirect('/usuario/lista');
 
     const usuarioRemovido = await Usuario.findByIdAndDelete(id);
-    if (usuarioRemovido?.foto) {
-      await removerFoto(usuarioRemovido.foto);
-    }
+    if (usuarioRemovido?.foto) await removerFoto(usuarioRemovido.foto);
 
     res.redirect('/usuario/lista');
-
   } catch (err) {
     console.error('Erro ao excluir usuário:', err);
     res.redirect('/usuario/lista');
@@ -235,10 +225,32 @@ exports.mostrarPerfil = async (req, res) => {
       usuario: req.session.usuario || null,
       usuarioPerfil
     });
-
   } catch (err) {
     console.error(err);
     res.redirect('/');
+  }
+};
+
+// ====================================
+// 🖼️ Atualizar foto do perfil
+// ====================================
+exports.atualizarFotoPerfil = async (req, res) => {
+  try {
+    const usuario = await Usuario.findById(req.session.usuario._id);
+    if (!usuario) return res.redirect('/login');
+
+    if (req.file) {
+      const novaFoto = await processarFoto(req.file, 'usuario');
+      if (usuario.foto) await removerFoto(usuario.foto);
+      usuario.foto = novaFoto;
+      await usuario.save();
+      req.session.usuario.foto = novaFoto;
+    }
+
+    res.redirect('/usuario/perfil');
+  } catch (err) {
+    console.error(err);
+    res.redirect('/usuario/perfil');
   }
 };
 
