@@ -42,20 +42,20 @@
         </div>
 
         <!-- 🧠 Necessidade Especial -->
-        <div>
+        <div class="form-group">
           <label for="necessidadeE">Necessidades Especiais:</label>
-          <select name="necessidadeE" id="necessidadeE">
+          <select id="necessidadeE" name="necessidadeE">
             <option value="Nenhuma">Nenhuma</option>
             <option value="TDAH">TDAH</option>
-            <option value="Autismo">Autismo</option>
             <option value="Dislexia">Dislexia</option>
-            <option value="Deficiência visual">Deficiência visual</option>
-            <option value="Deficiência auditiva">Deficiência auditiva</option>
-            <option value="Deficiência física">Deficiência física</option>
+            <option value="Autismo">Autismo (TEA)</option>
+            <option value="Deficiência Auditiva">Deficiência Auditiva</option>
+            <option value="Deficiência Visual">Deficiência Visual</option>
             <option value="Outro">Outro</option>
           </select>
-          <input type="text" name="necessidadeEOutro" id="necessidadeEOutro"
-            placeholder="Descreva a necessidade especial" style="display:none;">
+
+          <input type="text" id="outroNecessidade" name="outroNecessidade" placeholder="Descreva a necessidade"
+            style="display:none;">
         </div>
 
         <!-- ❤️ Problema de Saúde -->
@@ -69,6 +69,7 @@
             <option value="Alergia">Alergia</option>
             <option value="Outro">Outro</option>
           </select>
+
           <input type="text" name="problemaSaudeOutro" id="problemaSaudeOutro"
             placeholder="Descreva o problema de saúde" style="display:none;">
         </div>
@@ -84,6 +85,7 @@
             <option value="Dificuldade de concentração">Dificuldade de concentração</option>
             <option value="Outro">Outro</option>
           </select>
+
           <input type="text" name="disciplinaDOutro" id="disciplinaDOutro" placeholder="Descreva o problema disciplinar"
             style="display:none;">
         </div>
@@ -138,11 +140,25 @@
 
     <script src="https://unpkg.com/vanilla-masker/build/vanilla-masker.min.js"></script>
     <script>
+      // Máscara de telefone
       const telInput = document.getElementById('responsavelContato');
       if (telInput) {
         telInput.addEventListener('input', function () {
           VMasker(telInput).maskPattern('(99) 99999-9999');
         });
       }
+
+      // Mostrar campos "Outro"
+      function toggleOutro(selectId, inputId) {
+        const select = document.getElementById(selectId);
+        const input = document.getElementById(inputId);
+        select.addEventListener('change', function () {
+          input.style.display = this.value === 'Outro' ? 'block' : 'none';
+        });
+      }
+
+      toggleOutro('necessidadeE', 'outroNecessidade');
+      toggleOutro('problemaSaude', 'problemaSaudeOutro');
+      toggleOutro('disciplinaD', 'disciplinaDOutro');
     </script>
   </body>

@@ -1,3 +1,4 @@
+// controllers/alunosController.js
 const Aluno = require('../models/alunos');
 const Turma = require('../models/turma');
 const { uploadAlunos, processarFoto, removerFoto } = require('./fotoController');
@@ -25,13 +26,37 @@ exports.cadastrar = async (req, res) => {
       fotoPath = await processarFoto(req.file, 'alunos');
     }
 
+    // ✅ Necessidades Especiais (múltiplas + "Outro")
+    let necessidades = req.body.necessidadeE || ['Nenhuma'];
+    if (!Array.isArray(necessidades)) necessidades = [necessidades];
+    if (necessidades.includes('Outro') && req.body.outroNecessidade) {
+      necessidades = necessidades.filter(n => n !== 'Outro');
+      necessidades.push(req.body.outroNecessidade.trim());
+    }
+
+    // ✅ Problemas de Saúde (múltiplos + "Outro")
+    let saude = req.body.problemaSaude || ['Nenhum'];
+    if (!Array.isArray(saude)) saude = [saude];
+    if (saude.includes('Outro') && req.body.outroSaude) {
+      saude = saude.filter(s => s !== 'Outro');
+      saude.push(req.body.outroSaude.trim());
+    }
+
+    // ✅ Dificuldades de Aprendizagem (múltiplas + "Outro")
+    let dificuldades = req.body.disciplinaD || ['Nenhuma'];
+    if (!Array.isArray(dificuldades)) dificuldades = [dificuldades];
+    if (dificuldades.includes('Outro') && req.body.outroDificuldade) {
+      dificuldades = dificuldades.filter(d => d !== 'Outro');
+      dificuldades.push(req.body.outroDificuldade.trim());
+    }
+
     const novoAluno = new Aluno({
-      nome: req.body.nome || '', // Nome completo
+      nome: req.body.nome || '',
       dataN: req.body.dataN,
       turma: req.body.turma,
-      necessidadeE: req.body.necessidadeE || 'Nenhuma',
-      problemaSaude: req.body.problemaSaude || 'Nenhum',
-      disciplinaD: req.body.disciplinaD || 'Nenhuma',
+      necessidadeE: necessidades,
+      problemaSaude: saude,
+      disciplinaD: dificuldades,
       transferenciaOnde: req.body.transferenciaOnde || '',
       transferenciaD: req.body.transferenciaD || '',
       responsavelNome: req.body.responsavelNome || '',
@@ -46,11 +71,7 @@ exports.cadastrar = async (req, res) => {
     res.redirect('/alunos');
   } catch (err) {
     console.error("Erro ao salvar o aluno:", err);
-    if (err.name === 'ValidationError') {
-      res.status(400).send("Erro de validação: " + err.message);
-    } else {
-      res.status(500).send("Erro ao salvar o aluno: " + err.message);
-    }
+    res.status(500).send("Erro ao salvar o aluno: " + err.message);
   }
 };
 
@@ -79,7 +100,7 @@ exports.inativo = async (req, res) => {
 };
 
 // =============================
-// ✏️ EDITAR FORMULÁRIO
+// ✏️ FORMULÁRIO DE EDIÇÃO
 // =============================
 exports.editarForm = async (req, res) => {
   try {
@@ -97,13 +118,37 @@ exports.editarForm = async (req, res) => {
 // =============================
 exports.editar = async (req, res) => {
   try {
+    // ✅ Necessidades Especiais
+    let necessidades = req.body.necessidadeE || ['Nenhuma'];
+    if (!Array.isArray(necessidades)) necessidades = [necessidades];
+    if (necessidades.includes('Outro') && req.body.outroNecessidade) {
+      necessidades = necessidades.filter(n => n !== 'Outro');
+      necessidades.push(req.body.outroNecessidade.trim());
+    }
+
+    // ✅ Problemas de Saúde
+    let saude = req.body.problemaSaude || ['Nenhum'];
+    if (!Array.isArray(saude)) saude = [saude];
+    if (saude.includes('Outro') && req.body.outroSaude) {
+      saude = saude.filter(s => s !== 'Outro');
+      saude.push(req.body.outroSaude.trim());
+    }
+
+    // ✅ Dificuldades de Aprendizagem
+    let dificuldades = req.body.disciplinaD || ['Nenhuma'];
+    if (!Array.isArray(dificuldades)) dificuldades = [dificuldades];
+    if (dificuldades.includes('Outro') && req.body.outroDificuldade) {
+      dificuldades = dificuldades.filter(d => d !== 'Outro');
+      dificuldades.push(req.body.outroDificuldade.trim());
+    }
+
     const updateData = {
       nome: req.body.nome || '',
       dataN: req.body.dataN,
       turma: req.body.turma,
-      necessidadeE: req.body.necessidadeE || 'Nenhuma',
-      problemaSaude: req.body.problemaSaude || 'Nenhum',
-      disciplinaD: req.body.disciplinaD || 'Nenhuma',
+      necessidadeE: necessidades,
+      problemaSaude: saude,
+      disciplinaD: dificuldades,
       transferenciaOnde: req.body.transferenciaOnde || '',
       transferenciaD: req.body.transferenciaD || '',
       responsavelNome: req.body.responsavelNome || '',
@@ -121,11 +166,7 @@ exports.editar = async (req, res) => {
     res.redirect('/alunos');
   } catch (err) {
     console.error("Erro ao editar aluno:", err);
-    if (err.name === 'ValidationError') {
-      res.status(400).send("Erro de validação: " + err.message);
-    } else {
-      res.status(500).send("Erro ao editar aluno: " + err.message);
-    }
+    res.status(500).send("Erro ao editar aluno: " + err.message);
   }
 };
 
@@ -142,23 +183,19 @@ exports.toggleAtivo = async (req, res) => {
     res.redirect(aluno.ativo ? '/alunos' : '/alunos/inativo');
   } catch (err) {
     console.error("Erro ao alterar status:", err);
-    if (err.name === 'ValidationError') {
-      res.status(400).send("Erro de validação: " + err.message);
-    } else {
-      res.status(500).send("Erro ao alterar status: " + err.message);
-    }
+    res.status(500).send("Erro ao alterar status: " + err.message);
   }
 };
 
 // =============================
-// 🔍 BUSCA
+// 🔍 BUSCA (ATIVOS)
 // =============================
 exports.search = async (req, res) => {
-  const query = req.query.q;
+  const query = req.query.q || '';
   try {
     const resultados = await Aluno.find({
       ativo: true,
-      nome: { $regex: query, $options: 'i' } // apenas nome completo
+      nome: { $regex: query, $options: 'i' }
     }).populate('turma').lean();
 
     res.render('alunos/lista', { alunos: resultados });
@@ -168,10 +205,10 @@ exports.search = async (req, res) => {
 };
 
 // =============================
-// 🔍 BUSCA INATIVOS
+// 🔍 BUSCA (INATIVOS)
 // =============================
 exports.searchInativos = async (req, res) => {
-  const query = req.query.q;
+  const query = req.query.q || '';
   try {
     const resultados = await Aluno.find({
       ativo: false,
@@ -185,7 +222,7 @@ exports.searchInativos = async (req, res) => {
 };
 
 // =============================
-// 🗑️ DELETAR
+// 🗑️ DELETAR ALUNO
 // =============================
 exports.deletar = async (req, res) => {
   try {
@@ -197,7 +234,7 @@ exports.deletar = async (req, res) => {
 };
 
 // =============================
-// 🔎 DETALHES
+// 🔎 DETALHES DO ALUNO
 // =============================
 exports.detalhes = async (req, res) => {
   try {
