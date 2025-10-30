@@ -45,11 +45,20 @@ input {
   display: block; 
 } 
 
+/* Garante que checkboxes e radios sejam inline (sobrescreve display:block global) */
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline-block;
+  width: auto;
+  padding: 0;
+  margin: 0 8px 0 0;
+  vertical-align: middle;
+}
+
 .botoes {
     display: flex;
     justify-content: center;  /* centraliza horizontalmente */
     align-items: center;      /* centraliza verticalmente (se precisar) */
-    flex-wrap: wrap;          /* permite quebrar linha */
     gap: 10px;                /* espaço entre botões */
 }
 
@@ -67,6 +76,7 @@ input {
     margin: 10px 0;
     text-decoration: none; 
     transition: background 0.2s;
+    max-width: 50%;
   } 
   
 button:hover, a.btn:hover {

@@ -1,7 +1,7 @@
 <%- include('../tela') %>
 
   <head>
-    <link rel="stylesheet" href="/css/editar.css">
+    <link rel="stylesheet" href="/css/editarAluno.css">
   </head>
 
 
@@ -10,12 +10,14 @@
       <h1>Editar Aluno</h1>
 
       <form action="/alunos/editar/<%= aluno._id %>" method="POST">
+      <div>
         <label>Nome:</label>
         <input type="text" name="nome" value="<%= aluno.nome %>" required>
+      </div>
 
         <!-- Turma -->
         <div>
-          <label for="turma">Turma:</label>
+          <label for="turma">Turma:</label><br>
           <select name="turma" id="turma" required>
             <option value="" disabled selected>Selecione uma turma</option>
             <% turmas.forEach(function(turma) { %>
@@ -34,7 +36,7 @@
 
         <!-- 🧠 Necessidade Especial -->
         <div>
-          <label for="necessidadeE">Necessidades Especiais:</label>
+          <label for="necessidadeE">Necessidades Especiais:</label><br>
           <select name="necessidadeE" id="necessidadeE">
             <option value="Nenhuma">Nenhuma</option>
             <option value="TDAH">TDAH</option>
@@ -51,7 +53,7 @@
 
         <!-- ❤️ Problema de Saúde -->
         <div>
-          <label for="problemaSaude">Problema de Saúde:</label>
+          <label for="problemaSaude">Problema de Saúde:</label><br>
           <select name="problemaSaude" id="problemaSaude">
             <option value="Nenhum">Nenhum</option>
             <option value="Asma">Asma</option>
@@ -66,7 +68,7 @@
 
         <!-- ⚙️ Dificuldade Disciplinar -->
         <div>
-          <label for="disciplinaD">Dificuldade / Problema Disciplinar:</label>
+          <label for="disciplinaD">Dificuldade / Problema Disciplinar:</label><br>
           <select name="disciplinaD" id="disciplinaD">
             <option value="Nenhuma">Nenhuma</option>
             <option value="Falta de atenção">Falta de atenção</option>
@@ -102,9 +104,9 @@
         </div>
 
         <!-- Segundo Professor -->
-        <div>
+        <div class="checkbox-row">
           <label for="segundoProfessor">Segundo Professor:</label>
-          <input type="checkbox" name="segundoProfessor" id="segundoProfessor">
+          <input class="checkbox" type="checkbox" name="segundoProfessor" id="segundoProfessor">
         </div>
 
         <div>
@@ -118,9 +120,10 @@
           <textarea class="ctexto" name="observacao" id="observacao" rows="4" cols="50"
             placeholder="Digite observações adicionais"></textarea>
         </div>
-
+        <div class="botoes">
         <button type="submit">Salvar alterações</button>
         <a class="btn" href="/alunos/">Cancelar</a>
+      </div>
       </form>
     </div>
   </body>
