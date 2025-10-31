@@ -23,6 +23,7 @@
             <% turmas.forEach(function(turma) { %>
               <option value="<%= turma._id %>">
                 <%= turma.nome %>
+                <%= turma.periodo %>
               </option>
               <% }) %>
           </select>
