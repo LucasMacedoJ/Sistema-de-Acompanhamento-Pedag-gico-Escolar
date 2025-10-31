@@ -21,9 +21,9 @@
           <tr>
             <td>
               <% if (usuarioItem.foto && usuarioItem.foto !=='' ) { %>
-                <img src="<%= usuarioItem.foto %>" alt="foto" class="fotos" width="150" height="150">
+                <img src="<%= usuarioItem.foto %>" alt="foto" class="fotos">
                 <% } else { %>
-                  <img src="../imagens/padrao.png" alt="sem foto" class="fotos" width="150" height="150">
+                  <img src="/imagens/padrao.png" alt="sem foto" class="fotos">
                   <% } %>
             </td>
             <td>
@@ -42,9 +42,9 @@
                 <% } %>
 
                   <% if (usuarioLogado && usuarioLogado.perfil==='admin' ) { %>
-                    <form action="/usuario/<%= usuarioItem._id %>/excluir" method="POST" style="display:inline;"
+                    <form action="/usuario/<%= usuarioItem._id %>/excluir" method="POST"
                       onsubmit="return confirm('Confirma exclusão deste usuário?');">
-                      <button type="submit" class="btn btn-danger">Excluir</button>
+                      <button type="submit" class="btn">Excluir</button>
                     </form>
                     <% } %>
             </td>

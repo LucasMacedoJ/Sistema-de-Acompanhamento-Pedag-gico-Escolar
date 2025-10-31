@@ -77,7 +77,6 @@ input[type="radio"] {
     margin: 10px 0;
     text-decoration: none; 
     transition: background 0.2s;
-    max-width: 50%;
   } 
   
 button:hover, a.btn:hover {

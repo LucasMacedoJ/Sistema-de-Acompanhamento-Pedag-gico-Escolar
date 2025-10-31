@@ -1,10 +1,21 @@
 /* replace previous .barra block with pseudo-element header box */
 .barra {
   position: relative; /* necessário para o ::before */
-  display: table-header-group; /* compatibilidade se aplicada ao thead */
+  display: block; /* mudou: usar block para controlar facilmente o ::before em header */
   width: 100%;
 }
 
+/* garante que, se a barra for aplicada ao thead, a própria linha do cabeçalho use grid */
+thead.barra tr {
+  display: grid;
+  /* colunas mais compactas para reduzir espaço horizontal entre elas */
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  column-gap: 6px; /* reduzido para aproximar colunas horizontalmente */
+  width: 100%;
+}
+
+/* pseudo-element do cabeçalho (mantido) */
 thead.barra::before {
   content: "";
   position: absolute;
@@ -12,7 +23,7 @@ thead.barra::before {
   right: 0;
   top: 0;
   bottom: 0;
-  border: 5px solid #76aadb; /* borda visível (combina com tbody tr::before) */
+  border: 5px solid #76aadb;
   border-radius: 12px;
   background: #76aadb;
   z-index: 0;
@@ -22,13 +33,12 @@ thead.barra::before {
 /* garante que o conteúdo do cabeçalho fique acima da caixa */
 .barra th,
 thead th {
-  /* garantir cabeçalho centralizado e visível sobre o ::before */
   position: relative;
   z-index: 1;
   background: transparent;
   color: black;
   font-weight: 700;
-  text-align: center; /* <- mudou para centralizar o cabeçalho */
+  text-align: center;
   padding: 12px;
 }
 
@@ -38,17 +48,13 @@ thead.barra tr {
     width: 100%;
 }
 
-thead.barra th:last-child {
-  right: 190px; /* espaço extra para o último cabeçalho (Ações) */
-}
-
 .fotos {
-    width: 17%;
-    height: 17%;
+    /* foto um pouco menor para economizar espaço horizontal */
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    margin: 1px;
-    margin-left: 190px;
-
+    object-fit: cover;
+    display: block;
 }
 
 
@@ -71,17 +77,21 @@ tbody td {
 /* cria a "caixa" arredondada por linha usando pseudo-elemento */
 tbody tr {
   position: relative;
-  /* remove qualquer borda direta da tr */
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  column-gap: 6px; /* reduzido para aproximar colunas horizontalmente */
+  width: 100%;
   /* padding e background são controlados pelo pseudo-elemento */
 }
 
 tbody tr::before {
   content: "";
   position: absolute;
-  left: 0;    /* preencher até a borda da tabela */
+  left: 0;
   right: 0;
-  top: 6px;    /* ajuste vertical interno (espaço entre linhas) */
-  bottom: 6px; /* ajuste vertical interno */
+  top: 6px;
+  bottom: 6px;
   border: 5px solid #357ab8;
   border-radius: 20px;
   background: aliceblue;
@@ -89,13 +99,12 @@ tbody tr::before {
   pointer-events: none;
 }
 
-/* padding geral das células — consistente com a margem criada acima */
+/* padding geral das células — menos espaçamento horizontal */
 tbody td {
   position: relative;
   z-index: 1;
-  padding: 12px 14px; /* menos espaçamento horizontal para melhor ajuste */
+  padding: 8px 8px; /* reduzido horizontalmente para aproximar conteúdo */
   vertical-align: middle;
-  /* texto por padrão à esquerda para melhor leitura; será sobrescrito por colunas específicas */
   text-align: left;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -115,23 +124,16 @@ tbody {
 
 /* ------------- UPDATED COLUMN ALIGNMENT RULES ------------- */
 
-/* definir larguras básicas por coluna (ajuste conforme necessário) */
-thead.barra th:nth-child(1),
-tbody td:nth-child(1) { width: 80px;  text-align: center;  padding-left: 0; padding-right: 0; } /* Foto */
-thead.barra th:nth-child(2),
-tbody td:nth-child(2) { width: 30%;  text-align: left;  padding-left: 12px; }  /* Nome */
-thead.barra th:nth-child(3),
-tbody td:nth-child(3) { width: 35%;  text-align: center; }                       /* Email */
-thead.barra th:nth-child(4),
-tbody td:nth-child(4) { width: 10%;  text-align: center; white-space: nowrap; }   /* Perfil (sem quebra) */
-thead.barra th:nth-child(5),
-tbody td:nth-child(5) { width: 120px; text-align: right; padding-right: 18px; }  /* Ações (botões) */
+/* regras de largura por nth-child removidas, pois foram substituídas pelo grid-template-columns acima */
+/* as regras abaixo foram mantidas apenas para ajustes finos de alinhamento */
 
 /* centralizar imagem dentro da célula de foto */
 tbody td:nth-child(1) {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 12px;   /* alinhamento consistente com o th da coluna 2 */
+  padding-right: 12px;
 }
 
 /* garantir que a imagem não force altura/width estranhos */
@@ -155,3 +157,30 @@ tbody td:nth-child(5) {
   align-items: center;
   gap: 8px;
 }
+
+/* container: permitir scroll horizontal em telas pequenas */
+.container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* make table header cells and body cells fill the grid cell and share padding */
+thead.barra th,
+tbody td {
+  display: block;          /* garante que cada célula seja um grid item consistente */
+  box-sizing: border-box;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+/* alinhamento por coluna (mantém cabeçalho e linhas consistentes) */
+thead.barra th:nth-child(1),
+tbody td:nth-child(1) { text-align: center; }
+thead.barra th:nth-child(2),
+tbody td:nth-child(2) { text-align: center; padding-left: 12px; }
+thead.barra th:nth-child(3),
+tbody td:nth-child(3) { text-align: center; }
+thead.barra th:nth-child(4),
+tbody td:nth-child(4) { text-align: center; white-space: nowrap; }
+thead.barra th:nth-child(5),
+tbody td:nth-child(5) { text-align: center; padding-right: 10px; }
