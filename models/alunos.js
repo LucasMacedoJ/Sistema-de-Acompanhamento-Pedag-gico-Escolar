@@ -8,48 +8,21 @@ const AlunoSchema = new mongoose.Schema({
 
   // 🧠 Sobre o aluno
   necessidadeE: {
-    type: String,
-    enum: [
-      'Nenhuma',
-      'TDAH',
-      'Autismo',
-      'Dislexia',
-      'Deficiência visual',
-      'Deficiência auditiva',
-      'Deficiência física',
-      'Outro'
-    ],
-    default: 'Nenhuma'
+    type: [String], // agora qualquer string é aceita
+    default: []     // pode adicionar várias
   },
-  necessidadeEOutro: { type: String },
+
 
   problemaSaude: {
-    type: String,
-    enum: [
-      'Nenhum',
-      'Asma',
-      'Epilepsia',
-      'Diabetes',
-      'Alergia',
-      'Outro'
-    ],
-    default: 'Nenhum'
+    type: [String], // agora qualquer string é aceita
+    default: []     // pode adicionar várias
   },
-  problemaSaudeOutro: { type: String },
+
 
   disciplinaD: {
-    type: String,
-    enum: [
-      'Nenhuma',
-      'Falta de atenção',
-      'Agressividade',
-      'Desinteresse',
-      'Dificuldade de concentração',
-      'Outro'
-    ],
-    default: 'Nenhuma'
+    type: [String], // agora qualquer string é aceita
+    default: []     // pode adicionar várias
   },
-  disciplinaDOutro: { type: String },
 
   // 🔁 Transferência
   transferenciaOnde: { type: String },

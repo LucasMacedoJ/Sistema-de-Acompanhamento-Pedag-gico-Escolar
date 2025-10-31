@@ -3,23 +3,34 @@ const router = express.Router();
 const alunosController = require('../controllers/alunosControllers');
 const { uploadAlunos } = require('../controllers/fotoController'); // ✅ upload específico para alunos
 
-// Formulário de cadastro
+// =============================
+// 📋 FORMULÁRIOS
+// =============================
 router.get('/formulario', alunosController.formulario);
+router.get('/editar/:id', alunosController.editarForm);
 
-// Cadastro com upload de foto
+// =============================
+// 🧾 CADASTRO E EDIÇÃO
+// =============================
 router.post('/cadastrar', uploadAlunos.single('foto'), alunosController.cadastrar);
+router.post('/editar/:id', uploadAlunos.single('foto'), alunosController.editar);
 
-// Edição com upload
-router.post('/:id/editar', uploadAlunos.single('foto'), alunosController.editar);
-
-// Listagens
+// =============================
+// 📋 LISTAGENS
+// =============================
 router.get('/', alunosController.lista);
 router.get('/inativo', alunosController.inativo);
-router.get('/editar/:id', alunosController.editarForm);
-router.post('/editar/:id', alunosController.editar);
-router.get('/toggle-ativo/:id', alunosController.toggleAtivo);
+
+// =============================
+// 🔍 BUSCAS
+// =============================
 router.get('/search', alunosController.search);
 router.get('/searchInativos', alunosController.searchInativos);
+
+// =============================
+// 🔄 ATIVAÇÃO / DETALHES
+// =============================
+router.get('/toggle-ativo/:id', alunosController.toggleAtivo);
 router.get('/detalhes/:id', alunosController.detalhes);
 
 module.exports = router;

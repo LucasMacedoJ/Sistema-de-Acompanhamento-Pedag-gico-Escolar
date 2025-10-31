@@ -24,7 +24,7 @@
             <% turmas.forEach(function(turma) { %>
               <option value="<%= turma._id %>">
                 <%= turma.nome %>
-                <%= turma.periodo %>
+                  <%= turma.periodo %>
               </option>
               <% }) %>
           </select>
@@ -42,54 +42,31 @@
           <input type="file" name="foto" id="foto" accept="image/*">
         </div>
 
-        <!-- 🧠 Necessidade Especial -->
-         
-        <div class="form-group">
-          <label for="necessidadeE">Necessidades Especiais:</label>
-          <select id="necessidadeE" name="necessidadeE">
-            <option value="Nenhuma">Nenhuma</option>
-            <option value="TDAH">TDAH</option>
-            <option value="Dislexia">Dislexia</option>
-            <option value="Autismo">Autismo (TEA)</option>
-            <option value="Deficiência Auditiva">Deficiência Auditiva</option>
-            <option value="Deficiência Visual">Deficiência Visual</option>
-            <option value="Outro">Outro</option>
-          </select>
-
-          <input type="text" id="outroNecessidade" name="outroNecessidade" placeholder="Descreva a necessidade"
-            style="display:none;">
+        <!-- 🧠 Necessidades Especiais (inputs múltiplos) -->
+        <div>
+          <label>Necessidades Especiais:</label><br>
+          <div id="necessidadeE-container">
+            <input type="text" name="necessidadeE[]" placeholder="Digite uma necessidade especial">
+          </div>
+          <button type="button" onclick="adicionarInput('necessidadeE-container')">Adicionar</button>
         </div>
 
-        <!-- ❤️ Problema de Saúde -->
+        <!-- ❤️ Problemas de Saúde (inputs múltiplos) -->
         <div>
-          <label for="problemaSaude">Problema de Saúde:</label><br>
-          <select name="problemaSaude" id="problemaSaude">
-            <option value="Nenhum">Nenhum</option>
-            <option value="Asma">Asma</option>
-            <option value="Epilepsia">Epilepsia</option>
-            <option value="Diabetes">Diabetes</option>
-            <option value="Alergia">Alergia</option>
-            <option value="Outro">Outro</option>
-          </select>
-
-          <input type="text" name="problemaSaudeOutro" id="problemaSaudeOutro"
-            placeholder="Descreva o problema de saúde" style="display:none;">
+          <label>Problemas de Saúde:</label><br>
+          <div id="problemaSaude-container">
+            <input type="text" name="problemaSaude[]" placeholder="Digite um problema de saúde">
+          </div>
+          <button type="button" onclick="adicionarInput('problemaSaude-container')">Adicionar</button>
         </div>
 
-        <!-- ⚙️ Dificuldade Disciplinar -->
+        <!-- ⚙️ Dificuldades Disciplinares (inputs múltiplos) -->
         <div>
-          <label for="disciplinaD">Dificuldade / Problema Disciplinar:</label><br>
-          <select name="disciplinaD" id="disciplinaD">
-            <option value="Nenhuma">Nenhuma</option>
-            <option value="Falta de atenção">Falta de atenção</option>
-            <option value="Agressividade">Agressividade</option>
-            <option value="Desinteresse">Desinteresse</option>
-            <option value="Dificuldade de concentração">Dificuldade de concentração</option>
-            <option value="Outro">Outro</option>
-          </select>
-
-          <input type="text" name="disciplinaDOutro" id="disciplinaDOutro" placeholder="Descreva o problema disciplinar"
-            style="display:none;">
+          <label>Dificuldades Disciplinares:</label><br>
+          <div id="disciplinaD-container">
+            <input type="text" name="disciplinaD[]" placeholder="Digite uma dificuldade disciplinar">
+          </div>
+          <button type="button" onclick="adicionarInput('disciplinaD-container')">Adicionar</button>
         </div>
 
         <!-- Transferência -->
@@ -144,23 +121,16 @@
     <script>
       // Máscara de telefone
       const telInput = document.getElementById('responsavelContato');
-      if (telInput) {
-        telInput.addEventListener('input', function () {
-          VMasker(telInput).maskPattern('(99) 99999-9999');
-        });
-      }
+      if (telInput) VMasker(telInput).maskPattern('(99) 99999-9999');
 
-      // Mostrar campos "Outro"
-      function toggleOutro(selectId, inputId) {
-        const select = document.getElementById(selectId);
-        const input = document.getElementById(inputId);
-        select.addEventListener('change', function () {
-          input.style.display = this.value === 'Outro' ? 'block' : 'none';
-        });
+      // Função para adicionar novos inputs dinamicamente
+      function adicionarInput(containerId) {
+        const container = document.getElementById(containerId);
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = containerId.replace('-container', '[]');
+        input.placeholder = 'Digite um valor';
+        container.appendChild(input);
       }
-
-      toggleOutro('necessidadeE', 'outroNecessidade');
-      toggleOutro('problemaSaude', 'problemaSaudeOutro');
-      toggleOutro('disciplinaD', 'disciplinaDOutro');
     </script>
   </body>
