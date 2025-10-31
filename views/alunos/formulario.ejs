@@ -24,6 +24,7 @@
             <% turmas.forEach(function(turma) { %>
               <option value="<%= turma._id %>">
                 <%= turma.nome %>
+                <%= turma.periodo %>
               </option>
               <% }) %>
           </select>
@@ -42,15 +43,10 @@
         </div>
 
         <!-- 🧠 Necessidade Especial -->
-<<<<<<< HEAD
+         
         <div class="form-group">
           <label for="necessidadeE">Necessidades Especiais:</label>
           <select id="necessidadeE" name="necessidadeE">
-=======
-        <div>
-          <label for="necessidadeE">Necessidades Especiais:</label><br>
-          <select name="necessidadeE" id="necessidadeE">
->>>>>>> 10dbe486d8b4a2f107df6e77fdb9eeaf542a8c02
             <option value="Nenhuma">Nenhuma</option>
             <option value="TDAH">TDAH</option>
             <option value="Dislexia">Dislexia</option>

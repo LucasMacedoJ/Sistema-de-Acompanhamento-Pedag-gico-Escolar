@@ -16,10 +16,10 @@
       </form>
 
       <table>
-        <thead>
+        <thead class="barra">
           <tr>
+            <th>Foto</th>
             <th>Nome</th>
-            <th>Sobrenome</th>
             <th>Idade</th>
             <th>Turma</th>
             <th>Ativo</th>
@@ -30,10 +30,15 @@
           <% alunos.forEach(function(aluno) { %>
             <tr>
               <td>
-                <%= aluno.nome %>
+                <% if (aluno.foto && aluno.foto !=='' ) { %>
+                  <img src="<%= aluno.foto %>" alt="foto" class="fotos" width="150" height="150">
+                  <% } else { %>
+                    <!-- use absolute path para garantir que o asset seja encontrado -->
+                    <img src="/imagens/padrao.png" alt="sem foto" class="fotos" width="150" height="150">
+                    <% } %>
               </td>
               <td>
-                <%= aluno.sobrenome %>
+                <%= aluno.nome %>
               </td>
               <td>
                 <% if (aluno.dataN) { const hoje=new Date(); const nascimento=new Date(aluno.dataN); let
