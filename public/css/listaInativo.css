@@ -5,6 +5,11 @@
   width: 100%;
 }
 
+thead.barra {
+  position: relative;
+  z-index: 1; /* abaixo das células, acima do fundo se necessário */
+}
+
 thead.barra::before {
   content: "";
   position: absolute;
@@ -23,7 +28,7 @@ thead.barra::before {
 .barra th,
 thead th {
   position: relative;
-  z-index: 1;
+  z-index: 3; /* aumentado para garantir que fique acima dos ::before */
   background: transparent;
   color: black;
   font-weight: 700;
@@ -154,9 +159,9 @@ tbody tr::before {
 /* garante que o conteúdo das células fique acima da "caixa" */
 tbody td {
   position: relative;
-  z-index: 1;
+  z-index: 3; /* aumentado para ficar sobre as pseudo-caixas */
   padding: 12px;
-    text-align: center;
+  text-align: center;
 }
 
 /* remove as regras de border-radius em td:first/last (não necessárias agora) */
@@ -189,7 +194,7 @@ tbody tr td a.btn:hover {
 
 /* Centraliza o formulário de busca */
 .busca{
-  background-color: aliceblue;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -199,7 +204,9 @@ tbody tr td a.btn:hover {
   padding: 8px 12px;
   position: sticky;
   top: 40px;
+  z-index: 10; /* alto para ficar acima dos ::before */
   border-radius: 10px;
+  border: #357ab8 1px solid
 }
 
 /* Input ocupa espaço flexível */

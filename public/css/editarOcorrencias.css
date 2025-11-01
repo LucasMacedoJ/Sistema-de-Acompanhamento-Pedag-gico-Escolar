@@ -1,0 +1,112 @@
+:root{
+  --bg:#f6f8fa;
+  --card:#ffffff;
+  --primary:#2b6cb0;
+  --accent:#4a5568;
+  --muted:#a0aec0;
+  --success:#38a169;
+  --danger:#e53e3e;
+  --shadow: 0 6px 18px rgba(38,57,77,0.08);
+  --radius:8px;
+  --gap:14px;
+  --pad:18px;
+  --max-width:760px;
+  --font: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  font-family: var(--font);
+  color: var(--accent);
+  line-height: 1.4;
+}
+
+/* Container do formulário */
+.form-ocorrencia {
+  max-width: var(--max-width);
+  margin: 28px auto;
+  background: var(--card);
+  padding: calc(var(--pad) * 0.9);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  box-sizing: border-box;
+  border: 1px solid rgba(10,10,10,0.03);
+}
+
+/* Form rows */
+.form-ocorrencia label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.form-ocorrencia input[type="text"],
+.form-ocorrencia select,
+.form-ocorrencia textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+  color: #1f2937;
+  margin-bottom: var(--gap);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-ocorrencia input[disabled] {
+  background: #f3f4f6;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* Textarea specifics */
+.form-ocorrencia textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Focus states */
+.form-ocorrencia input:focus,
+.form-ocorrencia textarea:focus,
+.form-ocorrencia select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
+}
+
+/* Button */
+.form-ocorrencia button {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.12s ease;
+  margin-top: 6px;
+}
+
+.form-ocorrencia button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(43,108,176,0.16);
+}
+
+/* Small screens */
+@media (max-width: 520px) {
+  .form-ocorrencia {
+    margin: 12px;
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .form-ocorrencia button {
+    width: 100%;
+  }
+}

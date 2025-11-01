@@ -26,3 +26,25 @@ form {
 form label {
     font-size: 75%;
 }
+
+/* estilos específicos movidos das tags inline */
+.remover-form {
+    margin-top: 8px;
+}
+
+.logout-form {
+    display: inline-flex; /* inline mas mantendo flex para alinhar filhos */
+    align-items: center;
+    margin-left: 8px;
+}
+
+.action-btn {
+    margin-bottom: 12px;
+}
+
+/* corrigido: seletor da imagem precisa do ponto */
+.foto {
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+}

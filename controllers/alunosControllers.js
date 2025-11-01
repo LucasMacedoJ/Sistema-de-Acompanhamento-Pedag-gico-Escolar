@@ -221,7 +221,7 @@ exports.toggleAtivo = async (req, res) => {
 
     aluno.ativo = !aluno.ativo;
     await aluno.save();
-    res.redirect(aluno.ativo ? '/alunos' : '/alunos/inativo');
+    res.redirect(aluno.ativo ? '/alunos/inativo' : '/alunos');
   } catch (err) {
     console.error("Erro ao alterar status:", err);
     res.status(500).send("Erro ao alterar status: " + err.message);

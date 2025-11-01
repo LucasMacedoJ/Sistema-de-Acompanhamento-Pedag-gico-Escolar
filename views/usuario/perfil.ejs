@@ -7,16 +7,16 @@
         <br>
         <div class="foto-container">
             <% if (usuarioPerfil.foto) { %>
-                <img src="<%= usuarioPerfil.foto%>" alt="Foto do usuário">
+                <img src="<%= usuarioPerfil.foto%>" alt="Foto do usuário" class="foto">
 
                 <% } else { %>
 
-                    <img src="/imagens/padrao.png" alt="sem foto" style="width:40px;height:40px;border-radius:50%;">
+                    <img src="/imagens/padrao.png" alt="sem foto" class="foto">
 
                     <% } %>
         </div>
-        <form action="/upload/remover" method="post" style="margin-top:8px;">
-            <button type="submit">Remover foto</button>
+        <form action="/upload/remover" method="post" class="remover-form">
+            <button type="submit" class="action-btn">Remover foto</button>
         </form>
 
         <p><strong>Nome:</strong>
@@ -28,14 +28,14 @@
 
         <form action="/usuario/perfil/foto" method="POST" enctype="multipart/form-data">
             <input type="file" name="foto" accept="image/*" required>
-            <button type="submit">Atualizar Foto</button>
+            <button type="submit" class="action-btn">Atualizar Foto</button>
         </form>
-
+        
         <!-- botão de voltar para a tela anterior -->
-        <form action="/usuario/logout" method="post" style="display:inline;margin-left:8px;">
-            <button type="submit" style="margin-bottom:12px;">Deslogar</button>
+        <form action="/usuario/logout" method="post" class="logout-form" >
+            <button type="submit" class="action-btn">Deslogar</button>
         </form>
-        <button type="button" onclick="history.back()" style="margin-bottom:12px;">Voltar</button>
+        <button type="button" onclick="history.back()" class="action-btn">Voltar</button>
         <!-- botão de deslogar (envia POST para /logout) -->
 
 

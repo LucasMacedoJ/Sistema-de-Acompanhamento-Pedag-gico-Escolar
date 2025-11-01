@@ -23,6 +23,38 @@ thead.barra::before {
 .barra th,
 thead th {
   position: relative;
+  z-index: 3; /* aumentado para garantir que fique acima dos ::before */
+  background: transparent;
+  color: black;
+  font-weight: 700;
+  padding: 12px;
+}
+
+/* Ajuste extra: assegura que o thead em si não sobreponha a busca */
+thead.barra {
+  position: relative;
+  z-index: 1; /* abaixo das células, acima do fundo da tabela se necessário */
+}
+
+/* mantém pseudo do cabeçalho atrás do conteúdo */
+thead.barra::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: 5px solid #76aadb; /* borda visível (combina com tbody tr::before) */
+  border-radius: 12px;
+  background: #76aadb;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* garante que o conteúdo do cabeçalho fique acima da caixa */
+.barra th,
+thead th {
+  position: relative;
   z-index: 1;
   background: transparent;
   color: black;
@@ -154,7 +186,7 @@ tbody tr::before {
 /* garante que o conteúdo das células fique acima da "caixa" */
 tbody td {
   position: relative;
-  z-index: 1;
+  z-index: 3; /* aumentado para ficar sobre as pseudo-caixas */
   padding: 12px;
     text-align: center;
 }
@@ -189,7 +221,7 @@ tbody tr td a.btn:hover {
 
 /* Centraliza o formulário de busca */
 .busca{
-  background-color: aliceblue;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -199,7 +231,9 @@ tbody tr td a.btn:hover {
   padding: 8px 12px;
   position: sticky;
   top: 40px;
+  z-index: 10; /* alto para ficar acima dos ::before */
   border-radius: 10px;
+  border: #357ab8 1px solid
 }
 
 /* Input ocupa espaço flexível */

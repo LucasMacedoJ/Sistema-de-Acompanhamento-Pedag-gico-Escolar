@@ -1,0 +1,141 @@
+/* container geral */
+.container {
+  width: 92%;
+  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+/* filtro (form de seleção) */
+.filtro {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* tabela com grid para alinhar colunas */
+.ocorrencias-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-sizing: border-box;
+}
+
+/* cabeçalho com "barra" azul arredondada por trás */
+.ocorrencias-table thead.barra {
+  position: relative;
+  z-index: 1;
+}
+
+.ocorrencias-table thead.barra::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #76aadb;
+  border-radius: 12px;
+  border: 5px solid #357ab8;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* usa grid tanto no thead tr quanto no tbody tr para alinhamento consistente */
+.ocorrencias-table thead.barra tr,
+.ocorrencias-table tbody tr {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr 4fr 1fr; /* Data | Tipo | Descrição | Ações */
+  gap: 8px;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* células do cabeçalho acima da pseudo-caixa */
+.ocorrencias-table thead.barra th {
+  position: relative;
+  z-index: 1;
+  padding: 14px 18px;
+  text-align: center;
+  font-weight: 700;
+  color: #000;
+}
+
+/* linhas com "caixa" arredondada por trás */
+.ocorrencias-table tbody tr {
+  position: relative;
+  margin: 10px 0;
+}
+
+.ocorrencias-table tbody tr::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 8px;
+  bottom: 8px;
+  background: aliceblue;
+  border-radius: 18px;
+  border: 5px solid #357ab8;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* células das linhas sobre a caixa */
+.ocorrencias-table tbody td {
+  position: relative;
+  z-index: 1;
+  padding: 14px 18px;
+  text-align: center;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+/* primeira coluna (data) alinhada à esquerda para melhor leitura */
+.ocorrencias-table tbody td:first-child,
+.ocorrencias-table thead.barra th:first-child {
+  text-align: left;
+  padding-left: 24px;
+}
+
+/* última coluna (ações) alinhada à direita */
+.ocorrencias-table tbody td:last-child,
+.ocorrencias-table thead.barra th:last-child {
+  text-align: right;
+  padding-right: 24px;
+}
+
+/* botões */
+.ocorrencias-table a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #fff;
+  background: #4a90e2;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+.ocorrencias-table a.btn.btn-warning {
+  background: #f0ad4e;
+  color: #fff;
+}
+
+/* responsividade simples */
+@media (max-width: 800px) {
+  .ocorrencias-table thead.barra tr,
+  .ocorrencias-table tbody tr {
+    grid-template-columns: 1fr 1fr; /* colapsa para 2 colunas em telas pequenas */
+  }
+  .ocorrencias-table thead.barra th:nth-child(3),
+  .ocorrencias-table tbody td:nth-child(3) {
+    grid-column: 1 / -1; /* descrição ocupa toda a largura */
+    text-align: left;
+  }
+}
