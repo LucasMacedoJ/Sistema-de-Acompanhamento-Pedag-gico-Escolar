@@ -3,6 +3,18 @@ const Aluno = require('../models/alunos');
 const Turma = require('../models/turma');
 const { uploadAlunos, processarFoto, removerFoto } = require('./fotoController');
 
+// ============================
+// 🔧 Função auxiliar
+// ============================
+function limparCamposArray(campo) {
+  if (!campo) return [];
+  if (!Array.isArray(campo)) campo = [campo];
+  return campo
+    .map(item => item.trim())
+    .filter(item => item !== '')
+    .map(item => item.replace(/,\s*$/, '')); // remove vírgula no final
+}
+
 // =============================
 // 📋 FORMULÁRIO DE CADASTRO
 // =============================
@@ -22,47 +34,65 @@ exports.formulario = async (req, res) => {
 exports.cadastrar = async (req, res) => {
   try {
     let fotoPath = null;
+
+    // 📸 Se houver upload de foto, processa e salva no diretório de alunos
     if (req.file) {
       fotoPath = await processarFoto(req.file, 'alunos');
     }
 
-    // ✅ Corrigido: definindo as variáveis corretamente
-    const necessidades = Array.isArray(req.body.necessidadeE)
-      ? req.body.necessidadeE
-      : [req.body.necessidadeE].filter(Boolean);
+    // =============================
+    // 🧠 NORMALIZA OS CAMPOS DE LISTA
+    // =============================
+    const necessidades = (Array.isArray(req.body.necessidadeE) ? req.body.necessidadeE : [req.body.necessidadeE])
+      .map(item => item?.trim())
+      .filter(item => item && item !== '') // remove vazios
+      .map(item => item || 'Nenhum');
 
-    const saude = Array.isArray(req.body.problemaSaude)
-      ? req.body.problemaSaude
-      : [req.body.problemaSaude].filter(Boolean);
+    const saude = (Array.isArray(req.body.problemaSaude) ? req.body.problemaSaude : [req.body.problemaSaude])
+      .map(item => item?.trim())
+      .filter(item => item && item !== '')
+      .map(item => item || 'Nenhum');
 
-    const dificuldades = Array.isArray(req.body.disciplinaD)
-      ? req.body.disciplinaD
-      : [req.body.disciplinaD].filter(Boolean);
+    const dificuldades = (Array.isArray(req.body.disciplinaD) ? req.body.disciplinaD : [req.body.disciplinaD])
+      .map(item => item?.trim())
+      .filter(item => item && item !== '')
+      .map(item => item || 'Nenhum');
 
+    // Se o usuário não preencher nada, salva "Nenhum"
+    const necessidadesFinal = necessidades.length ? necessidades : ['Nenhum'];
+    const saudeFinal = saude.length ? saude : ['Nenhum'];
+    const dificuldadesFinal = dificuldades.length ? dificuldades : ['Nenhum'];
+
+    // =============================
+    // 🧩 CRIA O NOVO ALUNO
+    // =============================
     const novoAluno = new Aluno({
-      nome: req.body.nome || '',
-      dataN: req.body.dataN,
-      turma: req.body.turma,
-      necessidadeE: necessidades,
-      problemaSaude: saude,
-      disciplinaD: dificuldades,
-      transferenciaOnde: req.body.transferenciaOnde || '',
-      transferenciaD: req.body.transferenciaD || '',
-      responsavelNome: req.body.responsavelNome || '',
-      responsavelContato: req.body.responsavelContato || '',
-      segundoProfessor: req.body.segundoProfessor === "on",
-      segundoProfessorNome: req.body.segundoProfessorNome || '',
-      observacao: req.body.observacao || '',
+      nome: req.body.nome?.trim() || 'Nenhum',
+      dataN: req.body.dataN || 'Nenhum',
+      turma: req.body.turma || null,
+      necessidadeE: necessidadesFinal,
+      problemaSaude: saudeFinal,
+      disciplinaD: dificuldadesFinal,
+      transferenciaOnde: req.body.transferenciaOnde?.trim() || 'Nenhum',
+      transferenciaD: req.body.transferenciaD?.trim() || 'Nenhum',
+      responsavelNome: req.body.responsavelNome?.trim() || 'Nenhum',
+      responsavelContato: req.body.responsavelContato?.trim() || 'Nenhum',
+      segundoProfessor: req.body.segundoProfessor === 'on',
+      segundoProfessorNome: req.body.segundoProfessorNome?.trim() || 'Nenhum',
+      observacao: req.body.observacao?.trim() || 'Nenhum',
       foto: fotoPath
     });
 
     await novoAluno.save();
+    console.log('✅ Aluno cadastrado com sucesso:', novoAluno.nome);
     res.redirect('/alunos');
+
   } catch (err) {
-    console.error("Erro ao salvar o aluno:", err);
-    res.status(500).send("Erro ao salvar o aluno: " + err.message);
+    console.error('❌ Erro ao salvar o aluno:', err);
+    res.status(500).send('Erro ao salvar o aluno: ' + err.message);
   }
 };
+
 
 
 // =============================
@@ -111,68 +141,71 @@ exports.editarForm = async (req, res) => {
 
 
 // =============================
-// 🔄 ATUALIZAR ALUNO (com "Nenhum" padrão)
+// 🔄 ATUALIZAR ALUNO (com "Nenhum" padrão e sem vírgulas sobrando)
 // =============================
 exports.editar = async (req, res) => {
   try {
     const aluno = await Aluno.findById(req.params.id);
     if (!aluno) return res.status(404).send("Aluno não encontrado");
 
-    // 🧩 Necessidades Especiais
-    let necessidades = [];
-    if (req.body.necessidadeE) {
-      necessidades = Array.isArray(req.body.necessidadeE)
-        ? req.body.necessidadeE.filter(n => n.trim() !== '')
-        : [req.body.necessidadeE].filter(Boolean);
-    }
-    if (necessidades.length === 0) necessidades = ['Nenhum'];
+    // =============================
+    // 🧠 Normalização dos campos de lista
+    // =============================
+    const necessidades = (Array.isArray(req.body.necessidadeE) ? req.body.necessidadeE : [req.body.necessidadeE])
+      .map(item => item?.trim())
+      .filter(item => item && item !== '')
+      .map(item => item || 'Nenhum');
+    const necessidadesFinal = necessidades.length ? necessidades : ['Nenhum'];
 
-    // 🩺 Problemas de Saúde
-    let saude = [];
-    if (req.body.problemaSaude) {
-      saude = Array.isArray(req.body.problemaSaude)
-        ? req.body.problemaSaude.filter(s => s.trim() !== '')
-        : [req.body.problemaSaude].filter(Boolean);
-    }
-    if (saude.length === 0) saude = ['Nenhum'];
+    const saude = (Array.isArray(req.body.problemaSaude) ? req.body.problemaSaude : [req.body.problemaSaude])
+      .map(item => item?.trim())
+      .filter(item => item && item !== '')
+      .map(item => item || 'Nenhum');
+    const saudeFinal = saude.length ? saude : ['Nenhum'];
 
-    // 📚 Dificuldades Disciplinares
-    let dificuldades = [];
-    if (req.body.disciplinaD) {
-      dificuldades = Array.isArray(req.body.disciplinaD)
-        ? req.body.disciplinaD.filter(d => d.trim() !== '')
-        : [req.body.disciplinaD].filter(Boolean);
-    }
-    if (dificuldades.length === 0) dificuldades = ['Nenhum'];
+    const dificuldades = (Array.isArray(req.body.disciplinaD) ? req.body.disciplinaD : [req.body.disciplinaD])
+      .map(item => item?.trim())
+      .filter(item => item && item !== '')
+      .map(item => item || 'Nenhum');
+    const dificuldadesFinal = dificuldades.length ? dificuldades : ['Nenhum'];
 
-    // 📦 Dados a atualizar
+    // =============================
+    // 📦 Monta os dados atualizados
+    // =============================
     const updateData = {
-      nome: req.body.nome || '',
-      dataN: req.body.dataN,
-      turma: req.body.turma,
-      necessidadeE: necessidades,
-      problemaSaude: saude,
-      disciplinaD: dificuldades,
-      transferenciaOnde: req.body.transferenciaOnde || '',
-      transferenciaD: req.body.transferenciaD || '',
-      responsavelNome: req.body.responsavelNome || '',
-      responsavelContato: req.body.responsavelContato || '',
-      segundoProfessor: req.body.segundoProfessor === "on",
-      segundoProfessorNome: req.body.segundoProfessorNome || '',
-      observacao: req.body.observacao || ''
+      nome: req.body.nome?.trim() || 'Nenhum',
+      dataN: req.body.dataN || 'Nenhum',
+      turma: req.body.turma || null,
+      necessidadeE: necessidadesFinal,
+      problemaSaude: saudeFinal,
+      disciplinaD: dificuldadesFinal,
+      transferenciaOnde: req.body.transferenciaOnde?.trim() || 'Nenhum',
+      transferenciaD: req.body.transferenciaD?.trim() || 'Nenhum',
+      responsavelNome: req.body.responsavelNome?.trim() || 'Nenhum',
+      responsavelContato: req.body.responsavelContato?.trim() || 'Nenhum',
+      segundoProfessor: req.body.segundoProfessor === 'on',
+      segundoProfessorNome: req.body.segundoProfessorNome?.trim() || 'Nenhum',
+      observacao: req.body.observacao?.trim() || 'Nenhum'
     };
 
-    // 🖼️ Atualização da foto
+    // =============================
+    // 🖼️ Atualização da foto (opcional)
+    // =============================
     if (req.file) {
       if (aluno.foto) await removerFoto(aluno.foto);
       const novaFoto = await processarFoto(req.file, 'alunos');
       updateData.foto = novaFoto;
     }
 
+    // =============================
+    // 💾 Atualiza no banco
+    // =============================
     await Aluno.findByIdAndUpdate(req.params.id, updateData, { runValidators: true });
+    console.log(`✅ Aluno "${updateData.nome}" atualizado com sucesso.`);
     res.redirect('/alunos');
+
   } catch (err) {
-    console.error("Erro ao editar aluno:", err);
+    console.error("❌ Erro ao editar aluno:", err);
     res.status(500).send("Erro ao editar aluno: " + err.message);
   }
 };

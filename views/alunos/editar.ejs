@@ -4,17 +4,18 @@
     <link rel="stylesheet" href="/css/editarAluno.css">
   </head>
 
-
   <body>
     <div class="container">
       <h1>Editar Aluno</h1>
 
       <form action="/alunos/editar/<%= aluno._id %>" method="POST" enctype="multipart/form-data">
+        <!-- 🧾 Nome -->
         <div>
           <label>Nome:</label>
-          <input type="text" name="nome" value="<%= aluno.nome %>" required>
+          <input type="text" name="nome" value="<%= aluno.nome === 'Nenhum' ? '' : aluno.nome %>" required>
         </div>
 
+        <!-- 🏫 Turma -->
         <div>
           <label for="turma">Turma:</label><br>
           <select name="turma" id="turma" required>
@@ -43,89 +44,113 @@
         <div>
           <label>Necessidades Especiais:</label><br>
           <div id="necessidadeE-container">
-            <% (aluno.necessidadeE || []).forEach(item=> { %>
-              <input type="text" name="necessidadeE[]" value="<%= item %>" placeholder="Necessidade especial">
-              <% }) %>
-                <input type="text" name="necessidadeE[]" placeholder="Necessidade especial">
+            <% const necessidadeEArray=Array.isArray(aluno.necessidadeE) ? aluno.necessidadeE : (aluno.necessidadeE ?
+              [aluno.necessidadeE] : []); %>
+              <% if (necessidadeEArray.length> 0) { %>
+                <% necessidadeEArray.forEach(item=> { %>
+                  <input type="text" name="necessidadeE[]" value="<%= item === 'Nenhum' ? '' : item %>"
+                    placeholder="Necessidade especial">
+                  <% }) %>
+                    <% } else { %>
+                      <input type="text" name="necessidadeE[]" placeholder="Necessidade especial">
+                      <% } %>
           </div>
           <button type="button"
             onclick="adicionarInput('necessidadeE-container', 'Necessidade especial')">Adicionar</button>
         </div>
 
-        <!-- ❤️ Problema de Saúde -->
+        <!-- ❤️ Problemas de Saúde -->
         <div>
           <label>Problemas de Saúde:</label><br>
           <div id="problemaSaude-container">
-            <% (aluno.problemaSaude || []).forEach(item=> { %>
-              <input type="text" name="problemaSaude[]" value="<%= item %>" placeholder="Problema de saúde">
-              <% }) %>
-                <input type="text" name="problemaSaude[]" placeholder="Problema de saúde">
+            <% const problemaSaudeArray=Array.isArray(aluno.problemaSaude) ? aluno.problemaSaude : (aluno.problemaSaude
+              ? [aluno.problemaSaude] : []); %>
+              <% if (problemaSaudeArray.length> 0) { %>
+                <% problemaSaudeArray.forEach(item=> { %>
+                  <input type="text" name="problemaSaude[]" value="<%= item === 'Nenhum' ? '' : item %>"
+                    placeholder="Problema de saúde">
+                  <% }) %>
+                    <% } else { %>
+                      <input type="text" name="problemaSaude[]" placeholder="Problema de saúde">
+                      <% } %>
           </div>
           <button type="button"
             onclick="adicionarInput('problemaSaude-container', 'Problema de saúde')">Adicionar</button>
         </div>
 
-        <!-- ⚙️ Dificuldade Disciplinar -->
+        <!-- ⚙️ Dificuldades Disciplinares -->
         <div>
           <label>Dificuldades Disciplinares:</label><br>
           <div id="disciplinaD-container">
-            <% (aluno.disciplinaD || []).forEach(item=> { %>
-              <input type="text" name="disciplinaD[]" value="<%= item %>" placeholder="Dificuldade disciplinar">
-              <% }) %>
-                <input type="text" name="disciplinaD[]" placeholder="Dificuldade disciplinar">
+            <% const disciplinaDArray=Array.isArray(aluno.disciplinaD) ? aluno.disciplinaD : (aluno.disciplinaD ?
+              [aluno.disciplinaD] : []); %>
+              <% if (disciplinaDArray.length> 0) { %>
+                <% disciplinaDArray.forEach(item=> { %>
+                  <input type="text" name="disciplinaD[]" value="<%= item === 'Nenhum' ? '' : item %>"
+                    placeholder="Dificuldade disciplinar">
+                  <% }) %>
+                    <% } else { %>
+                      <input type="text" name="disciplinaD[]" placeholder="Dificuldade disciplinar">
+                      <% } %>
           </div>
           <button type="button"
             onclick="adicionarInput('disciplinaD-container', 'Dificuldade disciplinar')">Adicionar</button>
         </div>
 
-        <!-- Transferência -->
+        <!-- 🏫 Transferência -->
         <div>
           <label>Transferência de onde:</label>
-          <input type="text" name="transferenciaOnde" value="<%= aluno.transferenciaOnde || '' %>"
+          <input type="text" name="transferenciaOnde"
+            value="<%= aluno.transferenciaOnde === 'Nenhum' ? '' : aluno.transferenciaOnde %>"
             placeholder="Nome da escola anterior">
         </div>
 
         <div>
           <label>Descrição da transferência:</label>
-          <input type="text" name="transferenciaD" value="<%= aluno.transferenciaD || '' %>"
+          <input type="text" name="transferenciaD"
+            value="<%= aluno.transferenciaD === 'Nenhum' ? '' : aluno.transferenciaD %>"
             placeholder="Motivo ou detalhes">
         </div>
 
-        <!-- Responsável -->
+        <!-- 👨‍👩‍👧 Responsável -->
         <div>
           <label>Nome do Responsável:</label>
-          <input type="text" name="responsavelNome" value="<%= aluno.responsavelNome || '' %>" required>
+          <input type="text" name="responsavelNome"
+            value="<%= aluno.responsavelNome === 'Nenhum' ? '' : aluno.responsavelNome %>" required>
         </div>
 
         <div>
           <label>Contato do Responsável:</label>
-          <input type="text" name="responsavelContato" value="<%= aluno.responsavelContato || '' %>" required>
+          <input type="text" name="responsavelContato"
+            value="<%= aluno.responsavelContato === 'Nenhum' ? '' : aluno.responsavelContato %>" required>
         </div>
 
-        <!-- Segundo Professor -->
+        <!-- 🧑‍🏫 Segundo Professor -->
         <div>
           <label>
             <input type="checkbox" name="segundoProfessor" <%=aluno.segundoProfessor ? 'checked' : '' %>> Segundo
             Professor
           </label>
-          <input type="text" name="segundoProfessorNome" value="<%= aluno.segundoProfessorNome || '' %>"
+          <input type="text" name="segundoProfessorNome"
+            value="<%= aluno.segundoProfessorNome === 'Nenhum' ? '' : aluno.segundoProfessorNome %>"
             placeholder="Nome do segundo professor">
         </div>
 
-        <!-- Observação -->
+        <!-- 🗒️ Observação -->
         <div>
           <label>Observação:</label><br>
           <textarea name="observacao" rows="4" cols="50"
-            placeholder="Digite observações adicionais"><%= aluno.observacao || '' %></textarea>
+            placeholder="Digite observações adicionais"><%= aluno.observacao === 'Nenhum' ? '' : aluno.observacao %></textarea>
         </div>
 
-        <!-- Botões -->
+        <!-- 🧭 Botões -->
         <div class="botoes">
           <button type="submit">Salvar alterações</button>
           <a class="btn" href="/alunos/">Cancelar</a>
         </div>
       </form>
     </div>
+
     <script>
       function adicionarInput(containerId, placeholder) {
         const container = document.getElementById(containerId);

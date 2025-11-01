@@ -9,67 +9,67 @@
       <h1>Cadastro de Aluno</h1>
 
       <form action="/alunos/cadastrar" method="POST" enctype="multipart/form-data">
-
-        <!-- Nome completo -->
+        <!-- 🧾 Nome completo -->
         <div>
           <label for="nome">Nome completo:</label>
           <input type="text" name="nome" id="nome" required placeholder="Ex: Ana Beatriz da Silva">
         </div>
 
-        <!-- Turma -->
+        <!-- 🏫 Turma -->
         <div>
           <label for="turma">Turma:</label><br>
           <select name="turma" id="turma" required>
             <option value="" disabled selected>Selecione uma turma</option>
             <% turmas.forEach(function(turma) { %>
               <option value="<%= turma._id %>">
-                <%= turma.nome %>
-                  <%= turma.periodo %>
+                <%= turma.nome %> - <%= turma.periodo %>
               </option>
               <% }) %>
           </select>
         </div>
 
-        <!-- Data de nascimento -->
+        <!-- 🎂 Data de Nascimento -->
         <div>
           <label for="dataN">Data de Nascimento:</label>
-          <input type="date" name="dataN" id="dataN" required>
+          <input type="date" name="dataN" id="dataN" max="<%= new Date().toISOString().split('T')[0] %>" required>
         </div>
-
         <!-- 📸 Foto -->
         <div>
           <label for="foto">Foto do Aluno:</label>
           <input type="file" name="foto" id="foto" accept="image/*">
         </div>
 
-        <!-- 🧠 Necessidades Especiais (inputs múltiplos) -->
+        <!-- 🧠 Necessidades Especiais -->
         <div>
           <label>Necessidades Especiais:</label><br>
           <div id="necessidadeE-container">
-            <input type="text" name="necessidadeE[]" placeholder="Digite uma necessidade especial">
+            <input type="text" name="necessidadeE[]" placeholder="Necessidade especial">
           </div>
-          <button type="button" onclick="adicionarInput('necessidadeE-container')">Adicionar</button>
+          <button type="button"
+            onclick="adicionarInput('necessidadeE-container', 'Necessidade especial')">Adicionar</button>
         </div>
 
-        <!-- ❤️ Problemas de Saúde (inputs múltiplos) -->
+        <!-- ❤️ Problemas de Saúde -->
         <div>
           <label>Problemas de Saúde:</label><br>
           <div id="problemaSaude-container">
-            <input type="text" name="problemaSaude[]" placeholder="Digite um problema de saúde">
+            <input type="text" name="problemaSaude[]" placeholder="Problema de saúde">
           </div>
-          <button type="button" onclick="adicionarInput('problemaSaude-container')">Adicionar</button>
+          <button type="button"
+            onclick="adicionarInput('problemaSaude-container', 'Problema de saúde')">Adicionar</button>
         </div>
 
-        <!-- ⚙️ Dificuldades Disciplinares (inputs múltiplos) -->
+        <!-- ⚙️ Dificuldades Disciplinares -->
         <div>
           <label>Dificuldades Disciplinares:</label><br>
           <div id="disciplinaD-container">
-            <input type="text" name="disciplinaD[]" placeholder="Digite uma dificuldade disciplinar">
+            <input type="text" name="disciplinaD[]" placeholder="Dificuldade disciplinar">
           </div>
-          <button type="button" onclick="adicionarInput('disciplinaD-container')">Adicionar</button>
+          <button type="button"
+            onclick="adicionarInput('disciplinaD-container', 'Dificuldade disciplinar')">Adicionar</button>
         </div>
 
-        <!-- Transferência -->
+        <!-- 🏫 Transferência -->
         <div>
           <label for="transferenciaOnde">Transferência de onde:</label>
           <input type="text" name="transferenciaOnde" id="transferenciaOnde" placeholder="Nome da escola anterior">
@@ -80,21 +80,23 @@
           <input type="text" name="transferenciaD" id="transferenciaD" placeholder="Motivo ou detalhes">
         </div>
 
-        <!-- Responsável -->
+        <!-- 👨‍👩‍👧 Responsável -->
         <div>
           <label for="responsavelNome">Nome do Responsável:</label>
-          <input type="text" name="responsavelNome" id="responsavelNome" required>
+          <input type="text" name="responsavelNome" id="responsavelNome" required placeholder="Ex: Maria Oliveira">
         </div>
 
         <div>
           <label for="responsavelContato">Contato do Responsável:</label>
-          <input type="text" name="responsavelContato" id="responsavelContato" required>
+          <input type="text" name="responsavelContato" id="responsavelContato" required placeholder="(99) 99999-9999">
         </div>
 
-        <!-- Segundo Professor -->
+        <!-- 🧑‍🏫 Segundo Professor -->
         <div>
-          <label for="segundoProfessor">Segundo Professor:</label>
-          <input type="checkbox" name="segundoProfessor" id="segundoProfessor">
+          <label>
+            <input type="checkbox" name="segundoProfessor" id="segundoProfessor">
+            Segundo Professor
+          </label>
         </div>
 
         <div>
@@ -102,14 +104,14 @@
           <input type="text" name="segundoProfessorNome" id="segundoProfessorNome" placeholder="Se houver">
         </div>
 
-        <!-- Observação -->
+        <!-- 🗒️ Observação -->
         <div>
           <label for="observacao">Observação:</label><br>
           <textarea class="ctexto" name="observacao" id="observacao" rows="4" cols="50"
             placeholder="Digite observações adicionais"></textarea>
         </div>
 
-        <!-- Botões -->
+        <!-- 🧭 Botões -->
         <div class="botoes">
           <button type="submit">Cadastrar</button>
           <a class="btn" href="/alunos/">Voltar para a lista de alunos</a>
@@ -119,17 +121,17 @@
 
     <script src="https://unpkg.com/vanilla-masker/build/vanilla-masker.min.js"></script>
     <script>
-      // Máscara de telefone
+      // 📱 Máscara de telefone
       const telInput = document.getElementById('responsavelContato');
       if (telInput) VMasker(telInput).maskPattern('(99) 99999-9999');
 
-      // Função para adicionar novos inputs dinamicamente
-      function adicionarInput(containerId) {
+      // ➕ Adicionar novos campos dinâmicos
+      function adicionarInput(containerId, placeholder) {
         const container = document.getElementById(containerId);
         const input = document.createElement('input');
         input.type = 'text';
         input.name = containerId.replace('-container', '[]');
-        input.placeholder = 'Digite um valor';
+        input.placeholder = placeholder;
         container.appendChild(input);
       }
     </script>
