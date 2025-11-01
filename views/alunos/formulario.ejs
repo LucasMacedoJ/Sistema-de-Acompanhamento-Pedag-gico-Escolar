@@ -8,16 +8,16 @@
     <div class="container">
       <h1>Cadastro de Aluno</h1>
 
-      <form action="/alunos/cadastrar" method="POST" enctype="multipart/form-data">
+      <form action="/alunos/cadastrar" method="POST" enctype="multipart/form-data" class="form-cadastro">
         <!-- 🧾 Nome completo -->
         <div>
           <label for="nome">Nome completo:</label>
           <input type="text" name="nome" id="nome" required placeholder="Ex: Ana Beatriz da Silva">
-        </div>
+        </div><br>
 
         <!-- 🏫 Turma -->
         <div>
-          <label for="turma">Turma:</label><br>
+          <label for="turma">Turma:</label>
           <select name="turma" id="turma" required>
             <option value="" disabled selected>Selecione uma turma</option>
             <% turmas.forEach(function(turma) { %>
@@ -26,38 +26,38 @@
               </option>
               <% }) %>
           </select>
-        </div>
+        </div><br>
 
         <!-- 🎂 Data de Nascimento -->
         <div>
           <label for="dataN">Data de Nascimento:</label>
           <input type="date" name="dataN" id="dataN" max="<%= new Date().toISOString().split('T')[0] %>" required>
-        </div>
+        </div><br>
         <!-- 📸 Foto -->
         <div>
           <label for="foto">Foto do Aluno:</label>
           <input type="file" name="foto" id="foto" accept="image/*">
-        </div>
+        </div><br>
 
         <!-- 🧠 Necessidades Especiais -->
         <div>
-          <label>Necessidades Especiais:</label><br>
+          <label>Necessidades Especiais:</label>
           <div id="necessidadeE-container">
             <input type="text" name="necessidadeE[]" placeholder="Necessidade especial">
           </div>
           <button type="button"
             onclick="adicionarInput('necessidadeE-container', 'Necessidade especial')">Adicionar</button>
-        </div>
+        </div><br>
 
         <!-- ❤️ Problemas de Saúde -->
         <div>
-          <label>Problemas de Saúde:</label><br>
+          <label>Problemas de Saúde:</label>
           <div id="problemaSaude-container">
             <input type="text" name="problemaSaude[]" placeholder="Problema de saúde">
           </div>
           <button type="button"
             onclick="adicionarInput('problemaSaude-container', 'Problema de saúde')">Adicionar</button>
-        </div>
+        </div><br>
 
         <!-- ⚙️ Dificuldades Disciplinares -->
         <div>
@@ -67,29 +67,29 @@
           </div>
           <button type="button"
             onclick="adicionarInput('disciplinaD-container', 'Dificuldade disciplinar')">Adicionar</button>
-        </div>
+        </div><br>
 
         <!-- 🏫 Transferência -->
         <div>
           <label for="transferenciaOnde">Transferência de onde:</label>
           <input type="text" name="transferenciaOnde" id="transferenciaOnde" placeholder="Nome da escola anterior">
-        </div>
+        </div><br>
 
         <div>
           <label for="transferenciaD">Descrição da transferência:</label>
           <input type="text" name="transferenciaD" id="transferenciaD" placeholder="Motivo ou detalhes">
-        </div>
+        </div><br>
 
         <!-- 👨‍👩‍👧 Responsável -->
         <div>
           <label for="responsavelNome">Nome do Responsável:</label>
           <input type="text" name="responsavelNome" id="responsavelNome" required placeholder="Ex: Maria Oliveira">
-        </div>
+        </div><br>
 
         <div>
           <label for="responsavelContato">Contato do Responsável:</label>
           <input type="text" name="responsavelContato" id="responsavelContato" required placeholder="(99) 99999-9999">
-        </div>
+        </div><br>
 
         <!-- 🧑‍🏫 Segundo Professor -->
         <div>
@@ -97,19 +97,19 @@
             <input type="checkbox" name="segundoProfessor" id="segundoProfessor">
             Segundo Professor
           </label>
-        </div>
+        </div><br>
 
         <div>
           <label for="segundoProfessorNome">Nome do Segundo Professor:</label>
           <input type="text" name="segundoProfessorNome" id="segundoProfessorNome" placeholder="Se houver">
-        </div>
+        </div><br>
 
         <!-- 🗒️ Observação -->
         <div>
-          <label for="observacao">Observação:</label><br>
+          <label for="observacao">Observação:</label>
           <textarea class="ctexto" name="observacao" id="observacao" rows="4" cols="50"
             placeholder="Digite observações adicionais"></textarea>
-        </div>
+        </div><br>
 
         <!-- 🧭 Botões -->
         <div class="botoes">

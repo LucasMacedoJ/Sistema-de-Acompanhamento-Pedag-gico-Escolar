@@ -1,19 +1,93 @@
-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* duas colunas iguais */
-  gap: 20px 5%; /* espaço entre linhas e colunas */
-
-  width: 80%;        /* largura do formulário em relação à tela */
-  max-width: 100%;   /* nunca passa de 100% */
-  margin: 0 auto;    /* centraliza horizontalmente */
+:root{
+  --bg:#f6f8fa;
+  --card:#ffffff;
+  --primary:#2b6cb0;
+  --accent:#4a5568;
+  --muted:#a0aec0;
+  --success:#38a169;
+  --danger:#e53e3e;
+  --shadow: 0 6px 18px rgba(38,57,77,0.08);
+  --radius:8px;
+  --gap:14px;
+  --pad:18px;
+  --max-width:50%;
+  --font: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-form label,
-form input {
-  width: 100%;        /* cada campo ocupa toda a célula */
+body {
+  background: var(--bg);
+  font-family: var(--font);
+  color: var(--accent);
+  line-height: 1.4;
+}
+
+/* Container do formulário */
+.form-cadastro {
+  max-width: var(--max-width);
+  margin: 28px auto;
+  background: var(--card);
+  padding: calc(var(--pad) * 0.9);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   box-sizing: border-box;
+  border: 1px solid rgba(10,10,10,0.03);
 }
 
-form textarea{
+/* Form rows */
+.form-cadastro label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.form-cadastro input[type="text"],
+.form-cadastro select,
+.form-cadastro textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+  color: #1f2937;
+  margin-bottom: var(--gap);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-cadastro input[disabled] {
+  background: #f3f4f6;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* Textarea specifics */
+.form-cadastro textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Focus states */
+.form-cadastro input:focus,
+.form-cadastro textarea:focus,
+.form-cadastro select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
+}
+
+/* Small screens */
+@media (max-width: 520px) {
+  .form-cadastro {
+    margin: 12px;
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .form-cadastro button {
     width: 100%;
+  }
 }

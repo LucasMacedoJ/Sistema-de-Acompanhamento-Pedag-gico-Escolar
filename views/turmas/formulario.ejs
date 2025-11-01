@@ -1,7 +1,10 @@
 <%- include('../tela') %>
+<head>
+  <link rel="stylesheet" href="/css/cadastroTurmas.css">
+</head>
 
   <h1>Cadastrar Turma</h1>
-
+  <div class="form-turma"
   <form class="container" action="/turmas/cadastrar" method="POST">
     <div>
       <label for="nome">Nome da Turma:</label>
@@ -20,4 +23,6 @@
     </div>
 
     <button type="submit">Cadastrar</button>
+    <button type="button" onclick="window.location.href='/turmas/lista'">Voltar</button>
   </form>
+  </div>
