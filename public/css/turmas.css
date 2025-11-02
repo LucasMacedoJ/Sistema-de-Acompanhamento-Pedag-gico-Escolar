@@ -10,7 +10,6 @@
   border-style: solid;
   background-color: aliceblue;
   text-align: center;
-
 }
 
 .ger {
@@ -31,4 +30,15 @@
 .nome {
   text-decoration: none;
   color: black;
+}
+
+.btn-acao{
+  width: fit-content;
+  height: fit-content;
+}
+
+.btn-acao i{
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
 }

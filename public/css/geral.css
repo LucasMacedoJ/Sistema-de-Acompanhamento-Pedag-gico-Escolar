@@ -7,7 +7,6 @@ body {
   max-width: 90%;     /* limite em telas grandes */
   margin-left: auto;     /* centraliza */
   margin-right: auto;    /* centraliza */
-  padding-bottom: 5%;    /* espaço embaixo responsivo */
   display: flex;         
   flex-direction: column;
   align-items: center;   /* centraliza também o conteúdo interno */

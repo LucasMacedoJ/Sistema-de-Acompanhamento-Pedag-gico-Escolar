@@ -35,7 +35,7 @@
           <input type="file" name="foto" id="foto" accept="image/*">
           <% if (aluno.foto) { %>
             <p>Foto atual:</p>
-            <img src="<%= aluno.foto.startsWith('http') ? aluno.foto : '/uploads/alunos/' + aluno.foto %>"
+            <img src="<%= aluno.foto.startsWith('http') ? aluno.foto : aluno.foto %>"
               alt="Foto do aluno" style="width:100px; border-radius:5px;">
             <% } %>
         </div>

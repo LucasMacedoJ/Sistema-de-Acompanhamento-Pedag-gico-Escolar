@@ -15,18 +15,15 @@
               <a class="nome" href="/turmas/detalhes/<%= turma._id %>">
                 <%= turma.nome %> - <%= turma.periodo %> - <%= turma.ano %>
               </a>
-            </div>
-
-            <div class="acoes">
               <!-- Botão de editar -->
               <form action="/turmas/<%= turma._id %>/editar" method="GET" style="display:inline;">
-                <button type="submit" class="btn-editar">Editar</button>
+                <button type="submit" class="btn-acao"><i class="fa fa-edit" aria-hidden="true"></i></button>
               </form>
 
               <!-- Botão de deletar -->
               <form action="/turmas/<%= turma._id %>/deletar" method="POST" style="display:inline;"
                 onsubmit="return confirm('Tem certeza que deseja excluir esta turma?');">
-                <button type="submit" class="btn-deletar">Excluir</button>
+                <button type="submit" class="btn-acao"><i class="fa fa-trash" aria-hidden="true"></i></button>
               </form>
             </div>
           </li>
