@@ -62,7 +62,6 @@ input[type="radio"] {
     gap: 10px;                /* espaço entre botões */
 }
 
-
 /* Botão */ 
   button, a.btn { 
     display: inline-block; 
