@@ -19,9 +19,8 @@ const formularioTurma = (req, res) => {
 
 // Cadastra uma nova turma
 const cadastrar = async (req, res) => {
-   try {
+  try {
     const { nome, periodo } = req.body;
-    console.log(req.body); // debug
     await Turma.create({ nome, periodo });
     res.redirect('/turmas/lista');
   } catch (err) {
@@ -53,6 +52,51 @@ const detalhesTurma = async (req, res) => {
   }
 };
 
+//
+// ✏️ EDITAR TURMA
+//
+const editar = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nome, periodo } = req.body;
+
+    await Turma.findByIdAndUpdate(id, { nome, periodo });
+    res.redirect('/turmas/lista');
+  } catch (err) {
+    console.error('Erro ao editar turma:', err);
+    res.status(500).send('Erro ao editar turma.');
+  }
+};
+
+//
+// ❌ DELETAR TURMA
+//
+const deletar = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Opcional: remover vínculo de alunos antes de deletar
+    await Aluno.updateMany({ turma: id }, { $unset: { turma: '' } });
+
+    await Turma.findByIdAndDelete(id);
+    res.redirect('/turmas/lista');
+  } catch (err) {
+    console.error('Erro ao deletar turma:', err);
+    res.status(500).send('Erro ao deletar turma.');
+  }
+};
+
+// Renderiza o formulário de edição de turma
+const editarFormulario = async (req, res) => {
+  try {
+    const turma = await Turma.findById(req.params.id).lean();
+    if (!turma) return res.status(404).send('Turma não encontrada');
+    res.render('turmas/editar', { turma });
+  } catch (err) {
+    console.error('Erro ao carregar turma para edição:', err);
+    res.status(500).send('Erro ao carregar turma.');
+  }
+};
 
 // Exporta todos os métodos corretamente
 module.exports = {
@@ -60,5 +104,8 @@ module.exports = {
   formularioTurma,
   cadastrar,
   lista,
-  detalhesTurma
+  detalhesTurma,
+  editarFormulario,
+  editar,
+  deletar
 };

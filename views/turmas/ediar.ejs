@@ -1,0 +1,33 @@
+<%- include('../tela') %>
+
+    <head>
+        <link rel="stylesheet" href="/css/cadastroTurmas.css">
+    </head>
+
+    <body>
+        <h1>Editar Turma</h1>
+
+        <div class="form-turma">
+            <form class="container" action="/turmas/<%= turma._id %>/editar" method="POST">
+                <div>
+                    <label for="nome">Nome da Turma:</label>
+                    <input type="text" name="nome" id="nome" value="<%= turma.nome %>" required>
+                </div>
+
+                <div>
+                    <label for="periodo">Turno:</label>
+                    <select name="periodo" id="periodo" required>
+                        <option value="" disabled>Selecione o período</option>
+                        <option value="Matutino" <%=turma.periodo==='Matutino' ? 'selected' : '' %>>Matutino</option>
+                        <option value="Vespertino" <%=turma.periodo==='Vespertino' ? 'selected' : '' %>>Vespertino
+                        </option>
+                        <option value="Noturno" <%=turma.periodo==='Noturno' ? 'selected' : '' %>>Noturno</option>
+                        <option value="Integral" <%=turma.periodo==='Integral' ? 'selected' : '' %>>Integral</option>
+                    </select>
+                </div>
+
+                <button type="submit">Salvar Alterações</button>
+                <button type="button" onclick="window.location.href='/turmas/lista'">Cancelar</button>
+            </form>
+        </div>
+    </body>

@@ -1,21 +1,38 @@
 <%- include('../tela') %>
-<head>
-  <link rel="stylesheet" href="/css/turmas.css">
-</head>
-<body>
-  <div class="container">
-<h1>Lista de Turmas</h1>
 
-<ul class="ger">
-  <% turmas.forEach(function(turma) { %>
-    <li class="turmas">
-      <a class="nome" href="/turmas/detalhes/<%= turma._id %>">
-        <%= turma.nome %> - <%= turma.periodo %>
-      </a>
-    </li>
-  <% }) %>
-</ul>
+  <head>
+    <link rel="stylesheet" href="/css/turmas.css">
+  </head>
 
-<a class="btn" href="/turmas/formulario">Cadastrar nova turma</a>
-  </div>
-</body>
+  <body>
+    <div class="container">
+      <h1>Lista de Turmas</h1>
+
+      <ul class="ger">
+        <% turmas.forEach(function(turma) { %>
+          <li class="turmas">
+            <div class="info-turma">
+              <a class="nome" href="/turmas/detalhes/<%= turma._id %>">
+                <%= turma.nome %> - <%= turma.periodo %>
+              </a>
+            </div>
+
+            <div class="acoes">
+              <!-- Botão de editar -->
+              <form action="/turmas/<%= turma._id %>/editar" method="GET" style="display:inline;">
+                <button type="submit" class="btn-editar">Editar</button>
+              </form>
+
+              <!-- Botão de deletar -->
+              <form action="/turmas/<%= turma._id %>/deletar" method="POST" style="display:inline;"
+                onsubmit="return confirm('Tem certeza que deseja excluir esta turma?');">
+                <button type="submit" class="btn-deletar">Excluir</button>
+              </form>
+            </div>
+          </li>
+          <% }) %>
+      </ul>
+
+      <a class="btn" href="/turmas/formulario">Cadastrar nova turma</a>
+    </div>
+  </body>
