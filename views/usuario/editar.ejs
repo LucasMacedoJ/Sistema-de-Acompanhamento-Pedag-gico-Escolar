@@ -1,47 +1,59 @@
 <%- include('../tela') %>
+
   <head>
     <link rel="stylesheet" href="/css/editarUsuario.css">
   </head>
-  <h1>Editar Usuario</h1>
-  <div class="form-editar">
-    <% if (erro) { %>
-      <p style="color:red">
-        <%= erro %>
-      </p>
-      <% } %>
 
-        <form action="/usuario/<%= form._id %>/editar" method="POST" enctype="multipart/form-data">
-          <label for="nome">Nome:</label>
-          <input type="text" name="nome" id="nome" value="<%= (form && form.nome) ? form.nome : '' %>">
-          <br>
+  <body>
+    <h1>Editar Usuário</h1>
 
-          <label for="email">Email:</label>
-          <input type="email" name="email" id="email" required value="<%= (form && form.email) ? form.email : '' %>">
-          <br>
+    <div class="form-editar">
+      <% if (erro) { %>
+        <p style="color:red;">
+          <%= erro %>
+        </p>
+        <% } %>
 
-          <label for="senha">Senha:</label>
-          <input type="password" name="senha" id="senha" required>
-          <br>
+          <form action="/usuario/<%= form._id %>/editar" method="POST" enctype="multipart/form-data">
 
-          <label for="foto">Foto (opcional, jpg/png até 2MB):</label>
-          <input type="file" name="foto" id="foto" accept="image/*">
-          <br>
-
-          <% if (usuario && usuario.perfil==='admin' ) { %>
-            <label for="perfil">Perfil:</label>
-            <select name="perfil" id="perfil">
-              <option value="comum" <%=(form && form.perfil==='comum' ) ? 'selected' : '' %>>Usuário comum</option>
-              <option value="admin" <%=(form && form.perfil==='admin' ) ? 'selected' : '' %>>Administrador</option>
-            </select>
+            <!-- Nome -->
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" value="<%= form?.nome || '' %>">
             <br>
-            <% } %>
 
-              <button type="submit">Cadastrar</button>
+            <!-- Email -->
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required value="<%= form?.email || '' %>">
+            <br>
 
-              <% if (usuario && usuario.perfil==='admin' ) { %>
-                <a class="btn" href="/usuario/lista">Voltar à lista</a>
-                <% } else { %>
-                  <a class="btn" href="/login">Voltar ao login</a>
-                  <% } %>
-        </form>
-  </div>
+            <!-- Senha -->
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha" required>
+            <br>
+
+            <!-- Foto -->
+            <label for="foto">Foto (opcional, jpg/png até 2MB):</label>
+            <input type="file" name="foto" id="foto" accept="image/*">
+            <br>
+
+            <!-- Perfil (apenas admin pode alterar) -->
+            <% if (usuario?.perfil==='admin' ) { %>
+              <label for="perfil">Perfil:</label>
+              <select name="perfil" id="perfil">
+                <option value="comum" <%=form?.perfil==='comum' ? 'selected' : '' %>>Usuário comum</option>
+                <option value="admin" <%=form?.perfil==='admin' ? 'selected' : '' %>>Administrador</option>
+              </select>
+              <br>
+              <% } %>
+
+                <!-- Botões -->
+                <button type="submit">Salvar</button>
+
+                <% if (usuario?.perfil==='admin' ) { %>
+                  <a class="btn" href="/usuario/lista">Voltar à lista</a>
+                  <% } else { %>
+                    <a class="btn" href="/login">Voltar ao login</a>
+                    <% } %>
+          </form>
+    </div>
+  </body>

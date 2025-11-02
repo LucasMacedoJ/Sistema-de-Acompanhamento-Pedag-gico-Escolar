@@ -50,13 +50,14 @@ app.use((req, res, next) => {
   const usuario = req.session?.usuario || null;
 
   if (usuario) {
-    // compatibilidade com campos diferentes: foto, avatar, role, perfil
+    // Normaliza os campos de usuário para todas as views
     res.locals.usuario = {
       ...usuario,
       role: usuario.role || usuario.perfil || 'user',
       foto: usuario.foto || usuario.avatar || null
     };
 
+    // Define se é admin
     res.locals.isAdmin =
       usuario.perfil === 'admin' || usuario.role === 'admin';
   } else {

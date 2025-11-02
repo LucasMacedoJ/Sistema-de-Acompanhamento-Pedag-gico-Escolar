@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SAPE</title>
   <link rel="stylesheet" href="/css/geral.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-      <%- typeof head !== 'undefined' ? head : '' %>
-  </head>
-  <body>
-    <%- include('complementos/navbar') %>
+  <%- typeof head !=='undefined' ? head : '' %>
+</head>
+
+<body>
+  <%- include('complementos/navbar') %>
 
     <div class="main-content">
-      <%- typeof content !== 'undefined' ? content : '' %>
+      <%- typeof content !=='undefined' ? content : '' %>
     </div>
-  </body>
+</body>
+
 </html>

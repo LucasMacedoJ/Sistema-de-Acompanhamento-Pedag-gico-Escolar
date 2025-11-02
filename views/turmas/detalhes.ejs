@@ -1,11 +1,105 @@
 <%- include('../tela') %>
-<h1>Turma: <%= turma.nome %> (<%= turma.periodo %>)</h1>
-<div class="container">
-  <h2>Alunos vinculados:</h2>
-  <ul>
-    <% alunos.forEach(function(aluno) { %>
-      <li><%= aluno.nome %> <%= aluno.sobrenome %></li>
-    <% }) %>
-  </ul>
-  <a class="btn" href="/turmas/lista">Voltar para lista de turmas</a>
-</div>
+
+  <head>
+    <link rel="stylesheet" href="/css/listaAlunos.css">
+  </head>
+
+  <h1>Turma: <%= turma.nome %> (<%= turma.periodo %>)</h1>
+
+  <div class="container">
+
+    <!-- Formulário de filtro -->
+    <form action="" method="GET" class="busca">
+      <input type="text" name="q" placeholder="Filtrar alunos pelo nome..." value="<%= q || '' %>">
+      <button type="submit">
+        <i class="fa fa-search" aria-hidden="true" style="font-size: 20px;"></i>
+      </button>
+    </form>
+
+    <h2>Alunos vinculados:</h2>
+
+    <table>
+      <thead class="barra">
+        <tr>
+          <th>Foto</th>
+          <th>Nome</th>
+          <th>Turma</th>
+          <th>Data de Nascimento</th>
+          <th>Necessidade Especial</th>
+          <th>Problema Saúde</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (alunos.length===0) { %>
+          <tr>
+            <td colspan="7" style="text-align:center;">Nenhum aluno encontrado.</td>
+          </tr>
+          <% } else { %>
+            <% alunos.forEach(function(aluno) { %>
+              <tr>
+                <td>
+                  <% if (aluno.foto && aluno.foto !=='' ) { %>
+                    <img src="<%= aluno.foto %>" alt="foto" class="fotos" width="150" height="150">
+                    <% } else { %>
+                      <img src="/imagens/padrao.png" alt="sem foto" class="fotos" width="150" height="150">
+                      <% } %>
+                </td>
+                <td>
+                  <p>
+                    <a href="/alunos/detalhes/<%= aluno._id %>" class="nome">
+                      <%= aluno.nome %>
+                    </a>
+                    <a href="/alunos/detalhes/<%= aluno._id %>" class="nome">
+                      <%= aluno.sobrenome %>
+                    </a>
+                  </p>
+                </td>
+                <td>
+                  <%= aluno.turma && aluno.turma.nome ? aluno.turma.nome : '' %>
+                </td>
+                <td>
+                  <%= aluno.dataN ? aluno.dataN.toLocaleDateString('pt-BR') : '' %>
+                </td>
+                <td>
+                  <% if (Array.isArray(aluno.necessidadeE)) { %>
+                    <% if (aluno.necessidadeE.length> 1) { %>
+                      <%= aluno.necessidadeE.length %> necessidades
+                        <% } else if (aluno.necessidadeE.length===1) { %>
+                          <%= aluno.necessidadeE[0] %>
+                            <% } else { %>
+                              —
+                              <% } %>
+                                <% } else { %>
+                                  <%= aluno.necessidadeE || '—' %>
+                                    <% } %>
+                </td>
+                <td>
+                  <% if (Array.isArray(aluno.problemaSaude)) { %>
+                    <% if (aluno.problemaSaude.length> 1) { %>
+                      <%= aluno.problemaSaude.length %> problemas
+                        <% } else if (aluno.problemaSaude.length===1) { %>
+                          <%= aluno.problemaSaude[0] %>
+                            <% } else { %>
+                              —
+                              <% } %>
+                                <% } else { %>
+                                  <%= aluno.problemaSaude || '—' %>
+                                    <% } %>
+                </td>
+                <td>
+                  <a class="btn" href="/alunos/editar/<%= aluno._id %>">
+                    <i class="fa fa-edit" aria-hidden="true" style="font-size: 20px;"></i>
+                  </a>
+                  <a class="btn" href="/alunos/toggle-ativo/<%= aluno._id %>">
+                    <i class="fa fa-trash" aria-hidden="true" style="font-size: 20px;"></i>
+                  </a>
+                </td>
+              </tr>
+              <% }) %>
+                <% } %>
+      </tbody>
+    </table>
+
+    <a class="btn" href="/turmas/lista">Voltar para lista de turmas</a>
+  </div>

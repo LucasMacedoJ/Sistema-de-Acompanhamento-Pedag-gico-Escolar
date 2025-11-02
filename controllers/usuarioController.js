@@ -166,13 +166,13 @@ exports.atualizarUsuario = async (req, res) => {
 
     // 📸 Processar nova foto (remove antiga se existir)
     if (req.file) {
-      const novaFoto = await processarFoto(req.file, 'usuario');
       if (usuario.foto) await removerFoto(usuario.foto);
-      usuario.foto = novaFoto;
+      usuario.foto = await processarFoto(req.file, 'usuario');
     }
 
     await usuario.save();
 
+    // Atualiza sessão se o usuário for ele mesmo
     if (isSelf(req, id)) {
       Object.assign(req.session.usuario, {
         nome: usuario.nome,
@@ -245,10 +245,15 @@ exports.atualizarFotoPerfil = async (req, res) => {
     if (!usuario) return res.redirect('/login');
 
     if (req.file) {
-      const novaFoto = await processarFoto(req.file, 'usuario');
+      // 🔹 Remove foto antiga
       if (usuario.foto) await removerFoto(usuario.foto);
+
+      // 🔹 Salva nova foto
+      const novaFoto = await processarFoto(req.file, 'usuario');
       usuario.foto = novaFoto;
       await usuario.save();
+
+      // Atualiza sessão
       req.session.usuario.foto = novaFoto;
     }
 
