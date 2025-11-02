@@ -95,7 +95,6 @@ exports.listarUsuario = async (req, res) => {
 
     const usuarios = await Usuario.find({}, '_id nome email perfil foto').lean();
 
-    // Ajusta caminho das fotos
     usuarios.forEach(u => {
       if (u.foto && !u.foto.startsWith('/')) u.foto = `/uploads/usuario/${u.foto}`;
     });
@@ -164,7 +163,13 @@ exports.atualizarUsuario = async (req, res) => {
     usuario.email = email.trim();
     if (isAdmin(req) && perfil) usuario.perfil = perfil;
     if (senha?.trim()) usuario.senha = await bcrypt.hash(senha, 10);
-    if (req.file) usuario.foto = await processarFoto(req.file, 'usuario');
+
+    // 📸 Processar nova foto (remove antiga se existir)
+    if (req.file) {
+      const novaFoto = await processarFoto(req.file, 'usuario');
+      if (usuario.foto) await removerFoto(usuario.foto);
+      usuario.foto = novaFoto;
+    }
 
     await usuario.save();
 
@@ -179,7 +184,7 @@ exports.atualizarUsuario = async (req, res) => {
 
     return isAdmin(req) ? res.redirect('/usuario/lista') : res.redirect('/usuario/perfil');
   } catch (err) {
-    console.error(err);
+    console.error('Erro ao atualizar usuário:', err);
     res.render('usuario/editar', {
       usuario: req.session.usuario || null,
       form: Object.assign({}, req.body, { _id: req.params.id }),
@@ -208,7 +213,7 @@ exports.excluirUsuario = async (req, res) => {
 };
 
 // ====================================
-// 👤 Mostrar perfil do usuário
+// 👤 Mostrar perfil
 // ====================================
 exports.mostrarPerfil = async (req, res) => {
   try {
