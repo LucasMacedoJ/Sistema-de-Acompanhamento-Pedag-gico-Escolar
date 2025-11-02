@@ -57,10 +57,31 @@
                 <%= aluno.dataN ? aluno.dataN.toLocaleDateString('pt-BR') : '' %>
               </td>
               <td>
-                <%= aluno. necessidadeE %>
+                <% if (Array.isArray(aluno.necessidadeE)) { %>
+                  <% if (aluno.necessidadeE.length> 1) { %>
+                    <%= aluno.necessidadeE.length %> necessidades
+                      <% } else if (aluno.necessidadeE.length===1) { %>
+                        <%= aluno.necessidadeE[0] %>
+                          <% } else { %>
+                            —
+                            <% } %>
+                              <% } else { %>
+                                <%= aluno.necessidadeE || '—' %>
+                                  <% } %>
               </td>
+
               <td>
-                <%= aluno.problemaSaude %>
+                <% if (Array.isArray(aluno.problemaSaude)) { %>
+                  <% if (aluno.problemaSaude.length> 1) { %>
+                    <%= aluno.problemaSaude.length %> problemas
+                      <% } else if (aluno.problemaSaude.length===1) { %>
+                        <%= aluno.problemaSaude[0] %>
+                          <% } else { %>
+                            —
+                            <% } %>
+                              <% } else { %>
+                                <%= aluno.problemaSaude || '—' %>
+                                  <% } %>
               </td>
               <td>
                 <a class="btn" href="/alunos/editar/<%= aluno._id %>">
