@@ -141,7 +141,7 @@ exports.editarForm = async (req, res) => {
 
 
 // =============================
-// 🔄 ATUALIZAR ALUNO (com "Nenhum" padrão e sem vírgulas sobrando)
+// 🔄 ATUALIZAR ALUNO (mantendo a data existente)
 // =============================
 exports.editar = async (req, res) => {
   try {
@@ -173,20 +173,26 @@ exports.editar = async (req, res) => {
     // 📦 Monta os dados atualizados
     // =============================
     const updateData = {
-      nome: req.body.nome?.trim() || 'Nenhum',
-      dataN: req.body.dataN || 'Nenhum',
-      turma: req.body.turma || null,
+      nome: req.body.nome?.trim() || aluno.nome, // mantém nome atual se vazio
+      turma: req.body.turma || aluno.turma,
       necessidadeE: necessidadesFinal,
       problemaSaude: saudeFinal,
       disciplinaD: dificuldadesFinal,
-      transferenciaOnde: req.body.transferenciaOnde?.trim() || 'Nenhum',
-      transferenciaD: req.body.transferenciaD?.trim() || 'Nenhum',
-      responsavelNome: req.body.responsavelNome?.trim() || 'Nenhum',
-      responsavelContato: req.body.responsavelContato?.trim() || 'Nenhum',
+      transferenciaOnde: req.body.transferenciaOnde?.trim() || aluno.transferenciaOnde,
+      transferenciaD: req.body.transferenciaD?.trim() || aluno.transferenciaD,
+      responsavelNome: req.body.responsavelNome?.trim() || aluno.responsavelNome,
+      responsavelContato: req.body.responsavelContato?.trim() || aluno.responsavelContato,
       segundoProfessor: req.body.segundoProfessor === 'on',
-      segundoProfessorNome: req.body.segundoProfessorNome?.trim() || 'Nenhum',
-      observacao: req.body.observacao?.trim() || 'Nenhum'
+      segundoProfessorNome: req.body.segundoProfessorNome?.trim() || aluno.segundoProfessorNome,
+      observacao: req.body.observacao?.trim() || aluno.observacao
     };
+
+    // =============================
+    // 🔧 Atualiza a data de nascimento apenas se preenchida
+    // =============================
+    if (req.body.dataN && req.body.dataN !== '') {
+      updateData.dataN = req.body.dataN;
+    }
 
     // =============================
     // 🖼️ Atualização da foto (opcional)
@@ -209,6 +215,7 @@ exports.editar = async (req, res) => {
     res.status(500).send("Erro ao editar aluno: " + err.message);
   }
 };
+
 
 
 // =============================

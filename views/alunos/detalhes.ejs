@@ -18,23 +18,23 @@
             <% } %>
       </div>
 
-
       <ul>
         <li><strong>Nome:</strong>
           <%= aluno.nome %>
             <%= aluno.sobrenome %>
         </li>
+
         <li>
           <strong>Idade:</strong>
-          <% if (aluno.dataN) { %>
-            <% const hoje=new Date(); const nascimento=new Date(aluno.dataN); let idade=hoje.getFullYear() -
-              nascimento.getFullYear(); const m=hoje.getMonth() - nascimento.getMonth(); if (m < 0 || (m===0 &&
-              hoje.getDate() < nascimento.getDate())) { idade--; } %>
-              <%= idade %> anos
-                <% } else { %>
-                  —
-                  <% } %>
+          <% if (aluno.dataN) { const hoje=new Date(); const nascimento=new Date(aluno.dataN); let
+            idade=hoje.getFullYear() - nascimento.getFullYear(); const m=hoje.getMonth() - nascimento.getMonth(); if (m
+            < 0 || (m===0 && hoje.getDate() < nascimento.getDate())) { idade--; } %>
+            <%= idade %> anos
+              <% } else { %>
+                —
+                <% } %>
         </li>
+
         <li><strong>Turma:</strong>
           <%= aluno.turma ? aluno.turma.nome : '—' %>
         </li>
@@ -56,10 +56,15 @@
       </ul>
 
       <div class="botoes">
-        <a class="btn" href="/ocorrencias/nova?aluno=<%= aluno._id %>">Nova Ocorrência</a>
-        <a class="btn" href="/ocorrencias/lista?aluno=<%= aluno._id %>">Lista de Ocorrências</a>
-        <a class="btn" href="/alunos/editar/<%= aluno._id %>">Editar Aluno</a>
-        <a class="btn" href="/alunos">Voltar à Lista</a>
+        <% if (aluno.ativo) { %>
+          <!-- Botões visíveis apenas se o aluno estiver ativo -->
+          <a class="btn" href="/ocorrencias/nova?aluno=<%= aluno._id %>">Nova Ocorrência</a>
+          <a class="btn" href="/alunos/editar/<%= aluno._id %>">Editar Aluno</a>
+          <% } %>
+
+            <!-- Estes botões aparecem sempre -->
+            <a class="btn" href="/ocorrencias/lista?aluno=<%= aluno._id %>">Lista de Ocorrências</a>
+            <a class="btn" href="/alunos">Voltar à Lista</a>
       </div>
     </div>
   </body>
