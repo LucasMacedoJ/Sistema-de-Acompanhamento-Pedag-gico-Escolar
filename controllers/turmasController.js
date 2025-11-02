@@ -17,11 +17,11 @@ const formularioTurma = (req, res) => {
   res.render('turmas/formulario');
 };
 
-// Cadastra uma nova turma
+// ➕ Cadastrar nova turma
 const cadastrar = async (req, res) => {
   try {
-    const { nome, periodo } = req.body;
-    await Turma.create({ nome, periodo });
+    const { nome, periodo, ano } = req.body; // ✅ Incluído "ano"
+    await Turma.create({ nome, periodo, ano });
     res.redirect('/turmas/lista');
   } catch (err) {
     console.error('Erro ao cadastrar turma:', err);
@@ -29,7 +29,7 @@ const cadastrar = async (req, res) => {
   }
 };
 
-// Lista todas as turmas
+// 📋 Listar todas as turmas
 const lista = async (req, res) => {
   try {
     const turmas = await Turma.find();
@@ -40,7 +40,7 @@ const lista = async (req, res) => {
   }
 };
 
-// Detalhes da turma com alunos vinculados
+// 🔍 Detalhes da turma com alunos vinculados
 const detalhesTurma = async (req, res) => {
   try {
     const turma = await Turma.findById(req.params.id).lean();
@@ -58,9 +58,9 @@ const detalhesTurma = async (req, res) => {
 const editar = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nome, periodo } = req.body;
+    const { nome, periodo, ano } = req.body; // ✅ Incluído "ano"
 
-    await Turma.findByIdAndUpdate(id, { nome, periodo });
+    await Turma.findByIdAndUpdate(id, { nome, periodo, ano });
     res.redirect('/turmas/lista');
   } catch (err) {
     console.error('Erro ao editar turma:', err);
@@ -86,7 +86,7 @@ const deletar = async (req, res) => {
   }
 };
 
-// Renderiza o formulário de edição de turma
+// ✏️ Renderiza o formulário de edição de turma
 const editarFormulario = async (req, res) => {
   try {
     const turma = await Turma.findById(req.params.id).lean();

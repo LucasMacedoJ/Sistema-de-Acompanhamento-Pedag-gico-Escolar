@@ -1,11 +1,11 @@
 <%- include('../tela') %>
-<head>
-  <link rel="stylesheet" href="/css/cadastroTurmas.css">
-</head>
+
+  <head>
+    <link rel="stylesheet" href="/css/cadastroTurmas.css">
+  </head>
 
   <h1>Cadastrar Turma</h1>
-  <div class="form-turma"
-  <form class="container" action="/turmas/cadastrar" method="POST">
+  <div class="form-turma" <form class="container" action="/turmas/cadastrar" method="POST">
     <div>
       <label for="nome">Nome da Turma:</label>
       <input type="text" name="nome" id="nome" required>
@@ -22,7 +22,12 @@
       </select>
     </div>
 
+    <div>
+      <label for="ano">Ano:</label>
+      <input type="number" name="ano" id="ano" required min="2000" max="2100">
+    </div>
+
     <button type="submit">Cadastrar</button>
     <button type="button" onclick="window.location.href='/turmas/lista'">Voltar</button>
-  </form>
+    </form>
   </div>
