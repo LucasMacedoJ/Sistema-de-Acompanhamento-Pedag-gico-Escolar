@@ -1,0 +1,41 @@
+.foto-aluno img{
+    border-radius: 50%;
+    border: 2px solid #357ab8;
+    margin-bottom: 15px;
+
+}
+
+:root{
+  --bg:#f6f8fa;
+  --card:#ffffff;
+  --primary:#2b6cb0;
+  --accent:#4a5568;
+  --muted:#a0aec0;
+  --success:#38a169;
+  --danger:#e53e3e;
+  --shadow: 0 6px 18px rgba(38,57,77,0.08);
+  --radius:8px;
+  --gap:14px;
+  --pad:18px;
+  --max-width:40%;
+  --font: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  font-family: var(--font);
+  color: var(--accent);
+  line-height: 1.4;
+}
+
+/* Container do formulário */
+.container {
+  max-width: var(--max-width);
+  margin: 28px auto;
+  background: var(--card);
+  padding: calc(var(--pad) * 0.9);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  box-sizing: border-box;
+  border: 1px solid rgba(10,10,10,0.03);
+}

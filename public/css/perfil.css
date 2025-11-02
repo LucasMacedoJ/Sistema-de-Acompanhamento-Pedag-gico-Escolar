@@ -1,50 +1,105 @@
+:root{
+  --bg:#f6f8fa;
+  --card:#ffffff;
+  --primary:#2b6cb0;
+  --accent:#4a5568;
+  --muted:#a0aec0;
+  --success:#38a169;
+  --danger:#e53e3e;
+  --shadow: 0 6px 18px rgba(38,57,77,0.08);
+  --radius:8px;
+  --gap:14px;
+  --pad:18px;
+  --max-width:30%;
+  --font: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  font-family: var(--font);
+  color: var(--accent);
+  line-height: 1.4;
+}
+
+/* Container do formulário */
 .perfil-container {
-    margin: 20px auto;
-    padding: 0px;
-    border: 5px solid #76aadb;
-    border-radius: 8px;
-    background-color: aliceblue;
-    box-sizing: border-box;
-    width: 25%;
-    /* centra o conteúdo interno */
-    display: flex;
-    flex-direction: column; /* ou 'row' se quiser em linha */
-    align-items: center;    /* centraliza horizontalmente o conteúdo */
-    justify-content: center; /* centraliza verticalmente o conteúdo interno */
-
-    /* opcional: centralizar em relação à viewport (ajuste conforme layout) */
-    /* min-height: 60vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centraliza horizontalmente */
+  justify-content: center; /* centraliza verticalmente, se tiver altura fixa */
+  text-align: center;
+  max-width: var(--max-width);
+  margin: 28px auto;
+  background: var(--card);
+  padding: calc(var(--pad) * 0.9);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  box-sizing: border-box;
+  border: 1px solid rgba(10,10,10,0.03);
 }
 
-form {
-    display: flex;
-    flex-direction: column; /* ou 'row' se quiser em linha */
-    align-items: center;    /* centraliza horizontalmente o conteúdo */
-    justify-content: center; /* centraliza verticalmente o conteúdo interno */
+/* Form rows */
+.perfil-container label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: var(--accent);
+  font-weight: 600;
 }
 
-form label {
-    font-size: 75%;
+.perfil-container input[type="text"],
+.perfil-container select,
+.perfil-container textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+  color: #1f2937;
+  margin-bottom: var(--gap);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* estilos específicos movidos das tags inline */
-.remover-form {
-    margin-top: 8px;
+.perfil-container input[disabled] {
+  background: #f3f4f6;
+  color: var(--muted);
+  cursor: not-allowed;
 }
 
-.logout-form {
-    display: inline-flex; /* inline mas mantendo flex para alinhar filhos */
-    align-items: center;
-    margin-left: 8px;
+/* Textarea specifics */
+.perfil-container textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
 }
 
-.action-btn {
-    margin-bottom: 12px;
+/* Focus states */
+.perfil-container input:focus,
+.perfil-container textarea:focus,
+.perfil-container select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.08);
 }
 
-/* corrigido: seletor da imagem precisa do ponto */
-.foto {
-    border-radius: 100%;
-    width: 150px;
-    height: 150px;
+/* Small screens */
+@media (max-width: 520px) {
+  .perfil-container {
+    margin: 12px;
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .perfil-container button {
+    width: 100%;
+  }
+}
+
+.foto{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 2px solid #357ab8;
 }

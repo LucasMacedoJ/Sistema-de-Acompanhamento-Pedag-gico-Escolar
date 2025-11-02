@@ -26,17 +26,18 @@
             <%= usuario.email %>
         </p>
 
+        
         <form action="/usuario/perfil/foto" method="POST" enctype="multipart/form-data">
             <input type="file" name="foto" accept="image/*" required>
             <button type="submit" class="action-btn">Atualizar Foto</button>
         </form>
-        
-        <!-- botão de voltar para a tela anterior -->
+
+        <div class="botoes">
         <form action="/usuario/logout" method="post" class="logout-form" >
             <button type="submit" class="action-btn">Deslogar</button>
+            <button type="button" onclick="history.back()" class="action-btn">Voltar</button>
         </form>
-        <button type="button" onclick="history.back()" class="action-btn">Voltar</button>
-        <!-- botão de deslogar (envia POST para /logout) -->
-
+        
+        </div>
 
     </div>
