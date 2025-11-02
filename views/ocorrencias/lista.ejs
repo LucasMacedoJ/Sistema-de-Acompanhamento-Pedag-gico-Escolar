@@ -1,7 +1,7 @@
 <%- include('../tela') %>
 
-<!-- adiciona CSS específico para esta view -->
-<link rel="stylesheet" href="/css/listaOcorrencias.css">
+  <!-- adiciona CSS específico para esta view -->
+  <link rel="stylesheet" href="/css/listaOcorrencias.css">
 
   <% if (aluno) { %>
     <h1>Ocorrências de <%= aluno.nome %>
@@ -9,67 +9,7 @@
     <% } else { %>
       <h1>Todas as Ocorrências</h1>
       <% } %>
-
         <div class="container">
-
-          <!-- 🔍 Filtro por tipo -->
-          <form method="GET" action="/ocorrencias/lista" class="filtro">
-            <% if (aluno) { %>
-              <input type="hidden" name="aluno" value="<%= aluno._id %>">
-              <% } %>
-
-                <label for="tipo">Filtrar por tipo:</label>
-                <select name="tipo" id="tipo" onchange="this.form.submit()">
-                  <option value="TODOS" <%=tipoSelecionado==='TODOS' ? 'selected' : '' %>>Todos</option>
-                  <option value="GERAL" <%=tipoSelecionado==='GERAL' ? 'selected' : '' %>>Geral</option>
-                  <option value="APOIA" <%=tipoSelecionado==='APOIA' ? 'selected' : '' %>>APOIA</option>
-                  <option value="NEPRE" <%=tipoSelecionado==='NEPRE' ? 'selected' : '' %>>NEPRE</option>
-                  <option value="DISCIPLINAR" <%=tipoSelecionado==='DISCIPLINAR' ? 'selected' : '' %>>Disciplinar
-                  </option>
-                  <option value="TRANSFERENCIA" <%=tipoSelecionado==='TRANSFERENCIA' ? 'selected' : '' %>>Transferência
-                  </option>
-                </select>
-          </form>
-
-          <table class="ocorrencias-table">
-            <thead class="barra">
-              <tr>
-                <th>Data</th>
-                <th>Tipo</th>
-                <th>Descrição</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <% if (ocorrencias.length===0) { %> 
-              <tbody style="all: unset;">
-              <tr>
-                <h2>Nenhuma ocorrência encontrada.</h2>
-              </tr>
-            </tbody>
-                <% } else { %>
-            <tbody>
-                  <% ocorrencias.forEach(function(ocorrencia) { %>
-                    <tr>
-                      <td>
-                        <%= ocorrencia.dataAbertura ? new Date(ocorrencia.dataAbertura).toLocaleDateString('pt-BR') : ''
-                          %>
-                      </td>
-                      <td>
-                        <%= ocorrencia.tipo %>
-                      </td>
-                      <td>
-                        <%= ocorrencia.descricao %>
-                      </td>
-                      <td>
-                        <a class="btn" href="/ocorrencias/detalhes/<%= ocorrencia._id %>">Detalhes</a>
-                        <a class="btn" href="/ocorrencias/editar/<%= ocorrencia._id %>"><i class="fa fa-edit" aria-hidden="true" style="font-size: 20px;"></i></a>
-                      </td>
-                    </tr>
-                    <% }) %>
-  
-            </tbody>
-            <% } %>
-          </table>
 
           <% if (aluno) { %>
             <a class="btn" href="/alunos/detalhes/<%= aluno._id %>">Voltar para detalhes do aluno</a>
@@ -77,4 +17,65 @@
               <a class="btn" href="/alunos/">Voltar para lista de alunos</a>
               <% } %>
 
+                <!-- 🔍 Filtro por tipo -->
+                <form method="GET" action="/ocorrencias/lista" class="filtro">
+                  <% if (aluno) { %>
+                    <input type="hidden" name="aluno" value="<%= aluno._id %>">
+                    <% } %>
+
+                      <label for="tipo">Filtrar por tipo:</label>
+                      <select name="tipo" id="tipo" onchange="this.form.submit()">
+                        <option value="TODOS" <%=tipoSelecionado==='TODOS' ? 'selected' : '' %>>Todos</option>
+                        <option value="GERAL" <%=tipoSelecionado==='GERAL' ? 'selected' : '' %>>Geral</option>
+                        <option value="APOIA" <%=tipoSelecionado==='APOIA' ? 'selected' : '' %>>APOIA</option>
+                        <option value="NEPRE" <%=tipoSelecionado==='NEPRE' ? 'selected' : '' %>>NEPRE</option>
+                        <option value="DISCIPLINAR" <%=tipoSelecionado==='DISCIPLINAR' ? 'selected' : '' %>
+                          >Disciplinar
+                        </option>
+                        <option value="TRANSFERENCIA" <%=tipoSelecionado==='TRANSFERENCIA' ? 'selected' : '' %>
+                          >Transferência
+                        </option>
+                      </select>
+                </form>
+
+                <table class="ocorrencias-table">
+                  <thead class="barra">
+                    <tr>
+                      <th>Data</th>
+                      <th>Tipo</th>
+                      <th>Descrição</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <% if (ocorrencias.length===0) { %>
+                    <tbody style="all: unset;">
+                      <tr>
+                        <h2>Nenhuma ocorrência encontrada.</h2>
+                      </tr>
+                    </tbody>
+                    <% } else { %>
+                      <tbody>
+                        <% ocorrencias.forEach(function(ocorrencia) { %>
+                          <tr>
+                            <td>
+                              <%= ocorrencia.dataAbertura ? new
+                                Date(ocorrencia.dataAbertura).toLocaleDateString('pt-BR') : '' %>
+                            </td>
+                            <td>
+                              <%= ocorrencia.tipo %>
+                            </td>
+                            <td>
+                              <%= ocorrencia.descricao %>
+                            </td>
+                            <td>
+                              <a class="btn" href="/ocorrencias/detalhes/<%= ocorrencia._id %>">Detalhes</a>
+                              <a class="btn" href="/ocorrencias/editar/<%= ocorrencia._id %>"><i class="fa fa-edit"
+                                  aria-hidden="true" style="font-size: 20px;"></i></a>
+                            </td>
+                          </tr>
+                          <% }) %>
+
+                      </tbody>
+                      <% } %>
+                </table>
         </div>

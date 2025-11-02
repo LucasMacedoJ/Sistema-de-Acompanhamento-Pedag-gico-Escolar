@@ -1,43 +1,45 @@
-<head>
-    <link rel="stylesheet" href="/css/perfil.css">
-    <link rel="stylesheet" href="/css/geral.css">
-    <h1>Meu perfil</h1>
+<%- include('../tela') %>
 
-    <div class="perfil-container">
-        <br>
-        <div class="foto-container">
-            <% if (usuarioPerfil.foto) { %>
-                <img src="<%= usuarioPerfil.foto%>" alt="Foto do usuário" class="foto">
+    <head>
+        <link rel="stylesheet" href="/css/perfil.css">
+        <link rel="stylesheet" href="/css/geral.css">
+        <h1>Meu perfil</h1>
 
-                <% } else { %>
+        <div class="perfil-container">
+            <br>
+            <div class="foto-container">
+                <% if (usuarioPerfil.foto) { %>
+                    <img src="<%= usuarioPerfil.foto%>" alt="Foto do usuário" class="foto">
 
-                    <img src="/imagens/padrao.png" alt="sem foto" class="foto">
+                    <% } else { %>
 
-                    <% } %>
+                        <img src="/imagens/padrao.png" alt="sem foto" class="foto">
+
+                        <% } %>
+            </div>
+            <form action="/upload/remover" method="post" class="remover-form">
+                <button type="submit" class="action-btn">Remover foto</button>
+            </form>
+
+            <p><strong>Nome:</strong>
+                <%= usuario.nome %>
+            </p>
+            <p><strong>Email:</strong>
+                <%= usuario.email %>
+            </p>
+
+
+            <form action="/usuario/perfil/foto" method="POST" enctype="multipart/form-data">
+                <input type="file" name="foto" accept="image/*" required>
+                <button type="submit" class="action-btn">Atualizar Foto</button>
+            </form>
+
+            <div class="botoes">
+                <form action="/usuario/logout" method="post" class="logout-form">
+                    <button type="submit" class="action-btn">Deslogar</button>
+                    <button type="button" onclick="history.back()" class="action-btn">Voltar</button>
+                </form>
+
+            </div>
+
         </div>
-        <form action="/upload/remover" method="post" class="remover-form">
-            <button type="submit" class="action-btn">Remover foto</button>
-        </form>
-
-        <p><strong>Nome:</strong>
-            <%= usuario.nome %>
-        </p>
-        <p><strong>Email:</strong>
-            <%= usuario.email %>
-        </p>
-
-        
-        <form action="/usuario/perfil/foto" method="POST" enctype="multipart/form-data">
-            <input type="file" name="foto" accept="image/*" required>
-            <button type="submit" class="action-btn">Atualizar Foto</button>
-        </form>
-
-        <div class="botoes">
-        <form action="/usuario/logout" method="post" class="logout-form" >
-            <button type="submit" class="action-btn">Deslogar</button>
-            <button type="button" onclick="history.back()" class="action-btn">Voltar</button>
-        </form>
-        
-        </div>
-
-    </div>
