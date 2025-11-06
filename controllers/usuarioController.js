@@ -1,4 +1,4 @@
-const Usuario = require('../models/usuario');
+const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 const { uploadUsuario, processarFoto, removerFoto } = require('./fotoController');
 

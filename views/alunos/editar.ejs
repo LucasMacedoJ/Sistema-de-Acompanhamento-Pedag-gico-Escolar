@@ -35,8 +35,8 @@
           <input type="file" name="foto" id="foto" accept="image/*">
           <% if (aluno.foto) { %>
             <p>Foto atual:</p>
-            <img src="<%= aluno.foto.startsWith('http') ? aluno.foto : aluno.foto %>"
-              alt="Foto do aluno" style="width:100px; border-radius:5px;">
+            <img src="<%= aluno.foto.startsWith('http') ? aluno.foto : aluno.foto %>" alt="Foto do aluno"
+              style="width:100px; border-radius:5px;">
             <% } %>
         </div>
 
@@ -120,11 +120,10 @@
         </div>
 
         <div>
-          <label>Contato do Responsável:</label>
-          <input type="text" name="responsavelContato"
-            value="<%= aluno.responsavelContato === 'Nenhum' ? '' : aluno.responsavelContato %>" required>
-        </div>
-
+          <label for="responsavelContato">Contato do Responsável:</label>
+          <input type="text" name="responsavelContato" id="responsavelContato" required placeholder="(99) 99999-9999"
+            value="<%= aluno.responsavelContato === 'Nenhum' ? '' : aluno.responsavelContato %>" required>>
+        </div><br>
         <!-- 🧑‍🏫 Segundo Professor -->
         <div>
           <label>
@@ -152,6 +151,11 @@
     </div>
 
     <script>
+      // 📱 Máscara de telefone
+      const telInput = document.getElementById('responsavelContato');
+      if (telInput) VMasker(telInput).maskPattern('(99) 99999-9999');
+
+
       function adicionarInput(containerId, placeholder) {
         const container = document.getElementById(containerId);
         const input = document.createElement('input');

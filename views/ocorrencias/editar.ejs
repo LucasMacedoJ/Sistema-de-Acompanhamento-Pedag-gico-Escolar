@@ -1,5 +1,5 @@
 <%- include('../tela') %>
-<link rel="stylesheet" href="/css/editarOcorrencias.css">
+    <link rel="stylesheet" href="/css/editarOcorrencias.css">
 
     <h1>Editar Ocorrência</h1>
 
@@ -7,8 +7,14 @@
         <label>Aluno:</label>
         <input type="text" value="<%= ocorrencia.aluno.nome %>" disabled>
 
-        <label>Tipo:</label>
-        <input type="text" name="tipo" value="<%= ocorrencia.tipo %>">
+        <label for="tipo">Tipo da Ocorrência:</label>
+        <select name="tipo" id="tipo" required>
+            <option value="GERAL">Geral</option>
+            <option value="APOIA">APOIA</option>
+            <option value="NEPRE">NEPRE</option>
+            <option value="DISCIPLINAR">Disciplinar</option>
+        </select>
+
 
         <label>Descrição:</label>
         <textarea name="descricao"><%= ocorrencia.descricao %></textarea>
