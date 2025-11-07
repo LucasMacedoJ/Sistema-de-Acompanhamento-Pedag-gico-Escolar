@@ -6,19 +6,24 @@
   <ul>
     <li><a href="/alunos/">Alunos</a></li>
     <li><a href="/turmas/lista">Turmas</a></li>
-    <% if (isAdmin) { %>
+
+    <% if (typeof usuario !=='undefined' && usuario && usuario.perfil==='admin' ) { %>
       <li><a href="/usuario/lista">Usuários</a></li>
       <% } %>
   </ul>
 
-  <% if (usuario) { %>
-    <a href="/usuario/perfil"
-      style="display: flex; align-items: center; text-decoration: none; color: inherit; position: absolute; right: 40px;">
-      <img src="<%= usuario.foto && usuario.foto !== '' ? usuario.foto : '/imagens/padrao.png' %>" alt="foto"
-        style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
-    </a>
-    <% } else { %>
-      <a href="/login" style="position: absolute; right: 40px;">Entrar</a>
-      <% } %>
+  <% if (typeof usuario !=='undefined' && usuario) { %>
+    <% // uso direto de campos já normalizados pela middleware (app.js) // fallback para avatar -> foto -> imagem padrão
+      const fotoPath = usuario.avatar || usuario.foto || '/imagens/padrao.png';
+      %>
 
+      <a href="/usuario/perfil"
+        style="display:flex; align-items:center; text-decoration:none; color:inherit; position:absolute; right:40px;">
+        <img src="<%= fotoPath %>" alt="Foto do usuário"
+          style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+      </a>
+
+      <% } else { %>
+        <a href="/login" style="position:absolute; right:40px;">Entrar</a>
+        <% } %>
 </nav>

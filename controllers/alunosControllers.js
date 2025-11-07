@@ -1,22 +1,27 @@
 // controllers/alunosController.js
+
 const Aluno = require('../models/alunos');
 const Turma = require('../models/turma');
 const { uploadAlunos, processarFoto, removerFoto } = require('./fotoController');
 
-// ============================
-// 🔧 Função auxiliar para normalizar arrays
-// ============================
+
+// ===================================================================
+// 🔧 FUNÇÃO AUXILIAR — Normaliza campos que podem virar arrays
+// ===================================================================
 function normalizarArray(campo) {
   if (!campo) return [];
   if (!Array.isArray(campo)) campo = [campo];
+
   return campo
     .map(item => item?.trim())
     .filter(item => item && item !== '');
 }
 
-// =============================
-// 📋 FORMULÁRIO DE CADASTRO
-// =============================
+
+
+// ===================================================================
+// 📄 FORMULÁRIO – Cadastro de aluno
+// ===================================================================
 exports.formulario = async (req, res) => {
   try {
     const turmas = await Turma.find();
@@ -27,18 +32,21 @@ exports.formulario = async (req, res) => {
   }
 };
 
-// =============================
-// 🧩 CADASTRAR ALUNO
-// =============================
+
+
+// ===================================================================
+// ➕ CADASTRAR NOVO ALUNO
+// ===================================================================
 exports.cadastrar = async (req, res) => {
   try {
     let fotoPath = null;
 
+    // Processa foto
     if (req.file) {
       fotoPath = await processarFoto(req.file, 'alunos');
     }
 
-    // Normaliza campos de lista
+    // Normaliza campos múltiplos
     const necessidades = normalizarArray(req.body.necessidadeE);
     const saude = normalizarArray(req.body.problemaSaude);
     const dificuldades = normalizarArray(req.body.disciplinaD);
@@ -63,6 +71,7 @@ exports.cadastrar = async (req, res) => {
 
     await novoAluno.save();
     console.log('✅ Aluno cadastrado com sucesso:', novoAluno.nome);
+
     res.redirect('/alunos');
 
   } catch (err) {
@@ -71,9 +80,11 @@ exports.cadastrar = async (req, res) => {
   }
 };
 
-// =============================
-// 📃 LISTAR ALUNOS ATIVOS
-// =============================
+
+
+// ===================================================================
+// 📋 LISTAR ALUNOS ATIVOS
+// ===================================================================
 exports.lista = async (req, res) => {
   try {
     const alunos = await Aluno.find({ ativo: true }).populate('turma').lean();
@@ -83,9 +94,11 @@ exports.lista = async (req, res) => {
   }
 };
 
-// =============================
-// 💤 LISTAR ALUNOS INATIVOS
-// =============================
+
+
+// ===================================================================
+// 😴 LISTAR ALUNOS INATIVOS
+// ===================================================================
 exports.inativo = async (req, res) => {
   try {
     const alunosInativos = await Aluno.find({ ativo: false }).populate('turma').lean();
@@ -95,16 +108,19 @@ exports.inativo = async (req, res) => {
   }
 };
 
-// =============================
-// ✏️ FORMULÁRIO DE EDIÇÃO
-// =============================
+
+
+// ===================================================================
+// ✏️ FORMULÁRIO – Editar aluno
+// ===================================================================
 exports.editarForm = async (req, res) => {
   try {
     const aluno = await Aluno.findById(req.params.id).lean();
     if (!aluno) return res.status(404).send("Aluno não encontrado");
+
     const turmas = await Turma.find();
 
-    // Garante que os campos são arrays
+    // Garantir que todos sejam arrays
     aluno.necessidadeE = Array.isArray(aluno.necessidadeE) ? aluno.necessidadeE : (aluno.necessidadeE ? [aluno.necessidadeE] : []);
     aluno.problemaSaude = Array.isArray(aluno.problemaSaude) ? aluno.problemaSaude : (aluno.problemaSaude ? [aluno.problemaSaude] : []);
     aluno.disciplinaD = Array.isArray(aluno.disciplinaD) ? aluno.disciplinaD : (aluno.disciplinaD ? [aluno.disciplinaD] : []);
@@ -115,20 +131,20 @@ exports.editarForm = async (req, res) => {
   }
 };
 
-// =============================
+
+
+// ===================================================================
 // 🔄 ATUALIZAR ALUNO
-// =============================
+// ===================================================================
 exports.editar = async (req, res) => {
   try {
     const aluno = await Aluno.findById(req.params.id);
     if (!aluno) return res.status(404).send("Aluno não encontrado");
 
-    // Normaliza campos de lista
     const necessidades = normalizarArray(req.body.necessidadeE);
     const saude = normalizarArray(req.body.problemaSaude);
     const dificuldades = normalizarArray(req.body.disciplinaD);
 
-    // Dados atualizados
     const updateData = {
       nome: req.body.nome?.trim() || aluno.nome,
       turma: req.body.turma || aluno.turma,
@@ -148,15 +164,15 @@ exports.editar = async (req, res) => {
       updateData.dataN = req.body.dataN;
     }
 
-    // Atualiza foto, removendo a anterior
+    // Atualiza foto
     if (req.file) {
       if (aluno.foto) await removerFoto(aluno.foto);
-      const novaFoto = await processarFoto(req.file, 'alunos');
-      updateData.foto = novaFoto;
+      updateData.foto = await processarFoto(req.file, 'alunos');
     }
 
     await Aluno.findByIdAndUpdate(req.params.id, updateData, { runValidators: true });
     console.log(`✅ Aluno "${updateData.nome}" atualizado com sucesso.`);
+
     res.redirect('/alunos');
 
   } catch (err) {
@@ -165,9 +181,11 @@ exports.editar = async (req, res) => {
   }
 };
 
-// =============================
+
+
+// ===================================================================
 // 🔁 ATIVAR/DESATIVAR ALUNO
-// =============================
+// ===================================================================
 exports.toggleAtivo = async (req, res) => {
   try {
     const aluno = await Aluno.findById(req.params.id);
@@ -175,18 +193,24 @@ exports.toggleAtivo = async (req, res) => {
 
     aluno.ativo = !aluno.ativo;
     await aluno.save();
-    res.redirect(aluno.ativo ? '/alunos/inativo' : '/alunos');
+
+    const destino = aluno.ativo ? '/alunos/inativo' : '/alunos';
+    res.redirect(destino);
+
   } catch (err) {
     console.error("Erro ao alterar status:", err);
     res.status(500).send("Erro ao alterar status: " + err.message);
   }
 };
 
-// =============================
-// 🔍 BUSCA ALUNOS ATIVOS
-// =============================
+
+
+// ===================================================================
+// 🔍 BUSCAR ALUNOS ATIVOS
+// ===================================================================
 exports.search = async (req, res) => {
   const query = req.query.q || '';
+
   try {
     const resultados = await Aluno.find({
       ativo: true,
@@ -194,16 +218,20 @@ exports.search = async (req, res) => {
     }).populate('turma').lean();
 
     res.render('alunos/lista', { alunos: resultados });
+
   } catch (err) {
     res.status(500).send("Erro ao buscar alunos: " + err.message);
   }
 };
 
-// =============================
-// 🔍 BUSCA ALUNOS INATIVOS
-// =============================
+
+
+// ===================================================================
+// 🔍 BUSCAR ALUNOS INATIVOS
+// ===================================================================
 exports.searchInativos = async (req, res) => {
   const query = req.query.q || '';
+
   try {
     const resultados = await Aluno.find({
       ativo: false,
@@ -211,36 +239,46 @@ exports.searchInativos = async (req, res) => {
     }).populate('turma').lean();
 
     res.render('alunos/inativo', { alunos: resultados });
+
   } catch (err) {
     res.status(500).send("Erro ao buscar alunos inativos: " + err.message);
   }
 };
 
-// =============================
+
+
+// ===================================================================
 // 🗑️ DELETAR ALUNO
-// =============================
+// ===================================================================
 exports.deletar = async (req, res) => {
   try {
     const aluno = await Aluno.findById(req.params.id);
     if (!aluno) return res.status(404).send("Aluno não encontrado");
 
-    if (aluno.foto) await removerFoto(aluno.foto); // Remove foto antes de deletar
+    if (aluno.foto) await removerFoto(aluno.foto);
+
     await Aluno.findByIdAndDelete(req.params.id);
 
     res.redirect('/alunos');
+
   } catch (err) {
     res.status(500).send("Erro ao deletar aluno: " + err.message);
   }
 };
 
-// =============================
+
+
+// ===================================================================
 // 🔎 DETALHES DO ALUNO
-// =============================
+// ===================================================================
 exports.detalhes = async (req, res) => {
   try {
     const aluno = await Aluno.findById(req.params.id).populate('turma').lean();
+
     if (!aluno) return res.status(404).send("Aluno não encontrado");
+
     res.render('alunos/detalhes', { aluno });
+
   } catch (err) {
     res.status(500).send("Erro ao buscar detalhes do aluno: " + err.message);
   }

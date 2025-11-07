@@ -17,7 +17,10 @@ async function validarEmail(email, idExcluido = null) {
   if (!email?.trim()) return 'Email é obrigatório.';
 
   const existente = await Usuario.findOne({ email: email.trim() });
-  if (existente && String(existente._id) !== String(idExcluido)) return 'Email já cadastrado.';
+
+  if (existente && String(existente._id) !== String(idExcluido)) {
+    return 'Email já cadastrado.';
+  }
 
   return null;
 }
@@ -57,10 +60,12 @@ exports.cadastrarUsuario = async (req, res) => {
       });
     }
 
-    const perfilFinal = (isAdmin(req) && perfil === 'admin') ? 'admin' : 'comum';
+    const perfilFinal = isAdmin(req) && perfil === 'admin' ? 'admin' : 'comum';
     const senhaHash = await bcrypt.hash(senha, 10);
 
     let fotoPath = null;
+
+    // 📸 Processar foto caso exista
     if (req.file) {
       fotoPath = await processarFoto(req.file, 'usuario');
     }
@@ -80,33 +85,35 @@ exports.cadastrarUsuario = async (req, res) => {
     console.error('Erro ao cadastrar usuário:', err);
     res.render('usuario/novo', {
       usuario: req.session.usuario || null,
-      erro: 'Erro ao cadastrar usuário. Tente novamente.',
+      erro: 'Erro ao cadastrar usuário.',
       form: req.body
     });
   }
 };
 
 // ====================================
-// 📃 Listar usuários (somente admin)
+// 📃 Listar usuários (ADMIN)
 // ====================================
 exports.listarUsuario = async (req, res) => {
   try {
-    if (!isAdmin(req)) return res.redirect('/erro');
+    if (!isAdmin(req)) {
+      return res.redirect('/erro'); // return para evitar execução posterior
+    }
 
     const usuarios = await Usuario.find({}, '_id nome email perfil foto').lean();
 
-    usuarios.forEach(u => {
-      if (u.foto && !u.foto.startsWith('/')) u.foto = `/uploads/usuario/${u.foto}`;
-    });
+    if (res.headersSent) return; // segurança adicional
 
-    res.render('usuario/lista', {
+    return res.render('usuario/lista', {
       usuarioLogado: req.session.usuario || null,
-      usuario: usuarios,
+      usuarios,
       erro: null
     });
   } catch (err) {
     console.error('Erro ao listar usuários:', err);
-    res.status(500).send('Erro ao listar usuários.');
+    if (!res.headersSent) {
+      return res.status(500).send('Erro ao listar usuários.');
+    }
   }
 };
 
@@ -116,14 +123,13 @@ exports.listarUsuario = async (req, res) => {
 exports.formEditarUsuario = async (req, res) => {
   try {
     const id = req.params.id;
+
     if (!req.session.usuario) return res.redirect('/login');
     if (!isAdmin(req) && !isSelf(req, id)) return res.redirect('/erro');
 
     const usuarioEdit = await Usuario.findById(id).lean();
-    if (!usuarioEdit) return res.redirect(isAdmin(req) ? '/usuario/lista' : '/usuario/perfil');
-
-    if (usuarioEdit.foto && !usuarioEdit.foto.startsWith('/')) {
-      usuarioEdit.foto = `/uploads/usuario/${usuarioEdit.foto}`;
+    if (!usuarioEdit) {
+      return isAdmin(req) ? res.redirect('/usuario/lista') : res.redirect('/usuario/perfil');
     }
 
     res.render('usuario/editar', {
@@ -143,11 +149,13 @@ exports.formEditarUsuario = async (req, res) => {
 exports.atualizarUsuario = async (req, res) => {
   try {
     const id = req.params.id;
+
     if (!req.session.usuario) return res.redirect('/login');
     if (!isAdmin(req) && !isSelf(req, id)) return res.redirect('/erro');
 
     const { nome, email, senha, perfil } = req.body;
     const usuario = await Usuario.findById(id);
+
     if (!usuario) return res.redirect('/usuario/lista');
 
     const erroEmail = await validarEmail(email, id);
@@ -164,7 +172,7 @@ exports.atualizarUsuario = async (req, res) => {
     if (isAdmin(req) && perfil) usuario.perfil = perfil;
     if (senha?.trim()) usuario.senha = await bcrypt.hash(senha, 10);
 
-    // 📸 Processar nova foto (remove antiga se existir)
+    // 📸 Atualização de foto
     if (req.file) {
       if (usuario.foto) await removerFoto(usuario.foto);
       usuario.foto = await processarFoto(req.file, 'usuario');
@@ -172,7 +180,7 @@ exports.atualizarUsuario = async (req, res) => {
 
     await usuario.save();
 
-    // Atualiza sessão se o usuário for ele mesmo
+    // Atualiza a sessão se for o próprio usuário
     if (isSelf(req, id)) {
       Object.assign(req.session.usuario, {
         nome: usuario.nome,
@@ -194,16 +202,20 @@ exports.atualizarUsuario = async (req, res) => {
 };
 
 // ====================================
-// 🗑️ Excluir usuário (admin)
+// 🗑️ Excluir usuário (ADMIN)
 // ====================================
 exports.excluirUsuario = async (req, res) => {
   try {
     const id = req.params.id;
+
     if (!isAdmin(req)) return res.redirect('/erro');
     if (isSelf(req, id)) return res.redirect('/usuario/lista');
 
     const usuarioRemovido = await Usuario.findByIdAndDelete(id);
-    if (usuarioRemovido?.foto) await removerFoto(usuarioRemovido.foto);
+
+    if (usuarioRemovido?.foto) {
+      await removerFoto(usuarioRemovido.foto);
+    }
 
     res.redirect('/usuario/lista');
   } catch (err) {
@@ -220,11 +232,8 @@ exports.mostrarPerfil = async (req, res) => {
     if (!req.session.usuario) return res.redirect('/login');
 
     const usuarioPerfil = await Usuario.findById(req.session.usuario._id).lean();
-    if (!usuarioPerfil) return res.redirect('/login');
 
-    if (usuarioPerfil.foto && !usuarioPerfil.foto.startsWith('/')) {
-      usuarioPerfil.foto = `/uploads/usuario/${usuarioPerfil.foto}`;
-    }
+    if (!usuarioPerfil) return res.redirect('/login');
 
     res.render('usuario/perfil', {
       usuario: req.session.usuario || null,
@@ -237,23 +246,21 @@ exports.mostrarPerfil = async (req, res) => {
 };
 
 // ====================================
-// 🖼️ Atualizar foto do perfil
+// 🖼️ Atualizar foto de perfil
 // ====================================
 exports.atualizarFotoPerfil = async (req, res) => {
   try {
     const usuario = await Usuario.findById(req.session.usuario._id);
+
     if (!usuario) return res.redirect('/login');
 
     if (req.file) {
-      // 🔹 Remove foto antiga
       if (usuario.foto) await removerFoto(usuario.foto);
-
-      // 🔹 Salva nova foto
       const novaFoto = await processarFoto(req.file, 'usuario');
+
       usuario.foto = novaFoto;
       await usuario.save();
 
-      // Atualiza sessão
       req.session.usuario.foto = novaFoto;
     }
 
@@ -269,12 +276,14 @@ exports.atualizarFotoPerfil = async (req, res) => {
 // ====================================
 exports.logout = (req, res) => {
   if (!req.session) return res.redirect('/login');
+
   req.session.destroy(err => {
     if (err) {
       console.error('Erro ao fazer logout:', err);
       return res.redirect('/');
     }
-    if (typeof res.clearCookie === 'function') res.clearCookie('connect.sid');
+
+    res.clearCookie('connect.sid');
     res.redirect('/login');
   });
 };

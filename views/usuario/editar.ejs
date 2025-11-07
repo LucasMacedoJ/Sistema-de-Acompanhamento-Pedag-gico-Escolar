@@ -9,51 +9,49 @@
 
     <div class="form-editar">
       <% if (erro) { %>
-        <p style="color:red;">
+        <p class="erro">
           <%= erro %>
         </p>
         <% } %>
 
           <form action="/usuario/<%= form._id %>/editar" method="POST" enctype="multipart/form-data">
-
-            <!-- Nome -->
             <label for="nome">Nome:</label>
-            <input type="text" name="nome" id="nome" value="<%= form?.nome || '' %>">
+            <input type="text" name="nome" id="nome" value="<%= form?.nome || '' %>" required>
             <br>
 
-            <!-- Email -->
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email" required value="<%= form?.email || '' %>">
+            <input type="email" name="email" id="email" value="<%= form?.email || '' %>" required>
             <br>
 
-            <!-- Senha -->
-            <label for="senha">Senha:</label>
-            <input type="password" name="senha" id="senha" required>
+            <label for="senha">Senha (digite apenas se quiser alterar):</label>
+            <input type="password" name="senha" id="senha" placeholder="Deixe vazio para manter a senha atual">
             <br>
 
-            <!-- Foto -->
             <label for="foto">Foto (opcional, jpg/png até 2MB):</label>
             <input type="file" name="foto" id="foto" accept="image/*">
             <br>
 
-            <!-- Perfil (apenas admin pode alterar) -->
-            <% if (usuario?.perfil==='admin' ) { %>
-              <label for="perfil">Perfil:</label>
-              <select name="perfil" id="perfil">
-                <option value="comum" <%=form?.perfil==='comum' ? 'selected' : '' %>>Usuário comum</option>
-                <option value="admin" <%=form?.perfil==='admin' ? 'selected' : '' %>>Administrador</option>
-              </select>
+            <% if (form?.foto) { let fotoVal=String(form.foto).trim(); let fotoPath=fotoVal.startsWith('/') ? fotoVal :
+              (fotoVal.includes('uploads') ? ('/' + fotoVal.replace(/^\/+/, '' )) : ('/uploads/' +
+              fotoVal.replace(/^\/+/, '' ))); %>
+              <p>Foto atual:</p>
+              <img src="<%= fotoPath %>" alt="Foto do usuário"
+                style="width:120px; border-radius:8px; margin-bottom:10px;">
               <br>
               <% } %>
 
-                <!-- Botões -->
-                <button type="submit">Salvar</button>
+                <% if (isAdmin) { %>
+                  <label for="perfil">Perfil:</label>
+                  <select name="perfil" id="perfil">
+                    <option value="comum" <%=form?.perfil==='comum' ? 'selected' : '' %>>Usuário comum</option>
+                    <option value="admin" <%=form?.perfil==='admin' ? 'selected' : '' %>>Administrador</option>
+                  </select>
+                  <br>
+                  <% } %>
 
-                <% if (usuario?.perfil==='admin' ) { %>
-                  <a class="btn" href="/usuario/lista">Voltar à lista</a>
-                  <% } else { %>
-                    <a class="btn" href="/login">Voltar ao login</a>
-                    <% } %>
+                    <button type="submit">Salvar</button>
+                    <a class="btn" href="<%= isAdmin ? '/usuario/lista' : '/usuario/perfil' %>"
+                      style="margin-left:1rem;">Voltar</a>
           </form>
     </div>
   </body>

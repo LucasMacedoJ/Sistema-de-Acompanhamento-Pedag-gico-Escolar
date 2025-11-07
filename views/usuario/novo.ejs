@@ -3,46 +3,47 @@
   <head>
     <link rel="stylesheet" href="/css/novoUsuario.css">
   </head>
-  <h1>Novo Usuário</h1>
-  <div class="form-novo">
-    <% if (erro) { %>
-      <p style="color:red">
-        <%= erro %>
-      </p>
-      <% } %>
 
-        <form action="/usuario/novo" method="POST" enctype="multipart/form-data">
-          <label for="nome">Nome:</label>
-          <input type="text" name="nome" id="nome" value="<%= (form && form.nome) ? form.nome : '' %>">
-          <br>
+  <body>
+    <h1>Novo Usuário</h1>
 
-          <label for="email">Email:</label>
-          <input type="email" name="email" id="email" required value="<%= (form && form.email) ? form.email : '' %>">
-          <br>
+    <div class="form-novo">
+      <% if (erro) { %>
+        <p style="color:red;">
+          <%= erro %>
+        </p>
+        <% } %>
 
-          <label for="senha">Senha:</label>
-          <input type="password" name="senha" id="senha" required>
-          <br>
-
-          <label for="foto">Foto:</label>
-          <input type="file" name="foto" id="foto" accept="image/*">
-          <br>
-
-          <% if (usuario && usuario.perfil==='admin' ) { %>
-            <label for="perfil">Perfil:</label>
-            <select name="perfil" id="perfil">
-              <option value="comum" <%=(form && form.perfil==='comum' ) ? 'selected' : '' %>>Usuário comum</option>
-              <option value="admin" <%=(form && form.perfil==='admin' ) ? 'selected' : '' %>>Administrador</option>
-            </select>
+          <form action="/usuario/novo" method="POST" enctype="multipart/form-data">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" value="<%= form?.nome || '' %>">
             <br>
-            <% } %>
 
-              <button type="submit">Cadastrar</button>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required value="<%= form?.email || '' %>">
+            <br>
 
-              <% if (usuario && usuario.perfil==='admin' ) { %>
-                <a class="btn" href="/usuario/lista" style="margin-left:1rem;">Voltar à lista</a>
-                <% } else { %>
-                  <a class="btn" href="/login" style="margin-left:1rem;">Voltar ao login</a>
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha" required>
+            <br>
+
+            <label for="foto">Foto (opcional):</label>
+            <input type="file" name="foto" id="foto" accept="image/*">
+            <br>
+
+            <% if (isAdmin) { %>
+              <label for="perfil">Perfil:</label>
+              <select name="perfil" id="perfil">
+                <option value="comum" <%=form?.perfil==='comum' ? 'selected' : '' %>>Usuário comum</option>
+                <option value="admin" <%=form?.perfil==='admin' ? 'selected' : '' %>>Administrador</option>
+              </select>
+              <br>
+              <% } %>
+
+                <button type="submit">Cadastrar</button>
+                <% if (isAdmin) { %>
+                  <a class="btn" href="/usuario/lista" style="margin-left:1rem;">Voltar à lista</a>
                   <% } %>
-        </form>
-  </div>
+          </form>
+    </div>
+  </body>

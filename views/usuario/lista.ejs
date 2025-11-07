@@ -4,58 +4,55 @@
     <link rel="stylesheet" href="/css/listaUsuarios.css">
   </head>
 
-  <h1>Lista de Usuários</h1>
-  <div class="container">
+  <body>
+    <h1>Lista de Usuários</h1>
 
-    <% if (usuarioLogado && usuarioLogado.perfil==='admin' ) { %>
-      <a class="btn" href="/usuario/novo" style="margin-top:1rem;display:inline-block;">
-        Cadastrar novo usuário
-      </a>
-      <% } %>
-        <table>
-          <thead class="barra">
-            <tr>
-              <th>Foto</th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Perfil</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% usuario.forEach(function(usuarioItem) { %>
+    <div class="container">
+      <% if (isAdmin) { %>
+        <a class="btn" href="/usuario/novo" style="margin-top:1rem;">Cadastrar novo usuário</a>
+        <% } %>
+
+          <table>
+            <thead class="barra">
               <tr>
-                <td>
-                  <% if (usuarioItem.foto && usuarioItem.foto !=='' ) { %>
-                    <img src="<%= usuarioItem.foto %>" alt="foto" class="fotos">
-                    <% } else { %>
-                      <img src="/imagens/padrao.png" alt="sem foto" class="fotos">
-                      <% } %>
-                </td>
-                <td>
-                  <%= usuarioItem.nome || '-' %>
-                </td>
-                <td>
-                  <%= usuarioItem.email %>
-                </td>
-                <td>
-                  <%= usuarioItem.perfil %>
-                </td>
-                <td>
-                  <% if (usuarioLogado && (usuarioLogado.perfil==='admin' ||
-                    String(usuarioLogado._id)===String(usuarioItem._id))) { %>
-                    <a class="btn" href="/usuario/<%= usuarioItem._id %>/editar">Editar</a>
-                    <% } %>
-
-                      <% if (usuarioLogado && usuarioLogado.perfil==='admin' ) { %>
-                        <form action="/usuario/<%= usuarioItem._id %>/excluir" method="POST"
-                          onsubmit="return confirm('Confirma exclusão deste usuário?');">
-                          <button type="submit" class="btn">Excluir</button>
-                        </form>
-                        <% } %>
-                </td>
+                <th>Foto</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Perfil</th>
+                <th>Ações</th>
               </tr>
-              <% }) %>
-          </tbody>
-        </table>
-  </div>
+            </thead>
+
+            <tbody>
+              <% (usuarios || []).forEach(function(usuarioItem) { // constroi caminho de foto seguro let
+                fotoVal=usuarioItem.foto; let fotoPath='/imagens/padrao.png' ; if (fotoVal) {
+                fotoVal=String(fotoVal).trim(); if (fotoVal.startsWith('/')) fotoPath=fotoVal; else if
+                (fotoVal.includes('uploads')) fotoPath='/' + fotoVal.replace(/^\/+/, '' ); else fotoPath='/uploads/' +
+                fotoVal.replace(/^\/+/, '' ); } %>
+                <tr>
+                  <td><img src="<%= fotoPath %>" alt="Foto" class="fotos"></td>
+                  <td>
+                    <%= usuarioItem.nome || '-' %>
+                  </td>
+                  <td>
+                    <%= usuarioItem.email %>
+                  </td>
+                  <td>
+                    <%= usuarioItem.perfil %>
+                  </td>
+                  <td>
+                    <% if (isAdmin || (usuarioLogado && String(usuarioLogado._id)===String(usuarioItem._id))) { %>
+                      <a class="btn" href="/usuario/<%= usuarioItem._id %>/editar">Editar</a>
+                      <% } %>
+
+                        <% if (isAdmin && (!usuarioLogado || String(usuarioLogado._id) !==String(usuarioItem._id))) { %>
+                          <a class="btn btn-danger" href="/usuario/<%= usuarioItem._id %>/excluir"
+                            onclick="return confirm('Confirma exclusão deste usuário?')">Excluir</a>
+                          <% } %>
+                  </td>
+                </tr>
+                <% }); %>
+            </tbody>
+          </table>
+    </div>
+  </body>

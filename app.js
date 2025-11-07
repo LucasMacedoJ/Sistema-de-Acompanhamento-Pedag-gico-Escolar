@@ -1,3 +1,7 @@
+// ============================================
+// 🌐 SAPE — Servidor Principal
+// ============================================
+
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -5,61 +9,78 @@ const session = require('express-session');
 
 const app = express();
 
-// =============================
+// ============================================
 // 🔗 Conexão com o MongoDB
-// =============================
+// ============================================
 mongoose.connect('mongodb://localhost/sapebd', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
   .then(() => console.log("✅ MongoDB conectado"))
-  .catch((err) => console.error("❌ Erro ao conectar ao MongoDB:", err));
+  .catch(err => console.error("❌ Erro ao conectar ao MongoDB:", err));
 
-// =============================
+// ============================================
 // 🧩 Middlewares base
-// =============================
+// ============================================
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// =============================
-// 💾 Sessão
-// =============================
+// ============================================
+// 🔒 Sessão
+// ============================================
 app.use(session({
   secret: 'chave-super-secreta-aqjoeqdkhaiudahdkbakgsdliavktsdofp8qgilvdkgacfoszdigbv1o6208e9p81024-2rqsa',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: null } // expira ao fechar navegador
+  cookie: { maxAge: null } // sessão durará enquanto o navegador estiver aberto
 }));
 
-// =============================
-// 📁 Arquivos estáticos e views
-// =============================
+// ============================================
+// 📁 Views e Arquivos Estáticos
+// ============================================
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// Servir a pasta /public corretamente
+// PASTA PUBLIC
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Também serve /uploads direto (caso queira salvar fora de /public)
+// Uploads (caso acessados diretamente)
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
-// =============================
-// 👤 Middleware: disponibiliza usuário logado para todas as views
-// =============================
+// ============================================
+// 👤 Middleware global: informações do usuário + normalização de foto
+// ============================================
 app.use((req, res, next) => {
-  const usuario = req.session?.usuario || null;
+  const sessionUsuario = req.session?.usuario || null;
 
-  if (usuario) {
-    // Normaliza os campos de usuário para todas as views
+  if (sessionUsuario) {
+    // normaliza e padroniza foto para começar com '/'
+    let foto = sessionUsuario.foto ? String(sessionUsuario.foto).trim() : null;
+    if (foto) {
+      if (!foto.startsWith('/')) {
+        if (foto.includes('uploads')) {
+          foto = '/' + foto.replace(/^\/+/, '');
+        } else {
+          foto = '/uploads/' + foto.replace(/^\/+/, '');
+        }
+      }
+    }
+
+    // expõe objeto simplificado para views
     res.locals.usuario = {
-      ...usuario,
-      role: usuario.role || usuario.perfil || 'user',
-      foto: usuario.foto || usuario.avatar || null
+      _id: sessionUsuario._id,
+      nome: sessionUsuario.nome,
+      email: sessionUsuario.email,
+      perfil: sessionUsuario.perfil,
+      role: sessionUsuario.perfil, // compatibilidade com código que usa 'role'
+      foto: foto || null,
+      avatar: sessionUsuario.avatar || null
     };
 
-    // Define se é admin
-    res.locals.isAdmin =
-      usuario.perfil === 'admin' || usuario.role === 'admin';
+    // mantém a sessão coerente
+    req.session.usuario.foto = res.locals.usuario.foto;
+
+    res.locals.isAdmin = sessionUsuario.perfil === 'admin';
   } else {
     res.locals.usuario = null;
     res.locals.isAdmin = false;
@@ -68,26 +89,24 @@ app.use((req, res, next) => {
   next();
 });
 
-// =============================
-// 🧭 Importação das rotas
-// =============================
+// ============================================
+// 🧭 Importação das Rotas
+// ============================================
 const loginRoutes = require('./routes/login');
 const alunosRoutes = require('./routes/alunos');
 const ocorrenciasRoutes = require('./routes/ocorrencias');
 const turmasRoutes = require('./routes/turmas');
 const apoiaRoutes = require('./routes/apoia');
 const nepreRoutes = require('./routes/nepre');
-const usuarioRouter = require('./routes/usuario');
+const usuarioRoutes = require('./routes/usuario');
 const testeRoutes = require('./routes/teste');
 const erroRoutes = require('./routes/erro');
 
-// =============================
+// ============================================
 // 🔐 Middlewares de proteção
-// =============================
+// ============================================
 function requireLogin(req, res, next) {
-  if (!req.session?.usuario) {
-    return res.redirect('/login');
-  }
+  if (!req.session?.usuario) return res.redirect('/login');
   next();
 }
 
@@ -98,31 +117,36 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-// =============================
-// 🌐 Rotas
-// =============================
-
-// Rotas públicas
-app.use('/erro', erroRoutes);
+// ============================================
+// 🌍 Rotas Públicas
+// ============================================
 app.use('/login', loginRoutes);
-app.use('/teste', testeRoutes); // rota de teste
+app.use('/erro', erroRoutes);
+app.use('/teste', testeRoutes);
 
-// Rotas de usuários (com controle interno)
-app.use('/usuario', usuarioRouter);
+// ============================================
+// 👤 Rotas de Usuário (controle interno no próprio router)
+// ============================================
+app.use('/usuario', usuarioRoutes);
 
-// Rotas protegidas
+// ============================================
+// 🔐 Rotas Protegidas
+// ============================================
 app.use('/alunos', requireLogin, alunosRoutes);
 app.use('/ocorrencias', requireLogin, ocorrenciasRoutes);
 app.use('/turmas', requireLogin, turmasRoutes);
 app.use('/apoia', requireLogin, apoiaRoutes);
 app.use('/nepre', requireLogin, nepreRoutes);
 
-// Rota inicial
+// ============================================
+// 🏠 Rota Inicial
+// ============================================
 app.get('/', (req, res) => res.redirect('/login'));
 
-// =============================
-// 🚀 Inicialização
-// =============================
-app.listen(3000, () => {
-  console.log("✅ Servidor rodando na porta 3000");
+// ============================================
+// 🚀 Inicialização do Servidor
+// ============================================
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Servidor rodando na porta ${PORT}`);
 });
