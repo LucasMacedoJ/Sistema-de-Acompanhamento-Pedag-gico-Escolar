@@ -122,12 +122,12 @@
         <div>
           <label for="responsavelContato">Contato do Responsável:</label>
           <input type="text" name="responsavelContato" id="responsavelContato" required placeholder="(99) 99999-9999"
-            value="<%= aluno.responsavelContato === 'Nenhum' ? '' : aluno.responsavelContato %>" required>>
+            value="<%= aluno.responsavelContato === 'Nenhum' ? '' : aluno.responsavelContato %>" required>
         </div><br>
         <!-- 🧑‍🏫 Segundo Professor -->
         <div>
           <label>
-            <input type="checkbox" name="segundoProfessor" <%=aluno.segundoProfessor ? 'checked' : '' %>> Segundo
+            <input type="checkbox" name="segundoProfessor" <%=aluno.segundoProfessor ? 'checked' : '' %> Segundo
             Professor
           </label>
           <input type="text" name="segundoProfessorNome"
